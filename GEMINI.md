@@ -58,7 +58,12 @@ This document provides system-level instructions for **Gemini models** and **Ant
    11. ⚖️ 11. Disclaimer & AI Curation Notice
 
 5. **Windows & Git Environment Guidelines**:
-   - On this machine, prioritize `C:\Program Files\Git\cmd\git.exe` for git commands (it has Git Credential Manager configured).
+   - **🚫 STRICT DIRECTIVE: NEVER execute `git push` automatically**:
+     - Agents must **NEVER** push commits or files to GitHub or any remote repository automatically.
+     - All documentation, translation, and code updates must remain local to the workspace.
+     - If the upload workflow, remote URL, or push commands require changes, update the local [`upload.bat`](upload.bat) script only.
+     - The user will inspect changes and execute `upload.bat` manually to publish to GitHub.
+   - On this machine, prioritize `C:\Program Files\Git\cmd\git.exe` for local git commands (it has Git Credential Manager configured).
    - Ensure `upload.bat` is ignored by `.gitignore` and never committed to the remote repo.
    - Ensure commits for documentation updates reference both languages (e.g., `docs: Update technical terms and glossary across en and pt`).
 

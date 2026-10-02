@@ -57,6 +57,12 @@ All language files must strictly maintain the same **11-section relevance hierar
 10. **🏛️ 10. Background: Exploitation Timeline & Security Architecture**
 11. **⚖️ 11. Disclaimer & AI Curation Notice**
 
+### 4. 🚫 Strict Prohibition: NEVER Push Automatically to Remote (GitHub)
+- **NEVER execute `git push`** or attempt to publish changes to the remote GitHub repository automatically in any turn or workflow.
+- **Local Modifications Only**: Agents must only create, modify, and verify local files within the workspace.
+- **Maintain `upload.bat`**: If changes to the upload routine, branches, remotes, or credentials handling are required, update the local [`upload.bat`](upload.bat) script only.
+- **Manual User Execution**: The user retains sole authority to push commits to GitHub and will execute `upload.bat` manually when ready.
+
 ---
 
 ## 🛡️ Technical Terms Policy: Untranslatable Industry Vocabulary
