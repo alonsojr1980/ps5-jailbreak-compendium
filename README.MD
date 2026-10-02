@@ -624,6 +624,6 @@ flowchart LR
 ---
 
 <p align="center">
-  <b>Maintained by the PS5 Open Security & Homebrew Community</b><br>
-  <i>Knowledge is free. Keep your console offline and preserve your firmware.</i>
+  <b>🤖 AI-Generated & Curated Compendium</b><br>
+  <i>This reference guide is synthesized using AI from publicly disclosed security research and community documentation for educational and archival purposes. Keep your console offline and preserve your firmware.</i>
 </p>
