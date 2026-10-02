@@ -18,65 +18,60 @@ Selecciona el modelo de tu consola PlayStation 5 y la versión de tu firmware a 
 
 <!-- COMPONENTE DEL WIZARD INTERACTIVO -->
 <div class="ps-wizard-container" id="psWizard">
-  <div class="ps-wizard-header">
-    <div class="ps-wizard-badge">⚡ ASISTENTE INTERACTIVO DE FIRMWARE</div>
-    <h2 class="ps-wizard-title">Generador a Medida de Jailbreak & Exploit</h2>
-    <p class="ps-wizard-subtitle">Selecciona el modelo de hardware de tu PS5 y la versión del firmware para obtener instrucciones personalizadas.</p>
-  </div>
-
-  <div class="ps-wizard-controls">
-    <!-- Selección de Modelo -->
-    <div class="ps-wizard-field">
-      <label class="ps-wizard-label">1. SELECCIONA EL MODELO DE CONSOLA:</label>
-      <div class="ps-model-buttons">
-        <button type="button" class="ps-model-btn active" data-model="fat" onclick="setWizardModel('fat')">
-          <span class="model-icon">🕹️</span>
-          <span class="model-name">PS5 Fat</span>
-          <span class="model-sub">CFI-1000 / 1100 / 1200</span>
-        </button>
-        <button type="button" class="ps-model-btn" data-model="slim" onclick="setWizardModel('slim')">
-          <span class="model-icon">🕹️</span>
-          <span class="model-name">PS5 Slim</span>
-          <span class="model-sub">CFI-2000 (Lector Extraíble)</span>
-        </button>
-        <button type="button" class="ps-model-btn" data-model="pro" onclick="setWizardModel('pro')">
-          <span class="model-icon">🚀</span>
-          <span class="model-name">PS5 Pro</span>
-          <span class="model-sub">CFI-7000 (Lector Extraíble)</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Selección de Firmware -->
-    <div class="ps-wizard-field">
-      <label class="ps-wizard-label">2. SELECCIONA O ESCRIBE TU FIRMWARE:</label>
-      <div class="ps-fw-quick-picks">
-        <button type="button" class="ps-fw-btn active" data-fw="13.60" onclick="setWizardFw('13.60')">13.60</button>
-        <button type="button" class="ps-fw-btn" data-fw="9.60" onclick="setWizardFw('9.60')">9.60</button>
-        <button type="button" class="ps-fw-btn" data-fw="8.20" onclick="setWizardFw('8.20')">8.20</button>
-        <button type="button" class="ps-fw-btn" data-fw="7.61" onclick="setWizardFw('7.61')">7.61</button>
-        <button type="button" class="ps-fw-btn" data-fw="5.50" onclick="setWizardFw('5.50')">5.50</button>
-        <button type="button" class="ps-fw-btn" data-fw="4.51" onclick="setWizardFw('4.51')">4.51</button>
-        <button type="button" class="ps-fw-btn" data-fw="2.50" onclick="setWizardFw('2.50')">2.50</button>
-        <button type="button" class="ps-fw-btn" data-fw="1.00" onclick="setWizardFw('1.00')">1.00</button>
-      </div>
-      <div class="ps-fw-custom-wrap">
-        <div class="ps-input-field">
-          <label for="customFwInput">O escribe el firmware exacto:</label>
-          <input type="text" id="customFwInput" class="ps-input" value="13.60" placeholder="ej. 08.00 o 04.03" oninput="onCustomFwInput(this.value)">
-        </div>
-        <div class="ps-input-field">
-          <label for="customIpInput">IP de la Consola (opcional para scripts):</label>
-          <input type="text" id="customIpInput" class="ps-input" value="192.168.1.150" placeholder="192.168.1.xxx" oninput="onCustomIpInput(this.value)">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Resultado Dinámico -->
-  <div id="psWizardResult" class="ps-wizard-result">
-    <!-- Rellenado dinámicamente por window.initJailbreakWizard() -->
-  </div>
+<div class="ps-wizard-header">
+<div class="ps-wizard-badge">⚡ ASISTENTE INTERACTIVO DE FIRMWARE</div>
+<h2 class="ps-wizard-title">Generador a Medida de Jailbreak & Exploit</h2>
+<p class="ps-wizard-subtitle">Selecciona el modelo de hardware de tu PS5 y la versión del firmware para obtener instrucciones personalizadas.</p>
+</div>
+<div class="ps-wizard-controls">
+<!-- Selección de Modelo -->
+<div class="ps-wizard-field">
+<label class="ps-wizard-label">1. SELECCIONA EL MODELO DE CONSOLA:</label>
+<div class="ps-model-buttons">
+<button type="button" class="ps-model-btn active" data-model="fat" onclick="setWizardModel('fat')">
+<span class="model-icon">🕹️</span>
+<span class="model-name">PS5 Fat</span>
+<span class="model-sub">CFI-1000 / 1100 / 1200</span>
+</button>
+<button type="button" class="ps-model-btn" data-model="slim" onclick="setWizardModel('slim')">
+<span class="model-icon">🕹️</span>
+<span class="model-name">PS5 Slim</span>
+<span class="model-sub">CFI-2000 (Lector Extraíble)</span>
+</button>
+<button type="button" class="ps-model-btn" data-model="pro" onclick="setWizardModel('pro')">
+<span class="model-icon">🚀</span>
+<span class="model-name">PS5 Pro</span>
+<span class="model-sub">CFI-7000 (Lector Extraíble)</span>
+</button>
+</div>
+</div>
+<!-- Selección de Firmware -->
+<div class="ps-wizard-field">
+<label class="ps-wizard-label">2. SELECCIONA O ESCRIBE TU FIRMWARE:</label>
+<div class="ps-fw-quick-picks">
+<button type="button" class="ps-fw-btn active" data-fw="13.60" onclick="setWizardFw('13.60')">13.60</button>
+<button type="button" class="ps-fw-btn" data-fw="9.60" onclick="setWizardFw('9.60')">9.60</button>
+<button type="button" class="ps-fw-btn" data-fw="8.20" onclick="setWizardFw('8.20')">8.20</button>
+<button type="button" class="ps-fw-btn" data-fw="7.61" onclick="setWizardFw('7.61')">7.61</button>
+<button type="button" class="ps-fw-btn" data-fw="5.50" onclick="setWizardFw('5.50')">5.50</button>
+<button type="button" class="ps-fw-btn" data-fw="4.51" onclick="setWizardFw('4.51')">4.51</button>
+<button type="button" class="ps-fw-btn" data-fw="2.50" onclick="setWizardFw('2.50')">2.50</button>
+<button type="button" class="ps-fw-btn" data-fw="1.00" onclick="setWizardFw('1.00')">1.00</button>
+</div>
+<div class="ps-fw-custom-wrap">
+<div class="ps-input-field">
+<label for="customFwInput">O escribe el firmware exacto:</label>
+<input type="text" id="customFwInput" class="ps-input" value="13.60" placeholder="ej. 08.00 o 04.03" oninput="onCustomFwInput(this.value)">
+</div>
+<div class="ps-input-field">
+<label for="customIpInput">IP de la Consola (opcional para scripts):</label>
+<input type="text" id="customIpInput" class="ps-input" value="192.168.1.150" placeholder="192.168.1.xxx" oninput="onCustomIpInput(this.value)">
+</div>
+</div>
+</div>
+</div>
+<!-- Resultado Dinámico -->
+<div id="psWizardResult" class="ps-wizard-result"></div>
 </div>
 
 ---

@@ -1740,6 +1740,15 @@
       },
       plugins: [
         function(hook, vm) {
+          hook.beforeEach(function(content) {
+            return content.replace(/(<div class="ps-wizard-container"[\s\S]*?<\/div>\s*<\/div>)/g, function(match) {
+              return match.split('\n').map(function(line) {
+                return line.trim();
+              }).filter(function(line) {
+                return line.length > 0;
+              }).join('\n');
+            });
+          });
           hook.doneEach(function() {
             if (window.mermaid) {
               mermaid.run({
