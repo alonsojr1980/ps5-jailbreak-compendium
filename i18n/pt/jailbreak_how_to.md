@@ -17,27 +17,32 @@ Um guia direto, prático e objetivo para realizar o jailbreak no PlayStation 5 n
 
 ---
 
-## 📑 Índice
+## 📋 Painel Interativo Passo a Passo
 
-1. [🔍 Passo 0: Descobrir o Firmware do seu Console](#-passo-0-descobrir-o-firmware-do-seu-console)
-2. [🛡️ Passo 1: Blindagem Pré-Jailbreak & Firewall Anti-Atualização](#️-passo-1-blindagem-pr%C3%A9-jailbreak--firewall-anti-atualiza%C3%A7%C3%A3o)
-3. [⚠️ Aviso Crítico sobre o Leitor Removível do PS5 Slim & Pro](#️-aviso-cr%C3%ADtico-sobre-o-leitor-remov%C3%ADvel-do-ps5-slim--pro)
-4. [🎮 Passo 2: Procedimento de Jailbreak por Faixa de Firmware](#-passo-2-procedimento-de-jailbreak-por-faixa-de-firmware)
-   - [Método A: Firmwares Modernos 7.00 – 13.60 (Exploit Relapse)](#m%C3%A9todo-a-firmwares-modernos-700--1360-exploit-relapse)
-   - [Método B: Firmwares Estáveis 3.00 – 4.51 & 5.00 – 5.50 (UMTX / IPv6)](#m%C3%A9todo-b-firmwares-est%C3%A1veis-300--451--500--550-umtx--ipv6)
-   - [Método C: Firmwares Iniciais 1.00 – 2.50 (Byepervisor)](#m%C3%A9todo-c-firmwares-iniciais-100--250-byepervisor)
-5. [📦 Passo 3: Injeção de Payloads (etaHEN & ps5-kstuff)](#-passo-3-inje%C3%A7%C3%A3o-de-payloads-etahen--ps5-kstuff)
-   - [Opção 1: Carregamento Automático via USB (Recomendado)](#op%C3%A7%C3%A3o-1-carregamento-autom%C3%A1tico-via-usb-recomendado)
-   - [Opção 2: Injeção via Rede com Netcat / Terminal](#op%C3%A7%C3%A3o-2-inje%C3%A7%C3%A3o-via-rede-com-netcat--terminal)
-6. [🕹️ Passo 4: Instalação de Homebrew & Execução de Backups de Jogos](#️-passo-4-instala%C3%A7%C3%A3o-de-homebrew--execu%C3%A7%C3%A3o-de-backups-de-jogos)
-7. [🔧 Resolução Rápida de Problemas e Recuperação de Kernel Panics](#-resolu%C3%A7%C3%A3o-r%C3%A1pida-de-problemas-e-recupera%C3%A7%C3%A3o-de-kernel-panics)
+Clique em qualquer bloco abaixo para expandir e ver as instruções detalhadas, checklists e comandos.
 
----
+<div class="step-toolbar">
+  <button class="step-toolbar-btn" onclick="toggleAllSteps(true)"><span>📂</span> Expandir Todos os Passos</button>
+  <button class="step-toolbar-btn" onclick="toggleAllSteps(false)"><span>📁</span> Recolher Todos os Passos</button>
+</div>
 
-## 🔍 Passo 0: Descobrir o Firmware do seu Console
+<!-- PASSO 0 -->
+<details class="step-tile" open>
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number">PASSO 0</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">🔍 Descobrir o Firmware do seu Console</span>
+      <span class="step-tile-desc">Identifique a versão exata do software do sistema (1.00 – 13.60) e confira a compatibilidade</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag">COMPATIBILIDADE</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
 
-Antes de iniciar qualquer procedimento, verifique o firmware exato do seu PlayStation 5:
-
+### 🔍 Como Identificar o Firmware
 1. Ligue o console e acesse **Configurações ➔ Sistema ➔ Software do Sistema ➔ Informações do Console**.
 2. Observe a linha **Software do Sistema**:
    - Formato: `XX.XX-XX.XX.XX.XX-XX.XX` (Os 4 primeiros dígitos indicam o firmware, por exemplo, `07.61`, `04.50` ou `13.60`).
@@ -46,31 +51,45 @@ Antes de iniciar qualquer procedimento, verifique o firmware exato do seu PlaySt
 
 | Firmware | Posso Fazer Jailbreak? | Método de Exploit Recomendado |
 | :---: | :---: | :--- |
-| **1.00 – 2.50** | ✅ **SIM** (Root de Hypervisor) | [Byepervisor / IPv6 UAF](#m%C3%A9todo-c-firmwares-iniciais-100--250-byepervisor) |
-| **3.00 – 4.51** | ✅ **SIM** (Estabilidade Máxima) | [IPv6 Socket UAF / UMTX](#m%C3%A9todo-b-firmwares-est%C3%A1veis-300--451--500--550-umtx--ipv6) |
-| **5.00 – 5.50** | ✅ **SIM** (Altamente Estável) | [Exploit UMTX](#m%C3%A9todo-b-firmwares-est%C3%A1veis-300--451--500--550-umtx--ipv6) |
-| **6.00 – 6.50** | ⚠️ **SIM** (Port em Andamento) | [UMTX2 / Mast1c0re](#m%C3%A9todo-b-firmwares-est%C3%A1veis-300--451--500--550-umtx--ipv6) |
-| **7.00 – 13.60** | ✅ **SIM** (Era Moderna) | [Exploit Relapse (aio_multi_wait)](#m%C3%A9todo-a-firmwares-modernos-700--1360-exploit-relapse) |
+| **1.00 – 2.50** | ✅ **SIM** (Root de Hypervisor) | [Byepervisor / IPv6 UAF](#método-c-firmwares-iniciais-100--250-byepervisor) |
+| **3.00 – 4.51** | ✅ **SIM** (Estabilidade Máxima) | [IPv6 Socket UAF / UMTX](#método-b-firmwares-estáveis-300--451--500--550-umtx--ipv6) |
+| **5.00 – 5.50** | ✅ **SIM** (Altamente Estável) | [Exploit UMTX](#método-b-firmwares-estáveis-300--451--500--550-umtx--ipv6) |
+| **6.00 – 6.50** | ⚠️ **SIM** (Port em Andamento) | [UMTX2 / Mast1c0re](#método-b-firmwares-estáveis-300--451--500--550-umtx--ipv6) |
+| **7.00 – 13.60** | ✅ **SIM** (Era Moderna) | [Exploit Relapse (aio_multi_wait)](#método-a-firmwares-modernos-700--1360-exploit-relapse) |
 | **14.00+** | ❌ **NÃO** (Corrigido) | Mantenha o console **totalmente offline**. **Não atualize!** |
 
----
+</details>
 
-## 🛡️ Passo 1: Blindagem Pré-Jailbreak & Firewall Anti-Atualização
+<!-- PASSO 1 -->
+<details class="step-tile">
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number">PASSO 1</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">🛡️ Blindagem Pré-Jailbreak & Firewall Anti-Atualização</span>
+      <span class="step-tile-desc">Bloqueie atualizações automáticas nas configurações do sistema e no DNS/Roteador</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag">OBRIGATÓRIO</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
 
-Atualizações em segundo plano anulam permanentemente a possibilidade de jailbreak. Configure estas opções antes de conectar o console a qualquer rede:
+Atualizações automáticas em segundo plano anulam permanentemente a possibilidade de jailbreak. Aplique estas configurações antes de conectar o console a qualquer rede:
 
-### 1. Checklist nas Configurações do Console
+### 1. Checklist de Configurações no Console
 - [x] **Configurações ➔ Sistema ➔ Software do Sistema ➔ Atualizações e Configurações do Software do Sistema**:
   - Desative **Baixar Arquivos de Atualização Automaticamente**.
   - Desative **Instalar Arquivos de Atualização Automaticamente**.
-- [x] **Configurações ➔ Sistema ➔ Economia de Energia ➔ Recursos Disponíveis no Modo de Repouso**:
+- [x] **Configurações ➔ Sistema ➔ Economia de Energia ➔ Recursos Disponíveis no Rest Mode**:
   - Desative **Continuar Conectado à Internet**.
 - [x] **Configurações ➔ Dados Salvos e Configurações de Jogos/Aplicativos ➔ Atualizações Automáticas**:
   - Desative **Download Automático**.
-  - Desative **Instalação Automática no Modo de Repouso**.
+  - Desative **Instalação Automática no Rest Mode**.
 
-### 2. Bloqueio de Domínios no Roteador / Pi-hole / AdGuard
-Adicione estes domínios de atualização e telemetria da Sony à lista de bloqueio:
+### 2. Blocklist de Domínios para Roteador / Pi-hole / AdGuard
+Adicione estes domínios da Sony à lista de bloqueio do seu roteador ou servidor DNS local:
 
 ```text
 fus01.ps5.update.playstation.net
@@ -84,102 +103,146 @@ telemetry.api.playstation.com
 telemetry-ingest.api.playstation.com
 ```
 
----
+</details>
 
-## ⚠️ Aviso Crítico sobre o Leitor Removível do PS5 Slim & Pro
+<!-- AVISO CRÍTICO -->
+<details class="step-tile">
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number warning">AVISO</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">⚠️ Aviso Crítico sobre o Leitor Removível do PS5 Slim & Pro</span>
+      <span class="step-tile-desc">NÃO atualize o console para realizar o pareamento do leitor de disco</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag warning">AVISO CRÍTICO</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
 
 > [!CAUTION]
-> Se o seu console for um **PS5 Slim (série CFI-2000)** ou **PS5 Pro (série CFI-7000)** com leitor de discos removível:
+> Se o seu console é um **PS5 Slim (CFI-2000)** ou **PS5 Pro (CFI-7000)** com leitor de disco removível:
 > - O leitor exige um **Handshake** criptográfico único com os servidores da Sony para ser ativado e vinculado à placa-mãe.
-> - **A Armadilha**: Se o seu console estiver em um firmware com suporte a jailbreak (<= 13.60), conectar-se à PSN para parear o leitor **forçará uma atualização irreversível para o firmware mais recente**.
-> - **Regra**: Se o leitor ainda não estiver pareado, **não atualize** para pareá-lo. Backups de jogos digitais, homebrew, emuladores e armazenamento em SSD NVMe M.2 funcionam perfeitamente sem a ativação do leitor físico.
+> - **A Armadilha**: Se o console estiver em um firmware explorável (<= 13.60), conectar à PSN para registrar o leitor **forçará uma atualização irreversível para o firmware mais recente**.
+> - **Regra**: Se o leitor ainda não foi registrado, **não atualize**. Backups digitais de jogos, homebrew, emuladores e armazenamento em SSD M.2 funcionam 100% sem o leitor físico pareado.
 
----
+</details>
 
-## 🎮 Passo 2: Procedimento de Jailbreak por Faixa de Firmware
+<!-- PASSO 2 -->
+<details class="step-tile">
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number">PASSO 2</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">🎮 Execução do Jailbreak por Faixa de Firmware</span>
+      <span class="step-tile-desc">Acione o exploit para 7.00–13.60 (Relapse), 3.00–5.50 (UMTX) ou 1.00–2.50</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag">TRIGGER EXPLOIT</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
+
+Selecione o procedimento correspondente à versão de firmware do seu aparelho:
 
 ### Método A: Firmwares Modernos 7.00 – 13.60 (Exploit Relapse)
 
-Cobre todos os consoles PS5 (Fat, Slim e Pro) executando do firmware 7.00 ao 13.60.
+Compatível com todos os modelos de PS5 (Fat, Slim e Pro) nos firmwares 7.00 até 13.60.
 
-#### 1. Configurar Conexão com DNS Personalizado
-1. Acesse **Configurações ➔ Rede ➔ Configurações ➔ Configurar Conexão à Internet**.
-2. Destaque sua rede (Wi-Fi ou Cabo), pressione **Opções (☰)** ➔ **Configurações Avançadas**.
-3. Defina os parâmetros:
+#### 1. Configurar Conexão com DNS Customizado
+1. Acesse **Configurações ➔ Rede ➔ Configurações ➔ Configurar Conexão com a Internet**.
+2. Selecione sua rede Wi-Fi ou Cabo LAN, pressione **Opções (☰)** ➔ **Configurações Avançadas**.
+3. Configure os seguintes parâmetros:
    - **Configurações de Endereço IP**: `Automático`
-   - **Nome de Host DHCP**: `Não Especificar`
+   - **Nome do Host DHCP**: `Não Especificar`
    - **Configurações de DNS**: `Manual`
      - **DNS Primário**: `45.56.67.85`
      - **DNS Secundário**: `0.0.0.0` (ou `62.210.38.117`)
    - **Servidor Proxy**: `Não Usar`
-   - **Configurações de MTU**: `Automático`
-4. Salve e execute o teste. *Conexão à Internet: Com Êxito*; *PlayStation Network: Com Falha* (Normal e seguro).
+   - **Configurações MTU**: `Automático`
+4. Salve e execute o teste de conexão. *Conexão à Internet: Êxito*; *PlayStation Network: Falhou* (Esperado e seguro).
 
 #### 2. Disparar o Exploit
-1. Abra **Configurações ➔ Sistema ➔ Guia do Usuário, Segurança e Saúde e Outras Informações ➔ Guia do Usuário**.
-2. O navegador interno redirecionará automaticamente para o host do exploit Relapse.
-3. O exploit WebKit executa sozinho (realizando heap spray na memória do JavaScriptCore).
-4. O exploit de kernel é acionado pela condição de corrida em `aio_multi_wait`.
-5. Aguarde a confirmação na tela:
+1. Acesse **Configurações ➔ Sistema ➔ Guia do Usuário, Segurança e Saúde ➔ Guia do Usuário**.
+2. O navegador interno será redirecionado para a página do exploit Relapse.
+3. O exploit de WebKit será acionado automaticamente (executando heap spray na memória do JavaScriptCore).
+4. O exploit de kernel será acionado explorando a race condition de `aio_multi_wait`.
+5. Aguarde a mensagem de confirmação:
    `[+] Kernel RW Obtained! elfldr listening on port 9021...`
 
 > [!TIP]
-> Caso o console congele ou desligue repentinamente com tela preta, ocorreu um **Kernel Panic**. Aguarde 30 segundos, ligue o PS5 pelo botão físico, deixe a reparação do armazenamento concluir e tente novamente.
+> Se o console travar ou desligar repentinamente com tela preta, ocorreu um **Kernel Panic**. Aguarde 30 segundos, ligue o console pelo botão físico de energia, aguarde a verificação de armazenamento e tente novamente.
 
 ---
 
 ### Método B: Firmwares Estáveis 3.00 – 4.51 & 5.00 – 5.50 (UMTX / IPv6)
 
-Estes firmwares oferecem altíssima estabilidade (taxa de sucesso próxima de 100%).
+Faixa com estabilidade máxima (taxa de sucesso próxima de 100%).
 
-1. Defina o **DNS Primário** para `62.210.38.117` (EchoStretch) ou `165.227.83.145` (Al-Azif).
+1. Configure o **DNS Primário** do PS5 para `62.210.38.117` (EchoStretch) ou `165.227.83.145` (Al-Azif).
 2. Abra **Configurações ➔ Sistema ➔ Guia do Usuário**.
-3. Selecione o exploit:
+3. Selecione o exploit correspondente:
    - Para **3.00 – 4.51**: Escolha **IPv6 UAF** ou **UMTX**.
    - Para **5.00 – 5.50**: Escolha **UMTX Exploit**.
-4. O exploit conclui em segundos, ativando o `elfldr` na Porta 9021.
+4. O exploit conclui a execução em poucos segundos e inicia o daemon `elfldr` na porta 9021.
 
 ---
 
 ### Método C: Firmwares Iniciais 1.00 – 2.50 (Byepervisor)
 
-A faixa de firmware mais privilegiada da história do console, com controle total de Hypervisor (Ring -1).
+A faixa mais privilegiada de todo o ecossistema, com controle completo de Hypervisor (Ring -1).
 
-1. Acesse o host pelo Guia do Usuário ou via disco Blu-ray com BD-JB.
-2. Execute o exploit de kernel e injete o payload **Byepervisor**.
-3. O Byepervisor derrota as proteções do Hypervisor do PS5, liberando leitura/escrita bare-metal, descriptografia de RAM e desativação total de checagens de código.
+1. Acesse a página de exploit pelo Guia do Usuário ou via disco Blu-ray com BD-JB.
+2. Dispare o exploit de kernel e injete o payload **Byepervisor**.
+3. O Byepervisor assume o controle do Hypervisor do PS5, permitindo leitura e escrita arbitrária no hypervisor, bypass de checagem de assinatura de código e descriptografia de memória RAM.
 
----
+</details>
 
-## 📦 Passo 3: Injeção de Payloads (etaHEN & ps5-kstuff)
+<!-- PASSO 3 -->
+<details class="step-tile">
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number">PASSO 3</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">📦 Injeção de Payloads (etaHEN & ps5-kstuff)</span>
+      <span class="step-tile-desc">Carregue o framework homebrew via USB autoloader ou Netcat na porta 9021</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag">INJEÇÃO DE PAYLOADS</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
 
-Com o `elfldr` aguardando conexões na **Porta 9021**, injete os payloads principais:
+Assim que o daemon `elfldr` estiver aguardando conexões na **porta 9021**, injete os payloads:
 
 ### Opção 1: Carregamento Automático via USB (Recomendado)
 
-1. Formate um pendrive em **exFAT** (partição MBR).
-2. Crie uma pasta chamada `payloads` na raiz da unidade:
+1. Formate um pendrive USB em **exFAT** (tabela de partição MBR).
+2. Crie uma pasta chamada `payloads` na raiz do pendrive:
    ```text
    Pendrive USB (exFAT):
    └── payloads/
        ├── etaHEN.bin
        └── ps5-kstuff.bin
    ```
-3. Conecte o pendrive em uma porta USB traseira do PS5.
-4. Ao acionar o exploit, os payloads contidos na pasta serão detectados e executados automaticamente!
+3. Conecte o pendrive em uma das portas USB 3.0 traseiras do PS5.
+4. Ao acionar o exploit no navegador, o loader detecta e executa os payloads da unidade USB automaticamente!
 
 ---
 
-### Opção 2: Injeção via Rede com Netcat / Terminal
+### Opção 2: Injeção via Rede pelo Terminal (Netcat)
 
-Para enviar arquivos do seu computador pela rede local:
+Caso prefira enviar os binários a partir do seu computador pela rede local:
 
 #### No Linux / macOS / WSL:
 ```bash
-# Injetar etaHEN (Homebrew Enabler completo)
+# Injetar etaHEN (Framework All-In-One para Homebrew)
 nc -w 3 <IP_DO_PS5> 9021 < etaHEN.bin
 
-# Injetar ps5-kstuff (se não integrado no etaHEN)
+# Injetar ps5-kstuff (se não estiver embutido no etaHEN)
 nc -w 3 <IP_DO_PS5> 9021 < ps5-kstuff.bin
 ```
 
@@ -194,40 +257,70 @@ $stream.Close(); $client.Close()
 Write-Host "[SUCESSO] etaHEN enviado ao PS5!"
 ```
 
----
+</details>
 
-## 🕹️ Passo 4: Instalação de Homebrew & Execução de Backups de Jogos
+<!-- PASSO 4 -->
+<details class="step-tile">
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number">PASSO 4</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">🕹️ Instalação de Homebrew & Execução de Backups de Jogos</span>
+      <span class="step-tile-desc">Configuração do etaHEN Toolbox, servidor FTP porta 1337, Itemzflow e Apollo Save Tool</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag">APPS & HOMEBREW</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
 
-Após injetar o **etaHEN**:
+Após a injeção do **etaHEN**:
 
 1. **Acessar o etaHEN Toolbox**:
    - Abra **Configurações ➔ Sistema**.
-   - Você verá a nova opção **etaHEN Toolbox**.
-2. **Conectar ao Servidor FTP**:
-   - O etaHEN inicializa um servidor FTP na **Porta 1337**.
-   - Conecte pelo FileZilla ou WinSCP usando o IP do PS5 na porta `1337` (login Anônimo).
-3. **Usar o Itemzflow (Gerenciador de Jogos)**:
-   - Instale o pacote `Itemzflow.pkg` ou inicie-o diretamente.
-   - Faça dump de discos físicos ou jogos digitais para um HD externo USB ou SSD NVMe M.2.
-   - Execute backups diretamente do armazenamento USB sem copiar para a memória interna.
+   - Você verá o novo submenu **etaHEN Toolbox**.
+2. **Conectar via Servidor FTP**:
+   - O etaHEN inicializa automaticamente um servidor FTP na **porta 1337**.
+   - Conecte pelo FileZilla / WinSCP utilizando o IP do console e porta `1337` (login anônimo).
+3. **Instalar o Itemzflow (Gerenciador de Jogos)**:
+   - Instale o pacote `Itemzflow.pkg` através do instalador nas Configurações ou inicie-o diretamente.
+   - Faça o dump de discos físicos ou jogos digitais para um disco rígido USB ou SSD M.2 interno.
+   - Execute backups diretamente do armazenamento externo USB sem necessidade de cópia interna.
 4. **Gerenciar Saves com Apollo Save Tool**:
-   - Exporte, importe e reatribua saves de jogos entre diferentes contas offline.
+   - Exporte, importe e reassine saves entre diferentes contas da PSN de forma totalmente offline.
 
----
+</details>
 
-## 🔧 Resolução Rápida de Problemas e Recuperação de Kernel Panics
+<!-- PASSO 5 -->
+<details class="step-tile">
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number">PASSO 5</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">🔧 Resolução Rápida de Problemas & Recuperação de Kernel Panics</span>
+      <span class="step-tile-desc">Soluções para tela preta, erros de memória WebKit, desync de DNS e erros CE-xxxx</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag">RECUPERAÇÃO</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
 
-| Problema | Causa Raiz | Solução |
+| Sintoma | Causa-Raiz | Solução Prática |
 | :--- | :--- | :--- |
-| **Tela preta imediata / desligamento** | Kernel Panic na condição de corrida do exploit | Aguarde 30 segundos. Ligue pelo botão físico do PS5. Conclua a reparação do armazenamento e tente de novo. |
-| **"Não há memória de sistema livre suficiente"** | Falha de alocação de memória no WebKit | Pressione `OK`, atualize a página ou limpe o cache do navegador nas configurações. |
-| **Guia do Usuário abre a página da Sony** | Dessincronia de DNS ou roteador ignorando DNS | Revise as Configurações de Rede; confira se o DNS Primário é `45.56.67.85` e o Secundário é `0.0.0.0`. |
-| **Conexão Recusada na Porta 9021** | A fase de kernel falhou ou o `elfldr` fechou | Reabra o Guia do Usuário até surgir a mensagem "Listening on 9021". |
-| **Jogos fecham com erro CE-xxxx** | Payload `ps5-kstuff` não foi carregado | Certifique-se de que o `kstuff` ou `etaHEN` foi carregado antes de abrir jogos. |
+| **Tela preta instantânea / Desligamento** | Kernel Panic durante a disputa temporal da race condition | Aguarde 30 segundos. Pressione o botão físico de ligar. Aguarde a checagem de armazenamento e reinicie o exploit. |
+| **"Memória do sistema insuficiente"** | Estouro de heap no WebKit durante o heap grooming | Pressione `OK`, recarregue a página ou limpe os cookies do navegador nas configurações. |
+| **Guia do Usuário abre a página da Sony** | Desync de DNS ou roteador ignorando DNS manual | Revise as Configurações de Rede; garanta que o DNS Primário seja `45.56.67.85` e o Secundário seja `0.0.0.0`. |
+| **Conexão Recusada na porta 9021** | O estágio 2 falhou ou o `elfldr` travou | Reabra o Guia do Usuário até que a notificação de confirmação da porta 9021 seja exibida. |
+| **Jogos não iniciam com erro CE-xxxx** | Payload `ps5-kstuff` não carregado na memória | Certifique-se de que o `kstuff` ou `etaHEN` foi injetado antes de iniciar os jogos. |
+
+</details>
 
 ---
 
 <p align="center">
-  <b>Deseja detalhes técnicos profundos, primitivas de memória, chamadas de sistema e portas de rede?</b><br>
-  👉 Leia o guia técnico complementar: <b><a href="jailbreak_tech_info.md">Jailbreak do PS5: Análise Técnica Aprofundada (Tech Info)</a></b>
+  <b>Precisa de detalhes técnicos aprofundados, primitivas de memória, syscalls ou portas de rede?</b><br>
+  👉 Leia o guia complementar: <b><a href="jailbreak_tech_info.md">PS5 Jailbreak: Análise Técnica Aprofundada (Tech Info)</a></b>
 </p>

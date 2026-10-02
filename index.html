@@ -746,6 +746,234 @@
       }
     }
 
+    /* Interactive Expandable Step Tiles */
+    details.step-tile {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      margin: 20px 0;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    details.step-tile:hover {
+      border-color: rgba(0, 112, 209, 0.45);
+      box-shadow: 0 8px 28px rgba(0, 112, 209, 0.15), 0 4px 20px rgba(0, 0, 0, 0.45);
+    }
+
+    details.step-tile[open] {
+      border-color: #0070d1;
+      background: linear-gradient(180deg, rgba(20, 29, 46, 0.92) 0%, rgba(13, 18, 28, 0.95) 100%);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(0, 112, 209, 0.2);
+    }
+
+    summary.step-header {
+      display: flex !important;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 24px;
+      cursor: pointer;
+      user-select: none;
+      list-style: none;
+      outline: none;
+      transition: background 0.2s ease;
+      background: transparent;
+    }
+
+    summary.step-header::-webkit-details-marker,
+    summary.step-header::marker {
+      display: none !important;
+    }
+
+    summary.step-header:hover {
+      background: rgba(0, 112, 209, 0.08);
+    }
+
+    details.step-tile[open] > summary.step-header {
+      border-bottom: 1px solid rgba(0, 112, 209, 0.25);
+      background: rgba(0, 112, 209, 0.12);
+    }
+
+    .step-tile-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .step-tile-number {
+      background: linear-gradient(135deg, #0070d1 0%, #00439c 100%);
+      color: #ffffff;
+      font-family: var(--code-font-family);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 6px 14px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      box-shadow: 0 2px 10px rgba(0, 112, 209, 0.45);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      flex-shrink: 0;
+    }
+
+    .step-tile-number.warning {
+      background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+      color: #0b0f19;
+      font-weight: 900;
+      border-color: rgba(251, 191, 36, 0.5);
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.45);
+    }
+
+    .step-tile-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .step-tile-title {
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    .step-tile-desc {
+      color: #94a3b8;
+      font-size: 14px;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .step-tile-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .step-tile-tag {
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      font-family: var(--code-font-family);
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .step-tile-tag.warning {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+
+    .step-tile-chevron {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    details.step-tile:hover .step-tile-chevron {
+      background: rgba(0, 112, 209, 0.25);
+      color: #ffffff;
+      border-color: #0070d1;
+    }
+
+    details.step-tile[open] .step-tile-chevron {
+      transform: rotate(180deg);
+      background: #0070d1;
+      color: #ffffff;
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px rgba(0, 112, 209, 0.6);
+    }
+
+    details.step-tile > *:not(summary) {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    details.step-tile > summary + * {
+      margin-top: 22px !important;
+    }
+
+    details.step-tile > *:last-child {
+      margin-bottom: 22px !important;
+    }
+
+    /* Expand / Collapse Control Toolbar */
+    .step-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      margin: 24px 0 12px 0;
+    }
+
+    .step-toolbar-btn {
+      background: rgba(16, 23, 36, 0.9);
+      color: #cbd5e1;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 7px 16px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .step-toolbar-btn:hover {
+      background: rgba(0, 112, 209, 0.22);
+      color: #ffffff;
+      border-color: #0070d1;
+      box-shadow: 0 0 10px rgba(0, 112, 209, 0.3);
+    }
+
+    @media screen and (max-width: 768px) {
+      summary.step-header {
+        padding: 14px 16px;
+        gap: 10px;
+      }
+      .step-tile-left {
+        gap: 12px;
+      }
+      .step-tile-title {
+        font-size: 16px;
+      }
+      .step-tile-desc {
+        font-size: 13px;
+      }
+      .step-tile-right .step-tile-tag {
+        display: none;
+      }
+      details.step-tile > *:not(summary) {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+    }
+
     /* Scrollbars */
     ::-webkit-scrollbar {
       width: 8px;
@@ -1009,9 +1237,42 @@
       });
       observer.observe(document.body, { childList: true, subtree: true });
 
-      // Run multiple passes during initial render lifecycle
-      [50, 150, 300, 600, 1200].forEach(delay => {
-        setTimeout(attachSidebarEnhancements, delay);
+      // Step Tiles Interactive Helper
+      window.toggleAllSteps = function(shouldOpen) {
+        const tiles = document.querySelectorAll('details.step-tile');
+        tiles.forEach(function(tile) {
+          tile.open = shouldOpen;
+        });
+      };
+
+      // Auto-expand step-tile if an anchor inside it is clicked or navigated to
+      function checkHashAndExpandTile() {
+        if (window.location.hash) {
+          try {
+            // Find element matching current hash
+            const hashId = window.location.hash.split('?')[0].replace(/^#\/?/, '');
+            const target = document.getElementById(hashId) || document.getElementById(decodeURIComponent(hashId));
+            if (target) {
+              const parentTile = target.closest('details.step-tile');
+              if (parentTile && !parentTile.open) {
+                parentTile.open = true;
+                setTimeout(function() {
+                  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 150);
+              }
+            }
+          } catch (e) {
+            // ignore invalid selectors
+          }
+        }
+      }
+
+      window.addEventListener('hashchange', checkHashAndExpandTile);
+      document.addEventListener('click', function(e) {
+        const anchor = e.target.closest('a');
+        if (anchor && anchor.getAttribute('href') && anchor.getAttribute('href').includes('#')) {
+          setTimeout(checkHashAndExpandTile, 200);
+        }
       });
     })();
   </script>

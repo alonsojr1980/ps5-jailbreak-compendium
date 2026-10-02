@@ -17,27 +17,32 @@ A direct, step-by-step, actionable guide to jailbreaking your PlayStation 5 acro
 
 ---
 
-## 📑 Table of Contents
+## 📋 Interactive Step-by-Step Dashboard
 
-1. [🔍 Step 0: Check Your Console Firmware](#-step-0-check-your-console-firmware)
-2. [🛡️ Step 1: Pre-Jailbreak Hardening & Anti-Update Firewall](#️-step-1-pre-jailbreak-hardening--anti-update-firewall)
-3. [⚠️ PS5 Slim & Pro Detachable Disc Drive Critical Warning](#️-ps5-slim--pro-detachable-disc-drive-critical-warning)
-4. [🎮 Step 2: Jailbreak by Firmware Bracket](#-step-2-jailbreak-by-firmware-bracket)
-   - [Method A: Modern Firmwares 7.00 – 13.60 (Relapse Exploit)](#method-a-firmwares-700--1360-relapse-exploit)
-   - [Method B: Stable Firmwares 3.00 – 4.51 & 5.00 – 5.50 (UMTX / IPv6)](#method-b-firmwares-300--451--500--550-umtx--ipv6)
-   - [Method C: Early Firmwares 1.00 – 2.50 (Byepervisor)](#method-c-early-firmwares-100--250-byepervisor)
-5. [📦 Step 3: Injecting Payloads (etaHEN & ps5-kstuff)](#-step-3-injecting-payloads-etahen--ps5-kstuff)
-   - [Option 1: Automatic USB Loading (Recommended)](#option-1-automatic-usb-loading-recommended)
-   - [Option 2: Network Injection via Terminal (Netcat)](#option-2-network-injection-via-terminal-netcat)
-6. [🕹️ Step 4: Installing Homebrew & Launching Game Backups](#️-step-4-installing-homebrew--launching-game-backups)
-7. [🔧 Quick Troubleshooting & Panic Recovery](#-quick-troubleshooting--panic-recovery)
+Click on any step tile below to expand and view its full instructions, checklists, and code snippets.
 
----
+<div class="step-toolbar">
+  <button class="step-toolbar-btn" onclick="toggleAllSteps(true)"><span>📂</span> Expand All Steps</button>
+  <button class="step-toolbar-btn" onclick="toggleAllSteps(false)"><span>📁</span> Collapse All Steps</button>
+</div>
 
-## 🔍 Step 0: Check Your Console Firmware
+<!-- STEP 0 -->
+<details class="step-tile" open>
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number">STEP 0</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">🔍 Check Your Console Firmware</span>
+      <span class="step-tile-desc">Identify your exact firmware (1.00 – 13.60) and find your exploit tier</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag">COMPATIBILITY</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
 
-Before doing anything, find out your exact PlayStation 5 system software version:
-
+### 🔍 How to Identify Firmware
 1. Turn on your PS5 and open **Settings ➔ System ➔ System Software ➔ Console Information**.
 2. Look at **System Software**:
    - Format: `XX.XX-XX.XX.XX.XX-XX.XX` (The first 4 digits indicate your firmware, e.g. `07.61` or `04.50` or `13.60`).
@@ -53,9 +58,23 @@ Before doing anything, find out your exact PlayStation 5 system software version
 | **7.00 – 13.60** | ✅ **YES** (Modern Era) | [Relapse Exploit (aio_multi_wait)](#method-a-firmwares-700--1360-relapse-exploit) |
 | **14.00+** | ❌ **NO** (Patched) | Keep console **strictly offline** and wait. **Do not update!** |
 
----
+</details>
 
-## 🛡️ Step 1: Pre-Jailbreak Hardening & Anti-Update Firewall
+<!-- STEP 1 -->
+<details class="step-tile">
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number">STEP 1</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">🛡️ Pre-Jailbreak Hardening & Anti-Update Firewall</span>
+      <span class="step-tile-desc">Block automatic updates in system settings and network router DNS</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag">MANDATORY</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
 
 Accidental background updates permanently destroy jailbreak capability. Apply these settings immediately before connecting to any network:
 
@@ -84,9 +103,23 @@ telemetry.api.playstation.com
 telemetry-ingest.api.playstation.com
 ```
 
----
+</details>
 
-## ⚠️ PS5 Slim & Pro Detachable Disc Drive Critical Warning
+<!-- CRITICAL ADVISORY -->
+<details class="step-tile">
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number warning">ADVISORY</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">⚠️ PS5 Slim & Pro Detachable Disc Drive Critical Warning</span>
+      <span class="step-tile-desc">Do NOT update firmware to pair the detachable disc drive</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag warning">CRITICAL NOTICE</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
 
 > [!CAUTION]
 > If your console is a **PS5 Slim (CFI-2000)** or **PS5 Pro (CFI-7000)** with a detachable disc drive:
@@ -94,9 +127,25 @@ telemetry-ingest.api.playstation.com
 > - **The Trap**: If your console is on an exploitable firmware (<= 13.60), connecting to PSN to pair the drive will **force an irreversible system update to the latest firmware**.
 > - **Rule**: If your drive is not already paired, **do not update** to pair it. Digital game backups, homebrew, emulators, and M.2 SSD storage operate 100% without the physical disc drive paired.
 
----
+</details>
 
-## 🎮 Step 2: Jailbreak by Firmware Bracket
+<!-- STEP 2 -->
+<details class="step-tile">
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number">STEP 2</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">🎮 Jailbreak Trigger by Firmware Bracket</span>
+      <span class="step-tile-desc">Execute exploit for 7.00–13.60 (Relapse), 3.00–5.50 (UMTX), or 1.00–2.50</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag">EXPLOIT TRIGGER</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
+
+Choose the method corresponding to your firmware version:
 
 ### Method A: Firmwares 7.00 – 13.60 (Relapse Exploit)
 
@@ -149,9 +198,23 @@ The most privileged firmware bracket with complete Hypervisor control (Ring -1).
 2. Trigger the kernel exploit and load the **Byepervisor** payload.
 3. Byepervisor defeats the PS5 Hypervisor, granting arbitrary hypervisor read/write, code signing bypass, and RAM decryption.
 
----
+</details>
 
-## 📦 Step 3: Injecting Payloads (etaHEN & ps5-kstuff)
+<!-- STEP 3 -->
+<details class="step-tile">
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number">STEP 3</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">📦 Injecting Payloads (etaHEN & ps5-kstuff)</span>
+      <span class="step-tile-desc">Load homebrew framework via automatic USB autoloader or Netcat port 9021</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag">PAYLOAD INJECTION</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
 
 Once `elfldr` is listening on **Port 9021**, inject the essential homebrew payloads:
 
@@ -194,9 +257,23 @@ $stream.Close(); $client.Close()
 Write-Host "[SUCCESS] etaHEN sent to PS5!"
 ```
 
----
+</details>
 
-## 🕹️ Step 4: Installing Homebrew & Launching Game Backups
+<!-- STEP 4 -->
+<details class="step-tile">
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number">STEP 4</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">🕹️ Installing Homebrew & Launching Game Backups</span>
+      <span class="step-tile-desc">Configure etaHEN Toolbox, FTP port 1337, Itemzflow, and Apollo Save Tool</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag">HOMEBREW APPS</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
 
 Once **etaHEN** is injected:
 
@@ -213,9 +290,23 @@ Once **etaHEN** is injected:
 4. **Manage Saves with Apollo Save Tool**:
    - Export, import, and resign game saves across different PSN accounts offline.
 
----
+</details>
 
-## 🔧 Quick Troubleshooting & Panic Recovery
+<!-- STEP 5 -->
+<details class="step-tile">
+<summary class="step-header">
+  <span class="step-tile-left">
+    <span class="step-tile-number">STEP 5</span>
+    <span class="step-tile-text">
+      <span class="step-tile-title">🔧 Quick Troubleshooting & Panic Recovery</span>
+      <span class="step-tile-desc">Solutions for black screens, memory errors, DNS issues, and CE-xxxx crashes</span>
+    </span>
+  </span>
+  <span class="step-tile-right">
+    <span class="step-tile-tag">RECOVERY</span>
+    <span class="step-tile-chevron">▼</span>
+  </span>
+</summary>
 
 | Problem | Root Cause | Solution |
 | :--- | :--- | :--- |
@@ -224,6 +315,8 @@ Once **etaHEN** is injected:
 | **User's Guide loads official Sony page** | DNS desync or router ignoring custom DNS | Re-check Network Settings; ensure Primary DNS is set to `45.56.67.85` and Secondary is `0.0.0.0`. |
 | **Port 9021 Connection Refused** | Stage 2 failed or `elfldr` crashed | Re-open User's Guide until "Listening on 9021" notification appears. |
 | **Games fail to launch with CE-xxxx error** | `ps5-kstuff` payload not loaded | Ensure `kstuff` or `etaHEN` is loaded before opening games. |
+
+</details>
 
 ---
 
