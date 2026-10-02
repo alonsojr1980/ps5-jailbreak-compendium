@@ -24,42 +24,74 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      /* PlayStation Cyberpunk Color Palette */
+      /* PlayStation Cyberpunk Design Tokens */
       --theme-color: #00d2ff;
       --theme-color-alt: #9d4edd;
+      --theme-color-glow: rgba(0, 210, 255, 0.45);
       --ps-blue: #00439c;
-      --bg-main: #0b0e14;
-      --bg-sidebar: #0f131c;
-      --bg-surface: #141923;
-      --bg-code: #161c28;
-      --border-subtle: #232b3c;
+      --ps-blue-light: #2d74da;
+
+      --bg-main: #0a0d14;
+      --bg-sidebar: #0f1420;
+      --bg-surface: #141b2a;
+      --bg-surface-elevated: #1a2235;
+      --bg-code: #101522;
+
+      --border-subtle: #1e293b;
+      --border-bright: #334155;
       --border-glow: rgba(0, 210, 255, 0.35);
-      --text-main: #e6edf3;
-      --text-muted: #8b949e;
-      --text-header: #ffffff;
+
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+      --text-header: #f8fafc;
+
+      /* Sidebar Dimensions */
+      --sidebar-width: 320px;
+      --sidebar-min-width: 240px;
+      --sidebar-max-width: 600px;
 
       /* Docsify Overrides */
-      --base-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      --code-font-family: 'JetBrains Mono', Consolas, Monaco, "Courier New", monospace;
+      --base-font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --code-font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
       --base-background-color: var(--bg-main);
       --sidebar-background: var(--bg-sidebar);
       --sidebar-border-color: var(--border-subtle);
       --sidebar-name-color: var(--theme-color);
-      --sidebar-name-font-weight: 700;
+      --sidebar-name-font-weight: 800;
       --sidebar-nav-link-color: var(--text-muted);
       --sidebar-nav-link-color--active: var(--theme-color);
       --sidebar-nav-link-border-color--active: var(--theme-color);
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
       background-color: var(--bg-main) !important;
       color: var(--text-main) !important;
       font-family: var(--base-font-family);
-      line-height: 1.65;
+      letter-spacing: -0.01em;
+      line-height: 1.68;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Cyberpunk Background Glow */
+    body::after {
+      content: "";
+      position: fixed;
+      top: -10vw;
+      right: -10vw;
+      width: 45vw;
+      height: 45vw;
+      background: radial-gradient(circle, rgba(157, 78, 221, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     /* Glow Header Line */
@@ -70,70 +102,223 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: linear-gradient(90deg, #00439c 0%, #00d2ff 50%, #9d4edd 100%);
+      background: linear-gradient(90deg, #00439c 0%, #00d2ff 45%, #9d4edd 90%, #00439c 100%);
+      background-size: 200% 100%;
+      animation: headerGradient 10s linear infinite;
       z-index: 9999;
-      box-shadow: 0 0 12px rgba(0, 210, 255, 0.6);
+      box-shadow: 0 0 16px rgba(0, 210, 255, 0.6);
     }
 
-    /* Sidebar Customization */
+    @keyframes headerGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Resizable Sidebar Layout */
     .sidebar {
-      background-color: var(--bg-sidebar) !important;
-      border-right: 1px solid var(--border-subtle);
+      width: var(--sidebar-width) !important;
+      background: linear-gradient(180deg, #0e131e 0%, #0a0d14 100%) !important;
+      border-right: 1px solid var(--border-subtle) !important;
+      padding-top: 0 !important;
+      z-index: 20;
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .sidebar > h1 {
-      margin: 1.2rem auto 0.5rem auto;
-      text-align: center;
+    /* Custom Header Branding Inside Sidebar */
+    .sidebar-header-custom {
+      padding: 24px 20px 14px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: radial-gradient(circle at top left, rgba(0, 210, 255, 0.12), transparent 70%);
     }
 
-    .sidebar > h1 a {
-      color: var(--theme-color) !important;
-      font-weight: 700 !important;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #00d2ff, #0056b3);
+      color: #050b14;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+    }
+
+    .brand-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-author {
+      color: #9d4edd;
+      font-weight: 600;
+    }
+
+    .fw-chip {
+      background: rgba(0, 210, 255, 0.1);
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      color: #7dd3fc;
+      font-size: 0.68rem;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-family: var(--code-font-family);
+    }
+
+    /* Interactive Resizer Handle */
+    #sidebar-resizer {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: calc(var(--sidebar-width) - 4px);
+      width: 8px;
+      cursor: col-resize;
+      z-index: 25;
+      transition: background-color 0.2s ease;
+      touch-action: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #sidebar-resizer::after {
+      content: "";
+      width: 2px;
+      height: 36px;
+      border-radius: 2px;
+      background-color: var(--border-bright);
+      transition: all 0.2s ease;
+      opacity: 0.6;
+    }
+
+    #sidebar-resizer:hover,
+    #sidebar-resizer.is-dragging {
+      background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.25), transparent);
+    }
+
+    #sidebar-resizer:hover::after,
+    #sidebar-resizer.is-dragging::after {
+      background-color: var(--theme-color);
+      height: 70px;
+      opacity: 1;
+      box-shadow: 0 0 12px var(--theme-color);
+    }
+
+    /* Content Area Positioning Based on Resizable Sidebar */
+    .content {
+      left: var(--sidebar-width) !important;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      padding-top: 30px;
+      transition: none;
+    }
+
+    /* Sidebar Navigation Links */
+    .sidebar-nav {
+      padding: 14px 12px 60px 12px !important;
+    }
+
+    .sidebar-nav ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .sidebar-nav > ul > li {
+      margin-bottom: 6px;
+    }
+
+    .sidebar-nav strong {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #9d4edd;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(157, 78, 221, 0.08);
+      border-left: 2px solid #9d4edd;
     }
 
     .sidebar-nav ul li a {
       color: var(--text-muted);
-      font-size: 14px;
-      transition: all 0.2s ease;
-      border-radius: 4px;
-      padding: 4px 8px;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 7px 12px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease-in-out;
+      text-decoration: none;
+      line-height: 1.4;
     }
 
     .sidebar-nav ul li a:hover {
-      color: var(--theme-color) !important;
+      color: #ffffff !important;
       background: rgba(0, 210, 255, 0.08);
-      text-decoration: none;
+      transform: translateX(3px);
     }
 
     .sidebar-nav ul li.active > a {
       color: var(--theme-color) !important;
-      font-weight: 600;
+      font-weight: 700;
+      background: linear-gradient(90deg, rgba(0, 210, 255, 0.14) 0%, rgba(0, 210, 255, 0.02) 100%);
       border-left: 3px solid var(--theme-color);
-      background: rgba(0, 210, 255, 0.12);
+      border-radius: 2px 6px 6px 2px;
+      box-shadow: inset 1px 0 0 rgba(0, 210, 255, 0.3);
       padding-left: 10px;
     }
 
-    .sidebar-nav strong {
-      color: #9d4edd;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      display: block;
-      margin-top: 16px;
-      margin-bottom: 4px;
-      padding-left: 8px;
+    /* Sub-levels in Sidebar */
+    .sidebar-nav ul ul {
+      padding-left: 14px;
+      margin-top: 3px;
+      margin-bottom: 6px;
+      border-left: 1px dashed rgba(255, 255, 255, 0.1);
+      margin-left: 16px;
     }
 
-    /* Content Area */
-    .content {
-      padding-top: 25px;
+    .sidebar-nav ul ul li a {
+      font-size: 12.5px;
+      padding: 4px 8px;
+      color: var(--text-subtle);
     }
 
+    .sidebar-nav ul ul li a:hover {
+      color: var(--theme-color) !important;
+    }
+
+    /* Markdown Reader Section */
     .markdown-section {
-      max-width: 950px !important;
-      padding: 30px 40px 60px 40px !important;
+      max-width: 960px !important;
+      padding: 25px 45px 80px 45px !important;
+      margin: 0 auto;
     }
 
     .markdown-section h1,
@@ -142,213 +327,301 @@
     .markdown-section h4 {
       color: var(--text-header);
       font-weight: 700;
-      border-bottom: 1px solid var(--border-subtle);
-      padding-bottom: 8px;
-      margin-top: 1.8rem;
+      letter-spacing: -0.02em;
     }
 
     .markdown-section h1 {
-      font-size: 2.1rem;
-      border-bottom: 2px solid var(--theme-color);
-      display: inline-block;
-      padding-bottom: 6px;
+      font-size: 2.25rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 40%, #7dd3fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      border-bottom: 2px solid rgba(0, 210, 255, 0.3);
+      padding-bottom: 12px;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
     }
 
     .markdown-section h2 {
-      font-size: 1.6rem;
-      color: #79c0ff;
+      font-size: 1.55rem;
+      color: #93c5fd;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 10px;
+      margin-top: 2.8rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .markdown-section h3 {
-      font-size: 1.25rem;
-      color: #d2a8ff;
-      border-bottom: none;
-    }
-
-    .markdown-section a {
-      color: var(--theme-color);
-      font-weight: 500;
-      text-decoration: none;
-      transition: color 0.15s ease, text-shadow 0.15s ease;
-    }
-
-    .markdown-section a:hover {
-      color: #58a6ff;
-      text-decoration: underline;
-      text-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+      font-size: 1.22rem;
+      color: #c084fc;
+      margin-top: 2rem;
+      margin-bottom: 0.8rem;
     }
 
     .markdown-section p, .markdown-section li {
       color: var(--text-main);
-      font-size: 15px;
+      font-size: 15.5px;
+      line-height: 1.75;
     }
 
-    /* Tables */
+    .markdown-section a {
+      color: var(--theme-color);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0, 210, 255, 0.3);
+      padding-bottom: 1px;
+      transition: all 0.2s ease;
+    }
+
+    .markdown-section a:hover {
+      color: #7dd3fc;
+      border-bottom-color: #7dd3fc;
+      text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+    }
+
+    /* Modern Glassmorphic Cards & Tables */
     .markdown-section table {
       display: table !important;
       width: 100% !important;
-      border-collapse: collapse !important;
-      margin: 1.5rem 0 !important;
+      border-collapse: separate !important;
+      border-spacing: 0 !important;
+      margin: 1.8rem 0 !important;
       background: var(--bg-surface) !important;
-      border-radius: 8px !important;
+      border-radius: 10px !important;
       overflow: hidden !important;
       border: 1px solid var(--border-subtle) !important;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
     }
 
     .markdown-section th {
-      background: #192130 !important;
-      color: var(--theme-color) !important;
-      font-weight: 600 !important;
-      border: 1px solid var(--border-subtle) !important;
-      padding: 12px 14px !important;
+      background: #172033 !important;
+      color: #38bdf8 !important;
+      font-weight: 700 !important;
+      border-bottom: 1px solid var(--border-bright) !important;
+      border-top: none !important;
+      border-left: none !important;
+      border-right: none !important;
+      padding: 14px 18px !important;
       text-align: left !important;
-      font-size: 14px !important;
+      font-size: 13.5px !important;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
     .markdown-section td {
-      border: 1px solid var(--border-subtle) !important;
-      padding: 10px 14px !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+      border-top: none !important;
+      border-left: none !important;
+      border-right: none !important;
+      padding: 12px 18px !important;
       color: var(--text-main) !important;
-      font-size: 13.5px !important;
+      font-size: 14px !important;
+      transition: background-color 0.15s ease;
     }
 
-    .markdown-section tr:nth-child(2n) {
-      background-color: rgba(255, 255, 255, 0.02) !important;
+    .markdown-section tr:last-child td {
+      border-bottom: none !important;
     }
 
-    .markdown-section tr:hover {
-      background-color: rgba(0, 210, 255, 0.05) !important;
+    .markdown-section tr:hover td {
+      background-color: rgba(0, 210, 255, 0.04) !important;
     }
 
-    /* Code Blocks */
+    /* Polished Code Blocks */
     .markdown-section pre {
       background-color: var(--bg-code) !important;
       border: 1px solid var(--border-subtle) !important;
-      border-radius: 8px !important;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
-      padding: 1rem 1.2rem !important;
+      border-radius: 10px !important;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45) !important;
+      padding: 1.2rem 1.4rem !important;
+      margin: 1.5rem 0 !important;
+      position: relative;
     }
 
     .markdown-section code {
       font-family: var(--code-font-family) !important;
       font-size: 13px !important;
-      color: #79c0ff !important;
+      line-height: 1.6;
     }
 
     .markdown-section p code,
     .markdown-section li code,
     .markdown-section td code {
-      background-color: rgba(110, 118, 129, 0.2) !important;
-      padding: 2px 6px !important;
-      border-radius: 4px !important;
-      color: #a5d6ff !important;
+      background-color: rgba(30, 41, 59, 0.7) !important;
+      padding: 3px 7px !important;
+      border-radius: 5px !important;
+      color: #38bdf8 !important;
+      font-weight: 500;
       border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 12.5px !important;
     }
 
-    /* Blockquotes / Alerts */
+    /* GitHub-style Callouts / Blockquotes */
     .markdown-section blockquote {
       border-left: 4px solid var(--theme-color) !important;
-      background: rgba(0, 210, 255, 0.05) !important;
+      background: linear-gradient(90deg, rgba(0, 210, 255, 0.07) 0%, rgba(0, 210, 255, 0.01) 100%) !important;
       color: var(--text-main) !important;
-      padding: 12px 18px !important;
-      margin: 1.2rem 0 !important;
-      border-radius: 0 8px 8px 0;
+      padding: 14px 20px !important;
+      margin: 1.5rem 0 !important;
+      border-radius: 0 10px 10px 0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
     }
 
-    /* Mermaid Container */
+    /* Mermaid Diagrams */
     .mermaid {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 20px;
-      margin: 1.5rem 0;
+      border-radius: 10px;
+      padding: 24px;
+      margin: 1.8rem 0;
       text-align: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
       overflow-x: auto;
     }
 
-    /* Navbar Customization */
+    /* Top Navbar */
     .app-nav {
-      top: 15px;
-      right: 25px;
+      top: 18px;
+      right: 30px;
+      margin: 0;
     }
 
     .app-nav a {
       color: var(--text-muted);
-      font-size: 14px;
-      font-weight: 500;
-      padding: 6px 12px;
-      border-radius: 6px;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 8px;
       transition: all 0.2s ease;
+      background: rgba(20, 27, 42, 0.6);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(8px);
     }
 
     .app-nav a:hover {
-      color: var(--theme-color);
-      background: rgba(0, 210, 255, 0.1);
+      color: #ffffff;
+      border-color: var(--theme-color);
+      background: rgba(0, 210, 255, 0.12);
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.3);
       text-decoration: none;
     }
 
     .app-nav ul {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      background: #141b2a !important;
+      border: 1px solid var(--border-bright) !important;
+      border-radius: 10px !important;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6) !important;
+      padding: 8px !important;
+    }
+
+    .app-nav ul li a {
+      border: none !important;
+      background: transparent !important;
+      border-radius: 6px !important;
+    }
+
+    .app-nav ul li a:hover {
+      background: rgba(0, 210, 255, 0.15) !important;
+      color: var(--theme-color) !important;
     }
 
     /* Search Box */
     .search {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border-subtle);
+      padding: 16px 14px 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .search input {
       background: var(--bg-surface) !important;
       border: 1px solid var(--border-subtle) !important;
       color: var(--text-main) !important;
-      border-radius: 6px !important;
-      padding: 8px 12px !important;
+      border-radius: 8px !important;
+      padding: 9px 14px !important;
       font-size: 13px !important;
-      transition: border-color 0.2s ease;
+      transition: all 0.2s ease;
+      width: 100% !important;
     }
 
     .search input:focus {
       border-color: var(--theme-color) !important;
-      box-shadow: 0 0 8px rgba(0, 210, 255, 0.3) !important;
+      box-shadow: 0 0 14px rgba(0, 210, 255, 0.35) !important;
+      background: #192233 !important;
+      outline: none;
     }
 
-    /* Docsify Copy Code Button */
+    /* Copy Code Button */
     .docsify-copy-code-button {
-      background: #1f2736 !important;
-      color: var(--text-main) !important;
+      background: #1e293b !important;
+      color: var(--text-muted) !important;
       border: 1px solid var(--border-subtle) !important;
-      border-radius: 4px !important;
+      border-radius: 6px !important;
       font-size: 11px !important;
-      padding: 4px 8px !important;
+      font-weight: 600 !important;
+      padding: 5px 10px !important;
+      transition: all 0.2s ease;
     }
 
     .docsify-copy-code-button:hover {
       background: var(--theme-color) !important;
-      color: #0b0e14 !important;
-      font-weight: 600;
+      color: #080d1a !important;
+      border-color: var(--theme-color) !important;
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
     }
 
-    /* Banner Image Responsive */
-    .markdown-section img {
-      border-radius: 8px;
-      max-width: 100%;
+    /* Reset Width Helper Tooltip in Resizer */
+    .resizer-tooltip {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      background: #141b2a;
+      border: 1px solid var(--theme-color);
+      color: var(--theme-color);
+      font-size: 10px;
+      padding: 3px 6px;
+      border-radius: 4px;
+      pointer-events: none;
+      opacity: 0;
+      white-space: nowrap;
+      transition: opacity 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      font-family: var(--code-font-family);
+    }
+
+    #sidebar-resizer:hover .resizer-tooltip,
+    #sidebar-resizer.is-dragging .resizer-tooltip {
+      opacity: 1;
+    }
+
+    /* Mobile Responsive Overrides */
+    @media screen and (max-width: 768px) {
+      #sidebar-resizer {
+        display: none !important;
+      }
+      .content {
+        left: 0 !important;
+      }
+      .sidebar {
+        width: 280px !important;
+      }
+      .markdown-section {
+        padding: 20px 20px 60px 20px !important;
+      }
     }
 
     /* Scrollbars */
     ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
     }
     ::-webkit-scrollbar-track {
       background: var(--bg-main);
     }
     ::-webkit-scrollbar-thumb {
-      background: #232b3c;
+      background: #1e293b;
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
@@ -359,6 +632,11 @@
 <body>
   <div id="app">Loading PS5 Jailbreak Compendium...</div>
 
+  <!-- Resizer Handle for Left Sidebar -->
+  <div id="sidebar-resizer" title="Drag to resize sidebar • Double-click to reset">
+    <div class="resizer-tooltip" id="resizer-tooltip">320px</div>
+  </div>
+
   <!-- Mermaid.js for Diagrams -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
@@ -367,13 +645,13 @@
       theme: 'dark',
       themeVariables: {
         darkMode: true,
-        background: '#141923',
-        primaryColor: '#192130',
+        background: '#141b2a',
+        primaryColor: '#172033',
         primaryTextColor: '#00d2ff',
         primaryBorderColor: '#00d2ff',
         lineColor: '#9d4edd',
-        secondaryColor: '#232b3c',
-        tertiaryColor: '#0f131c'
+        secondaryColor: '#1e293b',
+        tertiaryColor: '#0f1420'
       }
     });
   </script>
@@ -381,7 +659,7 @@
   <!-- Docsify Configuration -->
   <script>
     window.$docsify = {
-      name: '<span style="color:#00d2ff;font-weight:700;">PS5</span> JB Compendium',
+      name: '<span style="color:#00d2ff;font-weight:800;">PS5</span> JB Compendium',
       repo: 'https://github.com/alonsojr1980/ps5-jailbreak-compendium',
       loadSidebar: true,
       loadNavbar: true,
@@ -393,7 +671,7 @@
         maxAge: 86400000,
         paths: 'auto',
         placeholder: {
-          '/i18n/pt/': 'Pesquisar...',
+          '/i18n/pt/': 'Pesquisar documentação...',
           '/': 'Search documentation...'
         },
         noData: {
@@ -454,5 +732,114 @@
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-c.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-markdown.min.js"></script>
+
+  <!-- Resizable Sidebar Logic & Header Injection -->
+  <script>
+    (function() {
+      const DEFAULT_WIDTH = 320;
+      const MIN_WIDTH = 240;
+      const MAX_WIDTH = 640;
+      const STORAGE_KEY = 'ps5_compendium_sidebar_width';
+
+      let currentWidth = parseInt(localStorage.getItem(STORAGE_KEY), 10) || DEFAULT_WIDTH;
+      currentWidth = Math.min(Math.max(currentWidth, MIN_WIDTH), MAX_WIDTH);
+
+      const root = document.documentElement;
+      const resizer = document.getElementById('sidebar-resizer');
+      const tooltip = document.getElementById('resizer-tooltip');
+
+      function applyWidth(width) {
+        root.style.setProperty('--sidebar-width', width + 'px');
+        if (tooltip) {
+          tooltip.textContent = width + 'px';
+        }
+      }
+
+      applyWidth(currentWidth);
+
+      // Mouse and Touch Drag Handling
+      let isDragging = false;
+      let startX = 0;
+      let startWidth = currentWidth;
+
+      function onPointerDown(e) {
+        isDragging = true;
+        startX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+        startWidth = parseInt(getComputedStyle(root).getPropertyValue('--sidebar-width'), 10) || DEFAULT_WIDTH;
+        resizer.classList.add('is-dragging');
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+        e.preventDefault();
+      }
+
+      function onPointerMove(e) {
+        if (!isDragging) return;
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+        const deltaX = clientX - startX;
+        let newWidth = startWidth + deltaX;
+
+        if (newWidth < MIN_WIDTH) newWidth = MIN_WIDTH;
+        if (newWidth > MAX_WIDTH) newWidth = MAX_WIDTH;
+
+        applyWidth(newWidth);
+      }
+
+      function onPointerUp() {
+        if (!isDragging) return;
+        isDragging = false;
+        resizer.classList.remove('is-dragging');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+
+        const finalWidth = parseInt(getComputedStyle(root).getPropertyValue('--sidebar-width'), 10) || DEFAULT_WIDTH;
+        localStorage.setItem(STORAGE_KEY, finalWidth);
+      }
+
+      resizer.addEventListener('mousedown', onPointerDown);
+      window.addEventListener('mousemove', onPointerMove);
+      window.addEventListener('mouseup', onPointerUp);
+
+      // Touch events for touchscreens/tablets
+      resizer.addEventListener('touchstart', onPointerDown, { passive: false });
+      window.addEventListener('touchmove', onPointerMove, { passive: true });
+      window.addEventListener('touchend', onPointerUp);
+
+      // Double-click to reset width
+      resizer.addEventListener('dblclick', function() {
+        applyWidth(DEFAULT_WIDTH);
+        localStorage.setItem(STORAGE_KEY, DEFAULT_WIDTH);
+      });
+
+      // Enhance Sidebar with Modern PS5 Header Branding
+      function enhanceSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        if (!sidebar) return;
+
+        if (!sidebar.querySelector('.sidebar-header-custom')) {
+          const header = document.createElement('div');
+          header.className = 'sidebar-header-custom';
+          header.innerHTML = `
+            <a href="#/" class="brand-title">
+              <span>PS5 JAILBREAK</span>
+              <span class="brand-badge">COMPENDIUM</span>
+            </a>
+            <div class="brand-sub">
+              <span>By <strong class="brand-author">ALONSOJR1980</strong></span>
+              <span class="fw-chip">FW 1.00 – 13.60</span>
+            </div>
+          `;
+          sidebar.insertBefore(header, sidebar.firstChild);
+        }
+      }
+
+      // Observe DOM to inject custom header once Docsify initializes sidebar
+      const observer = new MutationObserver(function() {
+        enhanceSidebar();
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+      setTimeout(enhanceSidebar, 200);
+      setTimeout(enhanceSidebar, 800);
+    })();
+  </script>
 </body>
 </html>
