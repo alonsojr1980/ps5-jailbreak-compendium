@@ -83,4 +83,4 @@ This document provides system-level instructions for **Gemini models** and **Ant
    - Markdown documents are rendered on-the-fly client-side without static site compiler steps.
    - Always preserve `.nojekyll` (prevents GitHub Pages from filtering out files with leading underscores).
    - Ensure `_sidebar.md`, `_navbar.md`, `i18n/en/_sidebar.md`, `i18n/es/_sidebar.md`, and `i18n/pt/_sidebar.md` remain synchronized whenever guides or sections are updated.
-   - Maintain the official PlayStation 5 Light aesthetic (luminous pearl-white surface, PlayStation blue accents `#006FCD` / `#00439c`, high-contrast slate typography, frosted glass sidebars, and flowing light blue waves in the background).
+   - Maintain the PlayStation 30th Anniversary dark aesthetic (deep obsidian `#080c14` to midnight slate `#151d2a`, iconic PlayStation symbols △ ◯ ✕ ▢ ambient wallpaper art, luminous white/blue typography, frosted obsidian glass sidebars, and PlayStation blue `#0070d1` accents).
