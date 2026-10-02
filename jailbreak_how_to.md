@@ -13,61 +13,105 @@
 
 </div>
 
-A direct, step-by-step, actionable guide to jailbreaking your PlayStation 5 across different firmware brackets, configuring the anti-update firewall, and loading essential payloads.
+An ultra-direct, gamified tactical guide to jailbreaking your PlayStation 5 across firmwares 1.00 through 13.60, locking down anti-update defenses, and executing payloads.
 
 ---
 
-## 📋 Interactive Step-by-Step Dashboard
+<!-- GAMIFIED QUEST HUD -->
+<div class="ps-quest-hud" id="psQuestHud">
+  <div class="ps-hud-header">
+    <div class="ps-hud-title-wrap">
+      <div class="ps-hud-rank-icon" id="psRankIcon">🎮</div>
+      <div>
+        <div class="ps-hud-title">Campaign: PS5 Jailbreak Protocol</div>
+        <div class="ps-hud-subtitle">Complete quests to liberate firmware and claim PlayStation Trophies</div>
+      </div>
+    </div>
+    <div class="ps-hud-stats">
+      <div class="ps-hud-stat-pill">
+        <span>🏆 TROPHIES:</span>
+        <span id="psTrophiesCount">0 / 5</span>
+      </div>
+      <div class="ps-hud-stat-pill">
+        <span>⚡ XP:</span>
+        <span id="psProgressPct">0%</span>
+      </div>
+    </div>
+  </div>
 
-Click on any step tile below to expand and view its full instructions, checklists, and code snippets.
+  <div class="ps-progress-bar-container">
+    <div class="ps-progress-bar-fill" id="psProgressFill"></div>
+  </div>
 
-<div class="step-toolbar">
-  <button class="step-toolbar-btn" onclick="toggleAllSteps(true)"><span>📂</span> Expand All Steps</button>
-  <button class="step-toolbar-btn" onclick="toggleAllSteps(false)"><span>📁</span> Collapse All Steps</button>
+  <div class="ps-hud-footer">
+    <div><span>△</span> Click tile to inspect Intel &bull; <span>◯</span> Claim Trophy when completed &bull; <span>✕</span> Execute</div>
+    <div class="ps-hud-controls">
+      <button class="ps-btn-hud" onclick="toggleAllSteps(true)">📂 Expand All</button>
+      <button class="ps-btn-hud" onclick="toggleAllSteps(false)">📁 Collapse All</button>
+      <button class="ps-btn-hud" onclick="resetAllQuests()">🔄 Reset Campaign</button>
+    </div>
+  </div>
 </div>
 
-<!-- STEP 0 -->
-<details class="step-tile" open>
+<!-- QUEST 0 -->
+<details class="step-tile" data-quest="quest-step-0" open>
 <summary class="step-header">
   <span class="step-tile-left">
-    <span class="step-tile-number">STEP 0</span>
+    <span class="step-tile-number">QUEST 0</span>
     <span class="step-tile-text">
-      <span class="step-tile-title">🔍 Check Your Console Firmware</span>
-      <span class="step-tile-desc">Identify your exact firmware (1.00 – 13.60) and find your exploit tier</span>
+      <span class="step-tile-title">🎯 Target Scouting: Firmware Identification</span>
+      <span class="step-tile-desc">Identify system software version (1.00 – 13.60) & confirm vulnerability tier</span>
     </span>
   </span>
   <span class="step-tile-right">
-    <span class="step-tile-tag">COMPATIBILITY</span>
+    <span class="step-tile-tag">RECON</span>
     <span class="step-tile-chevron">▼</span>
   </span>
 </summary>
 
-### 🔍 How to Identify Firmware
-1. Turn on your PS5 and open **Settings ➔ System ➔ System Software ➔ Console Information**.
-2. Look at **System Software**:
-   - Format: `XX.XX-XX.XX.XX.XX-XX.XX` (The first 4 digits indicate your firmware, e.g. `07.61` or `04.50` or `13.60`).
+<div class="mission-brief">
+  <strong>🎯 MISSION OBJECTIVE:</strong> Locate your PS5 system software version and confirm your jailbreak exploit tier.
+</div>
 
-### Compatibility Quick Check
+### 🎒 Required Gear
+- PS5 Console & DualSense Controller
+- TV / Display output
 
-| Firmware | Can I Jailbreak? | Recommended Exploit Method |
+### ⚡ Tactical Execution
+1. Power on your PS5 and open **Settings ➔ System ➔ System Software ➔ Console Information**.
+2. Read the **System Software** line:
+   - Format: `XX.XX-XX.XX.XX.XX-XX.XX` (First 4 digits indicate firmware: e.g. `07.61`, `04.50`, `13.60`).
+
+### 📊 Firmware Compatibility Matrix
+
+| Firmware Bracket | Exploit Status | Tactical Exploit Vector |
 | :---: | :---: | :--- |
-| **1.00 – 2.50** | ✅ **YES** (Hypervisor Root) | [Byepervisor / IPv6 UAF](#method-c-early-firmwares-100--250-byepervisor) |
-| **3.00 – 4.51** | ✅ **YES** (Peak Stability) | [IPv6 Socket UAF / UMTX](#method-b-firmwares-300--451--500--550-umtx--ipv6) |
-| **5.00 – 5.50** | ✅ **YES** (Highly Stable) | [UMTX Exploit](#method-b-firmwares-300--451--500--550-umtx--ipv6) |
-| **6.00 – 6.50** | ⚠️ **YES** (Active Porting) | [UMTX2 / Mast1c0re](#method-b-firmwares-300--451--500--550-umtx--ipv6) |
-| **7.00 – 13.60** | ✅ **YES** (Modern Era) | [Relapse Exploit (aio_multi_wait)](#method-a-firmwares-700--1360-relapse-exploit) |
-| **14.00+** | ❌ **NO** (Patched) | Keep console **strictly offline** and wait. **Do not update!** |
+| **1.00 – 2.50** | ✅ **Hypervisor Root** | [Byepervisor / IPv6 UAF](#method-c-early-firmwares-100--250-byepervisor) |
+| **3.00 – 4.51** | ✅ **Peak Stability** | [IPv6 Socket UAF / UMTX](#method-b-firmwares-300--451--500--550-umtx--ipv6) |
+| **5.00 – 5.50** | ✅ **Highly Stable** | [UMTX Exploit](#method-b-firmwares-300--451--500--550-umtx--ipv6) |
+| **6.00 – 6.50** | ⚠️ **Active Porting** | [UMTX2 / Mast1c0re](#method-b-firmwares-300--451--500--550-umtx--ipv6) |
+| **7.00 – 13.60** | ✅ **Modern Era** | [Relapse Exploit (aio_multi_wait)](#method-a-firmwares-700--1360-relapse-exploit) |
+| **14.00+** | ❌ **Patched** | Keep console **strictly offline**. **Do not update!** |
+
+<div class="quest-action-bar">
+  <div class="quest-reward-pill">
+    <span>🏆 REWARD:</span> 🥉 Bronze Trophy &bull; <em>"Recon Specialist"</em> (+20% XP)
+  </div>
+  <button class="quest-complete-btn" data-quest="quest-step-0" data-todo-text="Mark Accomplished" data-done-text="Mission Accomplished" onclick="toggleQuest('quest-step-0', 'Recon Specialist', 'Bronze Trophy', '🎯')">
+    <span>◯</span> Mark Accomplished
+  </button>
+</div>
 
 </details>
 
-<!-- STEP 1 -->
-<details class="step-tile">
+<!-- QUEST 1 -->
+<details class="step-tile" data-quest="quest-step-1">
 <summary class="step-header">
   <span class="step-tile-left">
-    <span class="step-tile-number">STEP 1</span>
+    <span class="step-tile-number">QUEST 1</span>
     <span class="step-tile-text">
-      <span class="step-tile-title">🛡️ Pre-Jailbreak Hardening & Anti-Update Firewall</span>
-      <span class="step-tile-desc">Block automatic updates in system settings and network router DNS</span>
+      <span class="step-tile-title">🛡️ Defense Protocol: Anti-Update Armor</span>
+      <span class="step-tile-desc">Lock down Sony telemetry and deploy network firewalls before connecting</span>
     </span>
   </span>
   <span class="step-tile-right">
@@ -76,9 +120,15 @@ Click on any step tile below to expand and view its full instructions, checklist
   </span>
 </summary>
 
-Accidental background updates permanently destroy jailbreak capability. Apply these settings immediately before connecting to any network:
+<div class="mission-brief">
+  <strong>🎯 MISSION OBJECTIVE:</strong> Immunize your console against accidental background system software downloads.
+</div>
 
-### 1. In-Console Settings Checklist
+### 🎒 Required Gear
+- In-Console System Settings
+- Home Router / Pi-hole / AdGuard (Optional extra defense)
+
+### ⚡ Tactical Execution: In-Console Hardening
 - [x] **Settings ➔ System ➔ System Software ➔ System Software Updates and Settings**:
   - Turn **OFF** *Download Update Files Automatically*.
   - Turn **OFF** *Install Update Files Automatically*.
@@ -88,8 +138,8 @@ Accidental background updates permanently destroy jailbreak capability. Apply th
   - Turn **OFF** *Auto-Download*.
   - Turn **OFF** *Auto-Install in Rest Mode*.
 
-### 2. Router / Pi-hole / AdGuard Domain Blocklist
-Add these Sony telemetry and update domains to your firewall blacklist:
+### 🌐 Router / Pi-hole Blacklist Domains
+Blacklist these Sony endpoints on your home network:
 
 ```text
 fus01.ps5.update.playstation.net
@@ -103,111 +153,117 @@ telemetry.api.playstation.com
 telemetry-ingest.api.playstation.com
 ```
 
+<div class="quest-action-bar">
+  <div class="quest-reward-pill">
+    <span>🏆 REWARD:</span> 🥉 Bronze Trophy &bull; <em>"Network Sentinel"</em> (+20% XP)
+  </div>
+  <button class="quest-complete-btn" data-quest="quest-step-1" data-todo-text="Mark Accomplished" data-done-text="Mission Accomplished" onclick="toggleQuest('quest-step-1', 'Network Sentinel', 'Bronze Trophy', '🛡️')">
+    <span>◯</span> Mark Accomplished
+  </button>
+</div>
+
 </details>
 
-<!-- CRITICAL ADVISORY -->
+<!-- BOSS HAZARD WARNING -->
 <details class="step-tile">
 <summary class="step-header">
   <span class="step-tile-left">
-    <span class="step-tile-number warning">ADVISORY</span>
+    <span class="step-tile-number warning">BOSS HAZARD</span>
     <span class="step-tile-text">
-      <span class="step-tile-title">⚠️ PS5 Slim & Pro Detachable Disc Drive Critical Warning</span>
-      <span class="step-tile-desc">Do NOT update firmware to pair the detachable disc drive</span>
+      <span class="step-tile-title">⚠️ Slim & Pro Detachable Disc Drive Pairing Trap</span>
+      <span class="step-tile-desc">DO NOT connect to PSN to register a detachable drive on exploitable firmware</span>
     </span>
   </span>
   <span class="step-tile-right">
-    <span class="step-tile-tag warning">CRITICAL NOTICE</span>
+    <span class="step-tile-tag warning">PERMADEATH TRAP</span>
     <span class="step-tile-chevron">▼</span>
   </span>
 </summary>
+
+<div class="mission-brief">
+  <strong>⚠️ TACTICAL INTEL:</strong> The detachable disc drive requires a one-time cryptographic <strong>Handshake</strong> with Sony's servers to bind with the console motherboard.
+</div>
 
 > [!CAUTION]
-> If your console is a **PS5 Slim (CFI-2000)** or **PS5 Pro (CFI-7000)** with a detachable disc drive:
-> - The drive requires a one-time cryptographic **Handshake** with Sony's servers to bind with the motherboard.
-> - **The Trap**: If your console is on an exploitable firmware (<= 13.60), connecting to PSN to pair the drive will **force an irreversible system update to the latest firmware**.
-> - **Rule**: If your drive is not already paired, **do not update** to pair it. Digital game backups, homebrew, emulators, and M.2 SSD storage operate 100% without the physical disc drive paired.
+> - **The Trap**: If your console is on an exploitable firmware (<= 13.60), connecting to PSN to pair the drive will **force an irreversible update to the latest patched firmware**, permanently eliminating jailbreak capability.
+> - **Operational Rule**: If your drive is not already paired, **do not update** to pair it. Digital game dumps, homebrew, emulators, and internal M.2 SSD storage work 100% without the disc drive.
 
 </details>
 
-<!-- STEP 2 -->
-<details class="step-tile">
+<!-- QUEST 2 -->
+<details class="step-tile" data-quest="quest-step-2">
 <summary class="step-header">
   <span class="step-tile-left">
-    <span class="step-tile-number">STEP 2</span>
+    <span class="step-tile-number">QUEST 2</span>
     <span class="step-tile-text">
-      <span class="step-tile-title">🎮 Jailbreak Trigger by Firmware Bracket</span>
-      <span class="step-tile-desc">Execute exploit for 7.00–13.60 (Relapse), 3.00–5.50 (UMTX), or 1.00–2.50</span>
+      <span class="step-tile-title">⚔️ Infiltration: Exploit Trigger & Kernel RW</span>
+      <span class="step-tile-desc">Trigger WebKit memory spray & aio_multi_wait race to open Port 9021</span>
     </span>
   </span>
   <span class="step-tile-right">
-    <span class="step-tile-tag">EXPLOIT TRIGGER</span>
+    <span class="step-tile-tag">KERNEL BREACH</span>
     <span class="step-tile-chevron">▼</span>
   </span>
 </summary>
 
-Choose the method corresponding to your firmware version:
+<div class="mission-brief">
+  <strong>🎯 MISSION OBJECTIVE:</strong> Achieve arbitrary Kernel Read/Write and start the <code>elfldr</code> payload listener on <strong>Port 9021</strong>.
+</div>
 
-### Method A: Firmwares 7.00 – 13.60 (Relapse Exploit)
+### 🎒 Required Gear
+- Exploit DNS: `45.56.67.85` (Relapse) or `62.210.38.117` (UMTX)
+- PS5 User's Guide Browser
 
-This method covers all PS5 models (Fat, Slim, and Pro) running firmwares 7.00 through 13.60.
+### ⚡ Tactical Execution: Select Your Firmware Vector
 
-#### 1. Setup Custom DNS Connection
+#### Method A: Modern Firmwares 7.00 – 13.60 (Relapse Exploit)
 1. Navigate to **Settings ➔ Network ➔ Settings ➔ Set Up Internet Connection**.
-2. Select your Wi-Fi or LAN connection, press **Options (☰)** ➔ **Advanced Settings**.
-3. Set the following:
-   - **IP Address Settings**: `Automatic`
-   - **DHCP Host Name**: `Do Not Specify`
+2. Select your connection, press **Options (☰)** ➔ **Advanced Settings**:
    - **DNS Settings**: `Manual`
-     - **Primary DNS**: `45.56.67.85`
-     - **Secondary DNS**: `0.0.0.0` (or `62.210.38.117`)
-   - **Proxy Server**: `Do Not Use`
-   - **MTU Settings**: `Automatic`
-4. Save and run the connection test. *Internet Connection: Successful*; *PlayStation Network: Failed* (Normal & safe).
-
-#### 2. Trigger the Exploit
-1. Open **Settings ➔ System ➔ User's Guide, Health & Safety, and Other Information ➔ User's Guide**.
-2. The browser redirects to the Relapse Exploit Host.
-3. The WebKit exploit runs automatically (spraying JavaScriptCore heap memory).
-4. The kernel exploit triggers via the `aio_multi_wait` race condition.
-5. Wait for the confirmation:
+   - **Primary DNS**: `45.56.67.85`
+   - **Secondary DNS**: `0.0.0.0` (or `62.210.38.117`)
+3. Save and run the connection test (*Internet: OK*; *PSN: Failed* — this is correct).
+4. Open **Settings ➔ System ➔ User's Guide, Health & Safety ➔ User's Guide**.
+5. The Relapse host executes WebKit heap spray followed by the `aio_multi_wait` kernel exploit.
+6. Await confirmation prompt:
    `[+] Kernel RW Obtained! elfldr listening on port 9021...`
 
 > [!TIP]
-> If your console freezes or abruptly powers down with a black screen, a **Kernel Panic** occurred. Wait 30 seconds, power on via the console power button, allow the storage rebuild to finish, and try again.
+> If your console abruptly powers off, a **Kernel Panic** occurred. Wait 30 seconds, press the physical power button, allow the storage rebuild to finish, and re-run the exploit.
 
 ---
 
-### Method B: Firmwares 3.00 – 4.51 & 5.00 – 5.50 (UMTX / IPv6)
-
-These firmwares boast exceptional stability (near 100% success rate).
-
-1. Set your PS5 **Primary DNS** to `62.210.38.117` (EchoStretch) or `165.227.83.145` (Al-Azif).
+#### Method B: Stable Firmwares 3.00 – 4.51 & 5.00 – 5.50 (UMTX / IPv6)
+1. Set **Primary DNS** to `62.210.38.117` or `165.227.83.145`.
 2. Open **Settings ➔ System ➔ User's Guide**.
-3. Choose the appropriate exploit:
-   - For **3.00 – 4.51**: Select **IPv6 UAF** or **UMTX**.
-   - For **5.00 – 5.50**: Select **UMTX Exploit**.
-4. The exploit completes in seconds, launching `elfldr` on Port 9021.
+3. Select **IPv6 UAF** (for 3.00–4.51) or **UMTX Exploit** (for 5.00–5.50).
+4. The exploit succeeds in seconds and launches `elfldr` on Port 9021.
 
 ---
 
-### Method C: Early Firmwares 1.00 – 2.50 (Byepervisor)
+#### Method C: Early Firmwares 1.00 – 2.50 (Byepervisor)
+1. Load exploit via User's Guide or BD-JB Blu-ray disc.
+2. Inject **Byepervisor** to take full control of the Hypervisor (Ring -1).
 
-The most privileged firmware bracket with complete Hypervisor control (Ring -1).
-
-1. Access the exploit host via User's Guide or BD-JB Blu-ray disc.
-2. Trigger the kernel exploit and load the **Byepervisor** payload.
-3. Byepervisor defeats the PS5 Hypervisor, granting arbitrary hypervisor read/write, code signing bypass, and RAM decryption.
+<div class="quest-action-bar">
+  <div class="quest-reward-pill">
+    <span>🏆 REWARD:</span> 🥈 Silver Trophy &bull; <em>"Perimeter Breached"</em> (+20% XP)
+  </div>
+  <button class="quest-complete-btn" data-quest="quest-step-2" data-todo-text="Mark Accomplished" data-done-text="Mission Accomplished" onclick="toggleQuest('quest-step-2', 'Perimeter Breached', 'Silver Trophy', '⚔️')">
+    <span>◯</span> Mark Accomplished
+  </button>
+</div>
 
 </details>
 
-<!-- STEP 3 -->
-<details class="step-tile">
+<!-- QUEST 3 -->
+<details class="step-tile" data-quest="quest-step-3">
 <summary class="step-header">
   <span class="step-tile-left">
-    <span class="step-tile-number">STEP 3</span>
+    <span class="step-tile-number">QUEST 3</span>
     <span class="step-tile-text">
-      <span class="step-tile-title">📦 Injecting Payloads (etaHEN & ps5-kstuff)</span>
-      <span class="step-tile-desc">Load homebrew framework via automatic USB autoloader or Netcat port 9021</span>
+      <span class="step-tile-title">⚡ Power Surge: Payload Delivery & Activation</span>
+      <span class="step-tile-desc">Inject etaHEN and ps5-kstuff via USB autoloader or Netcat port 9021</span>
     </span>
   </span>
   <span class="step-tile-right">
@@ -216,11 +272,18 @@ The most privileged firmware bracket with complete Hypervisor control (Ring -1).
   </span>
 </summary>
 
-Once `elfldr` is listening on **Port 9021**, inject the essential homebrew payloads:
+<div class="mission-brief">
+  <strong>🎯 MISSION OBJECTIVE:</strong> Deliver and execute the essential homebrew payloads (<code>etaHEN</code> &amp; <code>ps5-kstuff</code>) to patch system restrictions.
+</div>
 
-### Option 1: Automatic USB Loading (Recommended)
+### 🎒 Required Gear
+- USB Flash Drive formatted as **exFAT** (Option 1) OR Terminal Netcat / PowerShell (Option 2)
+- Payload Binaries: `etaHEN.bin`, `ps5-kstuff.bin`
 
-1. Format a USB drive as **exFAT** (MBR partition).
+### ⚡ Tactical Execution: Injection Options
+
+#### Option 1: Automatic USB Loading (Recommended)
+1. Format a USB drive as **exFAT** with MBR partition scheme.
 2. Create a folder named `payloads` on the root of the USB drive:
    ```text
    USB Drive (exFAT):
@@ -228,91 +291,116 @@ Once `elfldr` is listening on **Port 9021**, inject the essential homebrew paylo
        ├── etaHEN.bin
        └── ps5-kstuff.bin
    ```
-3. Plug the USB drive into a rear USB 3.0 port on your PS5.
-4. When you run the exploit, the loader automatically detects and executes payloads from the USB drive!
+3. Insert the drive into one of the **rear USB 3.0 ports** on your PS5.
+4. When triggering the exploit, the loader automatically detects and executes payloads from USB!
 
 ---
 
-### Option 2: Network Injection via Terminal (Netcat)
+#### Option 2: Network Injection via Terminal (Netcat)
+Send the payloads from your PC over the local network to PS5 IP on **Port 9021**:
 
-If sending payloads from your computer over the local network:
-
-#### On Linux / macOS / WSL:
 ```bash
-# Inject etaHEN (All-In-One Homebrew Enabler)
+# On Linux / macOS / WSL:
 nc -w 3 <PS5_IP_ADDRESS> 9021 < etaHEN.bin
-
-# Inject ps5-kstuff (if not bundled with etaHEN)
 nc -w 3 <PS5_IP_ADDRESS> 9021 < ps5-kstuff.bin
 ```
 
-#### On Windows (PowerShell):
 ```powershell
+# On Windows (PowerShell):
 $ps5_ip = "192.168.1.150"
 $bytes = [System.IO.File]::ReadAllBytes("etaHEN.bin")
 $client = New-Object System.Net.Sockets.TcpClient($ps5_ip, 9021)
 $stream = $client.GetStream()
 $stream.Write($bytes, 0, $bytes.Length)
 $stream.Close(); $client.Close()
-Write-Host "[SUCCESS] etaHEN sent to PS5!"
+Write-Host "[SUCCESS] etaHEN deployed to PS5!"
 ```
 
+<div class="quest-action-bar">
+  <div class="quest-reward-pill">
+    <span>🏆 REWARD:</span> 🥇 Gold Trophy &bull; <em>"Kernel Overlord"</em> (+20% XP)
+  </div>
+  <button class="quest-complete-btn" data-quest="quest-step-3" data-todo-text="Mark Accomplished" data-done-text="Mission Accomplished" onclick="toggleQuest('quest-step-3', 'Kernel Overlord', 'Gold Trophy', '⚡')">
+    <span>◯</span> Mark Accomplished
+  </button>
+</div>
+
 </details>
 
-<!-- STEP 4 -->
-<details class="step-tile">
+<!-- QUEST 4 -->
+<details class="step-tile" data-quest="quest-step-4">
 <summary class="step-header">
   <span class="step-tile-left">
-    <span class="step-tile-number">STEP 4</span>
+    <span class="step-tile-number">QUEST 4</span>
     <span class="step-tile-text">
-      <span class="step-tile-title">🕹️ Installing Homebrew & Launching Game Backups</span>
-      <span class="step-tile-desc">Configure etaHEN Toolbox, FTP port 1337, Itemzflow, and Apollo Save Tool</span>
+      <span class="step-tile-title">👑 Sovereign Liberation: Homebrew & Backups</span>
+      <span class="step-tile-desc">Deploy etaHEN Toolbox, FTP port 1337, Itemzflow, and Apollo Save Tool</span>
     </span>
   </span>
   <span class="step-tile-right">
-    <span class="step-tile-tag">HOMEBREW APPS</span>
+    <span class="step-tile-tag">ROOT FREEDOM</span>
     <span class="step-tile-chevron">▼</span>
   </span>
 </summary>
 
-Once **etaHEN** is injected:
+<div class="mission-brief">
+  <strong>🎯 MISSION OBJECTIVE:</strong> Establish the full homebrew and backup ecosystem on your liberated PlayStation 5.
+</div>
 
+### 🎒 Required Gear
+- FTP Client (FileZilla / WinSCP)
+- Homebrew Packages: `Itemzflow.pkg`, `Apollo.pkg`
+
+### ⚡ Tactical Execution
 1. **Verify etaHEN Toolbox**:
    - Open **Settings ➔ System**.
-   - You will see the new **etaHEN Toolbox** menu entry.
-2. **Access FTP Server**:
-   - etaHEN automatically launches an FTP server on **Port 1337**.
-   - Connect via FileZilla / WinSCP using your PS5 IP and port `1337` (Anonymous login).
-3. **Launch Itemzflow (Game Manager)**:
-   - Install `Itemzflow.pkg` via the Package Installer in Settings or run it directly.
-   - Dump your physical discs or digital purchases to an external USB hard drive or internal M.2 NVMe SSD.
-   - Launch games directly from USB storage without copying to internal drive.
+   - Verify the presence of the new **etaHEN Toolbox** system menu.
+2. **Access High-Speed FTP Server**:
+   - etaHEN automatically binds an FTP daemon to **Port 1337**.
+   - Connect via FileZilla / WinSCP with anonymous credentials.
+3. **Launch Itemzflow Game Manager**:
+   - Install `Itemzflow.pkg` and launch it from the home screen.
+   - Dump physical discs and digital purchases to an external USB hard drive or internal M.2 SSD.
+   - Launch game backups directly from USB storage.
 4. **Manage Saves with Apollo Save Tool**:
-   - Export, import, and resign game saves across different PSN accounts offline.
+   - Export, import, and resign game saves across PSN accounts completely offline.
+
+<div class="quest-action-bar">
+  <div class="quest-reward-pill">
+    <span>🏆 REWARD:</span> 🏆 Platinum Trophy &bull; <em>"Sovereign Root Master"</em> (+20% XP)
+  </div>
+  <button class="quest-complete-btn" data-quest="quest-step-4" data-todo-text="Mark Accomplished" data-done-text="Mission Accomplished" onclick="toggleQuest('quest-step-4', 'Sovereign Root Master', 'Platinum Trophy', '👑')">
+    <span>◯</span> Mark Accomplished
+  </button>
+</div>
 
 </details>
 
-<!-- STEP 5 -->
+<!-- RESPAWN / RECOVERY -->
 <details class="step-tile">
 <summary class="step-header">
   <span class="step-tile-left">
-    <span class="step-tile-number">STEP 5</span>
+    <span class="step-tile-number warning">RESPAWN</span>
     <span class="step-tile-text">
-      <span class="step-tile-title">🔧 Quick Troubleshooting & Panic Recovery</span>
-      <span class="step-tile-desc">Solutions for black screens, memory errors, DNS issues, and CE-xxxx crashes</span>
+      <span class="step-tile-title">🚑 Diagnostics & Panic Recovery Point</span>
+      <span class="step-tile-desc">Recover from Kernel Panics, memory overflows, DNS desync, and CE-xxxx crashes</span>
     </span>
   </span>
   <span class="step-tile-right">
-    <span class="step-tile-tag">RECOVERY</span>
+    <span class="step-tile-tag warning">CHECKPOINT</span>
     <span class="step-tile-chevron">▼</span>
   </span>
 </summary>
 
-| Problem | Root Cause | Solution |
+<div class="mission-brief">
+  <strong>🚑 RESPAWN INTEL:</strong> Exploit timing races may trigger harmless Kernel Panics. Consult this field diagnostics chart to recover quickly.
+</div>
+
+| Anomaly / Symptom | Root Cause | Field Solution |
 | :--- | :--- | :--- |
-| **Instant black screen / shutdown** | Kernel Panic during exploit timing race | Wait 30 seconds. Press physical power button. Let storage repair complete; re-launch exploit. |
-| **"Not enough free system memory"** | WebKit heap grooming overflow | Press `OK`, refresh the page or clear browser cookies in settings. |
-| **User's Guide loads official Sony page** | DNS desync or router ignoring custom DNS | Re-check Network Settings; ensure Primary DNS is set to `45.56.67.85` and Secondary is `0.0.0.0`. |
+| **Instant black screen / shutdown** | Kernel Panic during timing race | Wait 30s. Press physical console power button. Allow storage check to complete; re-trigger exploit. |
+| **"Not enough free system memory"** | WebKit heap grooming overflow | Press `OK`, refresh page or clear browser cookies in settings. |
+| **User's Guide loads official Sony page** | DNS desync or router ignoring custom DNS | Re-check Network Settings; ensure Primary DNS is `45.56.67.85` and Secondary is `0.0.0.0`. |
 | **Port 9021 Connection Refused** | Stage 2 failed or `elfldr` crashed | Re-open User's Guide until "Listening on 9021" notification appears. |
 | **Games fail to launch with CE-xxxx error** | `ps5-kstuff` payload not loaded | Ensure `kstuff` or `etaHEN` is loaded before opening games. |
 
