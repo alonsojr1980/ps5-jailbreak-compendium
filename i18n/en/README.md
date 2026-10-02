@@ -1,10 +1,17 @@
 # 🎮 The Ultimate PS5 Jailbreak & Exploit Compendium 🚀
 
+<div align="center">
+
 [![PS5 Firmware](https://img.shields.io/badge/Supported%20FW-1.00%20--%2013.60-success?style=for-the-badge&logo=playstation&logoColor=white)](https://github.com/alonsojr1980/ps5-jailbreak-compendium)
 [![Latest Exploit](https://img.shields.io/badge/Latest%20Exploit-Relapse%20(7.00--13.60)-blueviolet?style=for-the-badge&logo=codeforces&logoColor=white)](https://github.com/ntfargo/Relapse-Exploit)
 [![Status](https://img.shields.io/badge/Status-Semi--Untethered-orange?style=for-the-badge)](https://github.com/alonsojr1980/ps5-jailbreak-compendium)
 [![Homebrew](https://img.shields.io/badge/Payloads-etaHEN%20%7C%20ps5--kstuff-ff69b4?style=for-the-badge&logo=coffeescript&logoColor=white)](https://github.com/LightningMods/etaHEN)
-[![License](https://img.shields.io/badge/License-MIT%20%2F%20GPL--3.0-blue?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT%20%2F%20GPL--3.0-blue?style=for-the-badge)](../../LICENSE)
+
+**Languages:**
+🇺🇸 **English** | [🇧🇷 Português](../pt/README.md) | [🌐 Back to Main](../../README.md)
+
+</div>
 
 An exhaustive, curated, and community-verified encyclopedia of PlayStation 5 jailbreak links, exploit chains, payloads, homebrew applications, development tools, reverse-engineering documentation, and system security research.
 
