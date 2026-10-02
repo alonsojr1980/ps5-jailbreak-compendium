@@ -74,3 +74,9 @@ This document provides system-level instructions for **Gemini models** and **Ant
 
 6. **AI Disclaimer Integrity**:
    - Preserve the notice indicating that this repository is an AI-generated and curated reference compendium for educational and research purposes.
+
+7. **HTML Web Version (Docsify & GitHub Pages)**:
+   - The repository hosts an interactive web documentation site powered by Docsify in `index.html`.
+   - Markdown documents are rendered on-the-fly client-side without static site compiler steps.
+   - Always preserve `.nojekyll` (prevents GitHub Pages from filtering out files with leading underscores).
+   - Ensure `_sidebar.md`, `_navbar.md`, `i18n/en/_sidebar.md`, and `i18n/pt/_sidebar.md` remain synchronized whenever guides or sections are updated.

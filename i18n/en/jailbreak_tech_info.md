@@ -5,6 +5,7 @@
 
 [![PS5 Architecture](https://img.shields.io/badge/Architecture-FreeBSD%2012%20%7C%20AMD%20Zen2-blue?style=for-the-badge&logo=freebsd&logoColor=white)](https://github.com/alonsojr1980/ps5-jailbreak-compendium)
 [![Kernel Exploit](https://img.shields.io/badge/Latest%20Kernel%20Bug-aio__multi__wait%20(UAF)-blueviolet?style=for-the-badge&logo=c&logoColor=white)](https://github.com/ntfargo/Relapse-Exploit)
+[![Live Website](https://img.shields.io/badge/Live%20Website-GitHub%20Pages-00d2ff?style=for-the-badge&logo=githubpages&logoColor=white)](https://alonsojr1980.github.io/ps5-jailbreak-compendium/)
 [![Hypervisor](https://img.shields.io/badge/Hypervisor-Byepervisor%20(1.00--2.50)-orange?style=for-the-badge)](https://github.com/PS5Dev/Byepervisor)
 
 **Navigation:**

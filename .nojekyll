@@ -1,0 +1,1 @@
+# Instructs GitHub Pages not to run Jekyll build, ensuring Docsify assets and markdown files are served directly.

@@ -14,12 +14,18 @@ This repository uses an internationalized documentation structure:
 ├── i18n/
 │   ├── en/
 │   │   ├── README.md             # Complete English Documentation Index
+│   │   ├── _sidebar.md           # English Docsify sidebar navigation
 │   │   ├── jailbreak_how_to.md   # Step-by-step practical jailbreak guide
 │   │   └── jailbreak_tech_info.md# Technical deep-dive for advanced users/devs
 │   └── pt/
 │       ├── README.md             # Complete Portuguese Documentation Index
+│       ├── _sidebar.md           # Portuguese Docsify sidebar navigation
 │       ├── jailbreak_how_to.md   # Guia prático de jailbreak passo a passo
 │       └── jailbreak_tech_info.md# Análise técnica detalhada para devs/pesquisa
+├── .nojekyll                     # Tells GitHub Pages to bypass Jekyll (serves Docsify files)
+├── index.html                    # Docsify SPA HTML entrypoint (PlayStation Cyberpunk theme)
+├── _sidebar.md                   # Global Docsify sidebar navigation
+├── _navbar.md                    # Docsify header navbar (quick language switch & repo link)
 ├── banner.png                    # Root fallback banner
 ├── README.md                     # Landing page with header banner & guide selector
 ├── upload.bat                    # Windows Git push automation helper (ignored in git)
@@ -70,6 +76,14 @@ All language files must strictly maintain the same **11-section relevance hierar
 - **Local Modifications Only**: Agents must only create, modify, and verify local files within the workspace.
 - **Maintain `upload.bat`**: If changes to the upload routine, branches, remotes, or credentials handling are required, update the local [`upload.bat`](upload.bat) script only.
 - **Manual User Execution**: The user retains sole authority to push commits to GitHub and will execute `upload.bat` manually when ready.
+
+### 5. 🌐 HTML Web Version & GitHub Pages (Docsify Architecture)
+- The repository is equipped with a zero-build Single-Page Application (SPA) driven by **Docsify** in `index.html`.
+- **Zero-Build Principle**: Docsify dynamically parses and renders the raw Markdown files (`README.md`, `jailbreak_how_to.md`, `jailbreak_tech_info.md`) directly in the client browser. No static site generator compilation or build pipeline is required.
+- **Rules for Agents**:
+  1. **Never delete or alter `.nojekyll`**: This file instructs GitHub Pages to bypass Jekyll, ensuring files beginning with underscores (`_sidebar.md`, `_navbar.md`) and asset directories are properly served.
+  2. **Navigation Parity**: Whenever new files or major documentation sections are introduced or rearranged, update `_sidebar.md`, `_navbar.md`, `i18n/en/_sidebar.md`, and `i18n/pt/_sidebar.md`.
+  3. **Theme & Styling**: Maintain the dark PlayStation Cyberpunk aesthetic (neon cyan `#00d2ff`, violet `#9d4edd`, surface dark `#0b0e14`).
 
 ---
 

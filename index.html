@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PS5 Jailbreak Compendium - by ALONSOJR1980</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Comprehensive, up-to-date documentation and practical guides for PlayStation 5 jailbreak, exploits (Relapse, UMTX, Byepervisor), payloads, and homebrew.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="keywords" content="PS5, PlayStation 5, Jailbreak, Exploit, Relapse, UMTX, etaHEN, ps5-kstuff, Byepervisor, Homebrew, 13.60">
+  <meta name="author" content="ALONSOJR1980">
+
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:title" content="PS5 Jailbreak Compendium - by ALONSOJR1980">
+  <meta property="og:description" content="Complete documentation and step-by-step guides for PS5 jailbreaks, firmwares 1.00 to 13.60.">
+  <meta property="og:image" content="assets/banner.png">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon (PlayStation SVG) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300d2ff'><path d='M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S20.17 9 21 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'/></svg>">
+
+  <!-- Docsify Theme: Dark base -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* PlayStation Cyberpunk Color Palette */
+      --theme-color: #00d2ff;
+      --theme-color-alt: #9d4edd;
+      --ps-blue: #00439c;
+      --bg-main: #0b0e14;
+      --bg-sidebar: #0f131c;
+      --bg-surface: #141923;
+      --bg-code: #161c28;
+      --border-subtle: #232b3c;
+      --border-glow: rgba(0, 210, 255, 0.35);
+      --text-main: #e6edf3;
+      --text-muted: #8b949e;
+      --text-header: #ffffff;
+
+      /* Docsify Overrides */
+      --base-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --code-font-family: 'JetBrains Mono', Consolas, Monaco, "Courier New", monospace;
+      --base-background-color: var(--bg-main);
+      --sidebar-background: var(--bg-sidebar);
+      --sidebar-border-color: var(--border-subtle);
+      --sidebar-name-color: var(--theme-color);
+      --sidebar-name-font-weight: 700;
+      --sidebar-nav-link-color: var(--text-muted);
+      --sidebar-nav-link-color--active: var(--theme-color);
+      --sidebar-nav-link-border-color--active: var(--theme-color);
+    }
+
+    body {
+      background-color: var(--bg-main) !important;
+      color: var(--text-main) !important;
+      font-family: var(--base-font-family);
+      line-height: 1.65;
+    }
+
+    /* Glow Header Line */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00439c 0%, #00d2ff 50%, #9d4edd 100%);
+      z-index: 9999;
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.6);
+    }
+
+    /* Sidebar Customization */
+    .sidebar {
+      background-color: var(--bg-sidebar) !important;
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    .sidebar > h1 {
+      margin: 1.2rem auto 0.5rem auto;
+      text-align: center;
+    }
+
+    .sidebar > h1 a {
+      color: var(--theme-color) !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+    }
+
+    .sidebar-nav ul li a {
+      color: var(--text-muted);
+      font-size: 14px;
+      transition: all 0.2s ease;
+      border-radius: 4px;
+      padding: 4px 8px;
+    }
+
+    .sidebar-nav ul li a:hover {
+      color: var(--theme-color) !important;
+      background: rgba(0, 210, 255, 0.08);
+      text-decoration: none;
+    }
+
+    .sidebar-nav ul li.active > a {
+      color: var(--theme-color) !important;
+      font-weight: 600;
+      border-left: 3px solid var(--theme-color);
+      background: rgba(0, 210, 255, 0.12);
+      padding-left: 10px;
+    }
+
+    .sidebar-nav strong {
+      color: #9d4edd;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-top: 16px;
+      margin-bottom: 4px;
+      padding-left: 8px;
+    }
+
+    /* Content Area */
+    .content {
+      padding-top: 25px;
+    }
+
+    .markdown-section {
+      max-width: 950px !important;
+      padding: 30px 40px 60px 40px !important;
+    }
+
+    .markdown-section h1,
+    .markdown-section h2,
+    .markdown-section h3,
+    .markdown-section h4 {
+      color: var(--text-header);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 8px;
+      margin-top: 1.8rem;
+    }
+
+    .markdown-section h1 {
+      font-size: 2.1rem;
+      border-bottom: 2px solid var(--theme-color);
+      display: inline-block;
+      padding-bottom: 6px;
+    }
+
+    .markdown-section h2 {
+      font-size: 1.6rem;
+      color: #79c0ff;
+    }
+
+    .markdown-section h3 {
+      font-size: 1.25rem;
+      color: #d2a8ff;
+      border-bottom: none;
+    }
+
+    .markdown-section a {
+      color: var(--theme-color);
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.15s ease, text-shadow 0.15s ease;
+    }
+
+    .markdown-section a:hover {
+      color: #58a6ff;
+      text-decoration: underline;
+      text-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+    }
+
+    .markdown-section p, .markdown-section li {
+      color: var(--text-main);
+      font-size: 15px;
+    }
+
+    /* Tables */
+    .markdown-section table {
+      display: table !important;
+      width: 100% !important;
+      border-collapse: collapse !important;
+      margin: 1.5rem 0 !important;
+      background: var(--bg-surface) !important;
+      border-radius: 8px !important;
+      overflow: hidden !important;
+      border: 1px solid var(--border-subtle) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    }
+
+    .markdown-section th {
+      background: #192130 !important;
+      color: var(--theme-color) !important;
+      font-weight: 600 !important;
+      border: 1px solid var(--border-subtle) !important;
+      padding: 12px 14px !important;
+      text-align: left !important;
+      font-size: 14px !important;
+    }
+
+    .markdown-section td {
+      border: 1px solid var(--border-subtle) !important;
+      padding: 10px 14px !important;
+      color: var(--text-main) !important;
+      font-size: 13.5px !important;
+    }
+
+    .markdown-section tr:nth-child(2n) {
+      background-color: rgba(255, 255, 255, 0.02) !important;
+    }
+
+    .markdown-section tr:hover {
+      background-color: rgba(0, 210, 255, 0.05) !important;
+    }
+
+    /* Code Blocks */
+    .markdown-section pre {
+      background-color: var(--bg-code) !important;
+      border: 1px solid var(--border-subtle) !important;
+      border-radius: 8px !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+      padding: 1rem 1.2rem !important;
+    }
+
+    .markdown-section code {
+      font-family: var(--code-font-family) !important;
+      font-size: 13px !important;
+      color: #79c0ff !important;
+    }
+
+    .markdown-section p code,
+    .markdown-section li code,
+    .markdown-section td code {
+      background-color: rgba(110, 118, 129, 0.2) !important;
+      padding: 2px 6px !important;
+      border-radius: 4px !important;
+      color: #a5d6ff !important;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Blockquotes / Alerts */
+    .markdown-section blockquote {
+      border-left: 4px solid var(--theme-color) !important;
+      background: rgba(0, 210, 255, 0.05) !important;
+      color: var(--text-main) !important;
+      padding: 12px 18px !important;
+      margin: 1.2rem 0 !important;
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* Mermaid Container */
+    .mermaid {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 1.5rem 0;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      overflow-x: auto;
+    }
+
+    /* Navbar Customization */
+    .app-nav {
+      top: 15px;
+      right: 25px;
+    }
+
+    .app-nav a {
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .app-nav a:hover {
+      color: var(--theme-color);
+      background: rgba(0, 210, 255, 0.1);
+      text-decoration: none;
+    }
+
+    .app-nav ul {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Search Box */
+    .search {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .search input {
+      background: var(--bg-surface) !important;
+      border: 1px solid var(--border-subtle) !important;
+      color: var(--text-main) !important;
+      border-radius: 6px !important;
+      padding: 8px 12px !important;
+      font-size: 13px !important;
+      transition: border-color 0.2s ease;
+    }
+
+    .search input:focus {
+      border-color: var(--theme-color) !important;
+      box-shadow: 0 0 8px rgba(0, 210, 255, 0.3) !important;
+    }
+
+    /* Docsify Copy Code Button */
+    .docsify-copy-code-button {
+      background: #1f2736 !important;
+      color: var(--text-main) !important;
+      border: 1px solid var(--border-subtle) !important;
+      border-radius: 4px !important;
+      font-size: 11px !important;
+      padding: 4px 8px !important;
+    }
+
+    .docsify-copy-code-button:hover {
+      background: var(--theme-color) !important;
+      color: #0b0e14 !important;
+      font-weight: 600;
+    }
+
+    /* Banner Image Responsive */
+    .markdown-section img {
+      border-radius: 8px;
+      max-width: 100%;
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-main);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #232b3c;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--theme-color);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">Loading PS5 Jailbreak Compendium...</div>
+
+  <!-- Mermaid.js for Diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#141923',
+        primaryColor: '#192130',
+        primaryTextColor: '#00d2ff',
+        primaryBorderColor: '#00d2ff',
+        lineColor: '#9d4edd',
+        secondaryColor: '#232b3c',
+        tertiaryColor: '#0f131c'
+      }
+    });
+  </script>
+
+  <!-- Docsify Configuration -->
+  <script>
+    window.$docsify = {
+      name: '<span style="color:#00d2ff;font-weight:700;">PS5</span> JB Compendium',
+      repo: 'https://github.com/alonsojr1980/ps5-jailbreak-compendium',
+      loadSidebar: true,
+      loadNavbar: true,
+      subMaxLevel: 3,
+      auto2top: true,
+      homepage: 'README.md',
+      notFoundPage: true,
+      search: {
+        maxAge: 86400000,
+        paths: 'auto',
+        placeholder: {
+          '/i18n/pt/': 'Pesquisar...',
+          '/': 'Search documentation...'
+        },
+        noData: {
+          '/i18n/pt/': 'Nenhum resultado encontrado',
+          '/': 'No results found'
+        },
+        depth: 4
+      },
+      copyCode: {
+        buttonText: {
+          '/i18n/pt/': 'Copiar',
+          '/': 'Copy'
+        },
+        errorText: {
+          '/i18n/pt/': 'Erro',
+          '/': 'Error'
+        },
+        successText: {
+          '/i18n/pt/': 'Copiado!',
+          '/': 'Copied!'
+        }
+      },
+      markdown: {
+        renderer: {
+          code: function(code, lang) {
+            if (lang === "mermaid") {
+              return '<div class="mermaid">' + code + '</div>';
+            }
+            return this.origin.code.apply(this, arguments);
+          }
+        }
+      },
+      plugins: [
+        function(hook, vm) {
+          hook.doneEach(function() {
+            if (window.mermaid) {
+              mermaid.run({
+                querySelector: '.mermaid'
+              });
+            }
+          });
+        }
+      ]
+    };
+  </script>
+
+  <!-- Core Docsify -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+
+  <!-- Plugins -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2/dist/docsify-copy-code.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/zoom-image.min.js"></script>
+
+  <!-- Prism Syntax Highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-c.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-markdown.min.js"></script>
+</body>
+</html>
