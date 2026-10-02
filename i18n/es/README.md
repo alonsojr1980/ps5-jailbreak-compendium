@@ -135,9 +135,9 @@ Publicado a finales de septiembre de 2026 por el desarrollador principal **ntfar
 ### Diagrama de Flujo Completo del Pipeline de Ejecución
 
 ```mermaid
-flowchart TD
+graph TD
     subgraph Prep["Fase 1: Preparación y Blindaje"]
-        P1["Verificar Firmware Consola <= 13.60"] --> P2["Desactivar Descarga e Instalación Automática"]
+        P1["Verificar Firmware Consola (1.00 a 13.60)"] --> P2["Desactivar Descarga e Instalación Automática"]
         P2 --> P3["Configurar Firewall DNS / Router"]
     end
 

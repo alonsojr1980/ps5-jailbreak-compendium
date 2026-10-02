@@ -135,34 +135,36 @@ Lançado no final de setembro de 2026 pelo desenvolvedor **ntfargo** (Nathan Far
 ### Fluxograma Completo do Pipeline de Execução
 
 ```mermaid
-flowchart TD
+graph TD
     subgraph Prep["Fase 1: Preparações e Blindagem"]
-        P1["Verificar Firmware do Console <= 13.60"] --> P2["Desativar Download e Instalação Automática"]
+        P1["Verificar Firmware do Console (1.00 a 13.60)"] --> P2["Desativar Download e Instalação Automática"]
         P2 --> P3["Configurar Regras de Bloqueio no Roteador / DNS"]
     end
 
     subgraph Net["Fase 2: Configuração de Rede"]
-        P3 --> N1["Definir Conexão de Rede Personalizada no PS5"]
-        N1 --> N2["DNS Primário: 45.56.67.85 | Secundário: 0.0.0.0"]
+        N1["Definir Conexão de Rede Personalizada no PS5"]
+        N1 --> N2["DNS Primário: 45.56.67.85 - Secundário: 0.0.0.0"]
         N2 --> N3["Verificar Teste de Conexão (PSN Deve Falhar)"]
     end
 
     subgraph Trigger["Fase 3: Execução do Exploit"]
-        N3 --> E1["Abrir Configurações ➔ Guia do Usuário"]
+        E1["Abrir Configurações - Guia do Usuário"]
         E1 --> E2["Loader WebKit Relapse Realiza Heap Spray no JSC"]
         E2 --> E3["Disparar Condição de Corrida aio_multi_wait no Kernel"]
-        E3 --> E4["Kernel RW Concluído & elfldr Ativo na Porta 9021"]
+        E3 --> E4["Kernel RW Concluído e elfldr Ativo na Porta 9021"]
     end
 
     subgraph Payload["Fase 4: Injeção de Payloads"]
-        E4 --> L1{"Origem do Payload"}
+        L1{"Origem do Payload"}
         L1 -->|Pendrive USB| L2["Carregamento automático de /payloads/etaHEN.bin (exFAT)"]
-        L1 -->|Rede Local| L3["Enviar via Netcat: nc <PS5_IP> 9021 < etaHEN.bin"]
-        L2 --> H1["Menu etaHEN Toolbox & Homebrews Ativos!"]
+        L1 -->|Rede Local| L3["Enviar via Netcat na porta 9021: nc IP 9021 (etaHEN.bin)"]
+        L2 --> H1["Menu etaHEN Toolbox e Homebrews Ativos"]
         L3 --> H1
     end
 
-    Prep --> Net --> Trigger --> Payload
+    P3 --> N1
+    N3 --> E1
+    E4 --> L1
 ```
 
 ---

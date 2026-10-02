@@ -28,28 +28,34 @@
 
   <style>
     :root {
-      /* PlayStation 5 Light Design Tokens */
-      --theme-color: #006FCD;
-      --theme-color-alt: #00439c;
-      --theme-color-glow: rgba(0, 111, 205, 0.25);
-      --ps-blue: #00439c;
-      --ps-blue-vibrant: #006FCD;
+      /* PlayStation 5 Pastel Light Design Tokens */
+      --theme-color: #0052cc;
+      --theme-color-alt: #003580;
+      --theme-color-glow: rgba(0, 82, 204, 0.2);
+      --ps-blue: #003580;
+      --ps-blue-vibrant: #0052cc;
       --ps-blue-light: #38bdf8;
-      --ps-cyan: #00b4d8;
+      --ps-cyan: #0284c7;
 
-      --bg-main: #f4f8fd;
-      --bg-sidebar: rgba(255, 255, 255, 0.92);
-      --bg-surface: rgba(255, 255, 255, 0.94);
+      /* Soft Pastel Background Palette */
+      --bg-pastel-blue: #e0f2fe;
+      --bg-pastel-lavender: #ede9fe;
+      --bg-pastel-cyan: #e0f7fa;
+      --bg-pastel-pearl: #f8fafc;
+      --bg-main: #f8fafc;
+      --bg-sidebar: rgba(255, 255, 255, 0.94);
+      --bg-surface: rgba(255, 255, 255, 0.96);
       --bg-surface-elevated: #ffffff;
       --bg-code: #0b1120;
 
-      --border-subtle: rgba(0, 67, 156, 0.12);
-      --border-bright: rgba(0, 111, 205, 0.25);
-      --border-glow: rgba(0, 111, 205, 0.35);
+      --border-subtle: rgba(15, 23, 42, 0.12);
+      --border-bright: rgba(0, 82, 204, 0.28);
+      --border-glow: rgba(0, 82, 204, 0.35);
 
-      --text-main: #334155;
-      --text-muted: #64748b;
-      --text-subtle: #94a3b8;
+      /* High-Contrast Foreground Typography */
+      --text-main: #1e293b;
+      --text-muted: #475569;
+      --text-subtle: #64748b;
       --text-header: #0a192f;
 
       /* Sidebar Dimensions: default 320px */
@@ -78,12 +84,13 @@
       background-color: transparent !important;
       color: var(--text-main) !important;
       font-family: var(--base-font-family);
+      font-size: 17px !important;
       letter-spacing: -0.01em;
-      line-height: 1.68;
+      line-height: 1.78 !important;
       overflow-x: hidden;
     }
 
-    /* PS5 Ambient Background with Flowing Light Blue Waves */
+    /* Ambient Background with Soft Pastel Colors & Flowing Waves */
     .ps5-bg-canvas {
       position: fixed;
       top: 0;
@@ -93,13 +100,13 @@
       pointer-events: none;
       z-index: 0;
       overflow: hidden;
-      background: radial-gradient(circle at 75% 15%, #e0f2fe 0%, #f4f8fd 45%, #eef5fc 100%);
+      background: radial-gradient(ellipse at 80% 12%, #e0f2fe 0%, #f1f6fd 45%, #f8fafc 100%);
     }
 
     .ps5-ambient-glow {
       position: absolute;
       border-radius: 50%;
-      filter: blur(80px);
+      filter: blur(85px);
       pointer-events: none;
       will-change: transform;
     }
@@ -107,18 +114,18 @@
     .glow-top {
       top: -12vw;
       right: -8vw;
-      width: 50vw;
-      height: 50vw;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, rgba(0, 111, 205, 0.1) 60%, transparent 80%);
+      width: 52vw;
+      height: 52vw;
+      background: radial-gradient(circle, rgba(186, 230, 253, 0.45) 0%, rgba(224, 231, 255, 0.3) 50%, transparent 80%);
       animation: glowFloat 14s ease-in-out infinite alternate;
     }
 
     .glow-bottom {
       bottom: -15vw;
       left: 8vw;
-      width: 58vw;
-      height: 58vw;
-      background: radial-gradient(circle, rgba(0, 111, 205, 0.18) 0%, rgba(147, 197, 253, 0.14) 50%, transparent 80%);
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, rgba(199, 210, 254, 0.38) 0%, rgba(207, 250, 254, 0.28) 50%, transparent 80%);
       animation: glowFloat 18s ease-in-out infinite alternate-reverse;
     }
 
@@ -128,7 +135,7 @@
       100% { transform: scale(0.95) translate(-15px, 20px); }
     }
 
-    /* Flowing SVG Wave Ribbons */
+    /* Flowing Pastel SVG Wave Ribbons */
     .ps5-wave-svg {
       position: absolute;
       bottom: 0;
@@ -141,17 +148,17 @@
 
     .wave-layer-1 {
       animation: waveFlow1 24s ease-in-out infinite alternate;
-      opacity: 0.9;
+      opacity: 0.85;
     }
 
     .wave-layer-2 {
       animation: waveFlow2 30s ease-in-out infinite alternate;
-      opacity: 0.8;
+      opacity: 0.75;
     }
 
     .wave-layer-3 {
       animation: waveFlow3 20s ease-in-out infinite alternate;
-      opacity: 0.7;
+      opacity: 0.65;
     }
 
     @keyframes waveFlow1 {
@@ -172,12 +179,12 @@
       100% { transform: translateY(15px) scale(0.96); }
     }
 
-    /* Radiant PS5 light curve ribbons */
+    /* Radiant Pastel Curve Ribbons */
     .ps5-wave-ribbon {
       position: absolute;
       pointer-events: none;
       border-radius: 50%;
-      filter: blur(45px);
+      filter: blur(50px);
       will-change: transform, opacity;
     }
 
@@ -186,7 +193,7 @@
       left: -15%;
       width: 130%;
       height: 380px;
-      background: linear-gradient(115deg, transparent 20%, rgba(56, 189, 248, 0.22) 50%, rgba(0, 111, 205, 0.12) 75%, transparent 95%);
+      background: linear-gradient(115deg, transparent 20%, rgba(186, 230, 253, 0.35) 50%, rgba(199, 210, 254, 0.25) 75%, transparent 95%);
       transform: rotate(-12deg);
       animation: ribbonShift1 22s ease-in-out infinite alternate;
     }
@@ -196,7 +203,7 @@
       right: -20%;
       width: 140%;
       height: 420px;
-      background: linear-gradient(125deg, transparent 15%, rgba(0, 111, 205, 0.15) 45%, rgba(125, 211, 252, 0.22) 70%, transparent 90%);
+      background: linear-gradient(125deg, transparent 15%, rgba(199, 210, 254, 0.3) 45%, rgba(165, 243, 252, 0.35) 70%, transparent 90%);
       transform: rotate(10deg);
       animation: ribbonShift2 28s ease-in-out infinite alternate;
     }
@@ -221,11 +228,11 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: linear-gradient(90deg, #00439c 0%, #006FCD 35%, #38bdf8 65%, #00439c 100%);
+      background: linear-gradient(90deg, #003580 0%, #0052cc 35%, #38bdf8 65%, #003580 100%);
       background-size: 200% 100%;
       animation: headerGradient 10s linear infinite;
       z-index: 9999;
-      box-shadow: 0 0 16px rgba(0, 111, 205, 0.45);
+      box-shadow: 0 0 16px rgba(0, 82, 204, 0.45);
     }
 
     @keyframes headerGradient {
@@ -239,11 +246,11 @@
       width: var(--sidebar-width) !important;
       min-width: var(--sidebar-min-width);
       max-width: var(--sidebar-max-width);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(240, 246, 253, 0.96) 100%) !important;
-      border-right: 1px solid rgba(0, 67, 156, 0.12) !important;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 248, 253, 0.98) 100%) !important;
+      border-right: 1px solid rgba(15, 23, 42, 0.12) !important;
       padding-top: 0 !important;
       z-index: 30 !important;
-      box-shadow: 4px 0 24px rgba(0, 67, 156, 0.06);
+      box-shadow: 4px 0 24px rgba(15, 23, 42, 0.06);
       position: fixed !important;
       top: 0 !important;
       bottom: 0 !important;
@@ -259,13 +266,13 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      border-bottom: 1px solid rgba(0, 67, 156, 0.08);
-      background: radial-gradient(circle at top left, rgba(0, 111, 205, 0.09), transparent 70%);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+      background: radial-gradient(circle at top left, rgba(0, 82, 204, 0.09), transparent 70%);
       user-select: none;
     }
 
     .brand-title {
-      font-size: 1.15rem;
+      font-size: 1.25rem !important;
       font-weight: 800;
       letter-spacing: -0.02em;
       display: flex;
@@ -276,19 +283,19 @@
     }
 
     .brand-badge {
-      background: linear-gradient(135deg, #006FCD, #00439c);
+      background: linear-gradient(135deg, #0052cc, #003580);
       color: #ffffff;
-      font-size: 0.65rem;
+      font-size: 0.7rem !important;
       font-weight: 800;
-      padding: 2px 7px;
+      padding: 3px 8px;
       border-radius: 4px;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      box-shadow: 0 2px 8px rgba(0, 111, 205, 0.3);
+      box-shadow: 0 2px 8px rgba(0, 82, 204, 0.3);
     }
 
     .brand-sub {
-      font-size: 0.72rem;
+      font-size: 0.78rem !important;
       color: var(--text-muted);
       display: flex;
       align-items: center;
@@ -296,22 +303,23 @@
     }
 
     .brand-author {
-      color: #006FCD;
+      color: #0052cc;
       font-weight: 700;
+      font-size: 0.85rem !important;
     }
 
     .fw-chip {
-      background: rgba(0, 111, 205, 0.08);
-      border: 1px solid rgba(0, 111, 205, 0.22);
-      color: #0056b3;
-      font-size: 0.68rem;
-      padding: 2px 6px;
+      background: rgba(0, 82, 204, 0.08);
+      border: 1px solid rgba(0, 82, 204, 0.22);
+      color: #003580;
+      font-size: 0.74rem !important;
+      padding: 2px 7px;
       border-radius: 999px;
-      font-weight: 600;
+      font-weight: 700;
       font-family: var(--code-font-family);
     }
 
-    /* Interactive Resizer Handle (Placed directly inside .sidebar for bulletproof positioning) */
+    /* Interactive Resizer Handle */
     .sidebar-resizer-handle {
       position: absolute;
       top: 0;
@@ -334,23 +342,23 @@
       width: 3px;
       height: 48px;
       border-radius: 3px;
-      background: rgba(0, 67, 156, 0.25);
+      background: rgba(15, 23, 42, 0.25);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       opacity: 0.7;
     }
 
     .sidebar-resizer-handle:hover,
     .sidebar-resizer-handle.is-dragging {
-      background: rgba(0, 111, 205, 0.08);
+      background: rgba(0, 82, 204, 0.08);
     }
 
     .sidebar-resizer-handle:hover::after,
     .sidebar-resizer-handle.is-dragging::after {
-      background: #006FCD;
+      background: #0052cc;
       height: 85px;
       width: 4px;
       opacity: 1;
-      box-shadow: 0 0 12px rgba(0, 111, 205, 0.4);
+      box-shadow: 0 0 12px rgba(0, 82, 204, 0.4);
     }
 
     /* Live Width Tooltip in Resizer */
@@ -360,9 +368,9 @@
       right: 22px;
       transform: translateY(-50%);
       background: #ffffff;
-      border: 1px solid #006FCD;
-      color: #006FCD;
-      font-size: 11px;
+      border: 1px solid #0052cc;
+      color: #0052cc;
+      font-size: 12px !important;
       font-weight: 700;
       padding: 4px 8px;
       border-radius: 5px;
@@ -370,7 +378,7 @@
       opacity: 0;
       white-space: nowrap;
       transition: opacity 0.15s ease, transform 0.15s ease;
-      box-shadow: 0 4px 16px rgba(0, 67, 156, 0.15);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.15);
       font-family: var(--code-font-family);
     }
 
@@ -419,46 +427,46 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      color: #00439c;
-      font-size: 0.72rem;
+      color: #003580;
+      font-size: 0.82rem !important;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-top: 20px;
+      margin-top: 22px;
       margin-bottom: 8px;
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 6px;
-      background: rgba(0, 111, 205, 0.08);
-      border-left: 3px solid #006FCD;
+      background: rgba(0, 82, 204, 0.08);
+      border-left: 3px solid #0052cc;
     }
 
     .sidebar-nav ul li a {
-      color: #475569;
-      font-size: 13.5px;
-      font-weight: 500;
-      padding: 7px 12px;
+      color: #334155 !important;
+      font-size: 15px !important;
+      font-weight: 600;
+      padding: 8px 12px;
       border-radius: 6px;
       display: flex;
       align-items: center;
       gap: 8px;
       transition: all 0.15s ease-in-out;
       text-decoration: none;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .sidebar-nav ul li a:hover {
-      color: #00439c !important;
-      background: rgba(0, 111, 205, 0.07);
+      color: #003580 !important;
+      background: rgba(0, 82, 204, 0.07);
       transform: translateX(3px);
     }
 
     .sidebar-nav ul li.active > a {
-      color: #006FCD !important;
+      color: #0052cc !important;
       font-weight: 700;
-      background: linear-gradient(90deg, rgba(0, 111, 205, 0.12) 0%, rgba(0, 111, 205, 0.02) 100%);
-      border-left: 3px solid #006FCD;
+      background: linear-gradient(90deg, rgba(0, 82, 204, 0.12) 0%, rgba(0, 82, 204, 0.02) 100%);
+      border-left: 3px solid #0052cc;
       border-radius: 2px 6px 6px 2px;
-      box-shadow: inset 1px 0 0 rgba(0, 111, 205, 0.25);
+      box-shadow: inset 1px 0 0 rgba(0, 82, 204, 0.25);
       padding-left: 10px;
     }
 
@@ -467,24 +475,25 @@
       padding-left: 14px;
       margin-top: 3px;
       margin-bottom: 6px;
-      border-left: 1px dashed rgba(0, 67, 156, 0.18);
+      border-left: 1px dashed rgba(15, 23, 42, 0.18);
       margin-left: 16px;
     }
 
     .sidebar-nav ul ul li a {
-      font-size: 12.5px;
-      padding: 4px 8px;
-      color: #64748b;
+      font-size: 14px !important;
+      padding: 5px 8px;
+      color: #475569 !important;
+      font-weight: 500;
     }
 
     .sidebar-nav ul ul li a:hover {
-      color: #006FCD !important;
+      color: #0052cc !important;
     }
 
     /* Markdown Reader Section */
     .markdown-section {
-      max-width: 960px !important;
-      padding: 25px 45px 80px 45px !important;
+      max-width: 980px !important;
+      padding: 30px 50px 90px 50px !important;
       margin: 0 auto;
     }
 
@@ -493,67 +502,71 @@
     .markdown-section h3,
     .markdown-section h4 {
       color: var(--text-header);
-      font-weight: 700;
-      letter-spacing: -0.02em;
+      font-weight: 800;
+      letter-spacing: -0.025em;
     }
 
     .markdown-section h1 {
-      font-size: 2.25rem;
+      font-size: 2.65rem !important;
       font-weight: 800;
-      background: linear-gradient(135deg, #0a192f 30%, #00439c 100%);
+      line-height: 1.25;
+      background: linear-gradient(135deg, #0a192f 30%, #003580 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      border-bottom: 2px solid rgba(0, 111, 205, 0.25);
-      padding-bottom: 12px;
-      margin-top: 1.5rem;
-      margin-bottom: 1.5rem;
+      border-bottom: 2px solid rgba(0, 82, 204, 0.28);
+      padding-bottom: 14px;
+      margin-top: 1.6rem;
+      margin-bottom: 1.6rem;
     }
 
     .markdown-section h2 {
-      font-size: 1.55rem;
-      color: #00439c;
-      border-bottom: 1px solid rgba(0, 67, 156, 0.12);
-      padding-bottom: 10px;
-      margin-top: 2.8rem;
-      margin-bottom: 1rem;
+      font-size: 1.85rem !important;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #003580;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+      padding-bottom: 12px;
+      margin-top: 3rem;
+      margin-bottom: 1.2rem;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .markdown-section h3 {
-      font-size: 1.22rem;
-      color: #006FCD;
-      margin-top: 2rem;
-      margin-bottom: 0.8rem;
+      font-size: 1.45rem !important;
+      font-weight: 700;
+      color: #0052cc;
+      margin-top: 2.2rem;
+      margin-bottom: 0.9rem;
     }
 
     .markdown-section h4 {
-      font-size: 1.05rem;
-      color: #0284c7;
-      margin-top: 1.6rem;
-      margin-bottom: 0.6rem;
+      font-size: 1.22rem !important;
+      font-weight: 700;
+      color: #0369a1;
+      margin-top: 1.8rem;
+      margin-bottom: 0.7rem;
     }
 
     .markdown-section p, .markdown-section li {
-      color: var(--text-main);
-      font-size: 15.5px;
-      line-height: 1.75;
+      color: var(--text-main) !important;
+      font-size: 17px !important;
+      line-height: 1.78 !important;
     }
 
     .markdown-section a {
-      color: #006FCD;
+      color: #0052cc !important;
       font-weight: 600;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(0, 111, 205, 0.3);
-      padding-bottom: 1px;
+      text-decoration: underline;
+      text-decoration-color: rgba(0, 82, 204, 0.35);
+      text-underline-offset: 3px;
       transition: all 0.2s ease;
     }
 
     .markdown-section a:hover {
-      color: #00439c;
-      border-bottom-color: #00439c;
-      text-shadow: 0 0 10px rgba(0, 111, 205, 0.2);
+      color: #003380 !important;
+      text-decoration-color: #003380;
     }
 
     /* Modern Glassmorphic Cards & Tables */
@@ -562,38 +575,38 @@
       width: 100% !important;
       border-collapse: separate !important;
       border-spacing: 0 !important;
-      margin: 1.8rem 0 !important;
-      background: rgba(255, 255, 255, 0.94) !important;
+      margin: 2rem 0 !important;
+      background: rgba(255, 255, 255, 0.97) !important;
       border-radius: 12px !important;
       overflow: hidden !important;
-      border: 1px solid rgba(0, 67, 156, 0.14) !important;
-      box-shadow: 0 10px 30px rgba(0, 67, 156, 0.07);
+      border: 1px solid rgba(15, 23, 42, 0.14) !important;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
       backdrop-filter: blur(12px);
     }
 
     .markdown-section th {
-      background: linear-gradient(180deg, #edf5ff 0%, #e1effe 100%) !important;
-      color: #00439c !important;
-      font-weight: 700 !important;
-      border-bottom: 2px solid rgba(0, 111, 205, 0.22) !important;
+      background: linear-gradient(180deg, #e8f0fe 0%, #dce8fc 100%) !important;
+      color: #003580 !important;
+      font-weight: 800 !important;
+      border-bottom: 2px solid #0052cc !important;
       border-top: none !important;
       border-left: none !important;
       border-right: none !important;
-      padding: 14px 18px !important;
+      padding: 16px 20px !important;
       text-align: left !important;
-      font-size: 13px !important;
-      letter-spacing: 0.04em;
+      font-size: 15px !important;
+      letter-spacing: 0.03em;
       text-transform: uppercase;
     }
 
     .markdown-section td {
-      border-bottom: 1px solid rgba(0, 67, 156, 0.08) !important;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
       border-top: none !important;
       border-left: none !important;
       border-right: none !important;
-      padding: 13px 18px !important;
-      color: #334155 !important;
-      font-size: 14px !important;
+      padding: 14px 20px !important;
+      color: #1e293b !important;
+      font-size: 16px !important;
       transition: background-color 0.15s ease;
     }
 
@@ -602,59 +615,60 @@
     }
 
     .markdown-section tr:hover td {
-      background-color: rgba(0, 111, 205, 0.05) !important;
+      background-color: rgba(0, 82, 204, 0.04) !important;
     }
 
     /* Polished Code Blocks */
     .markdown-section pre {
       background-color: var(--bg-code) !important;
-      border: 1px solid rgba(0, 67, 156, 0.2) !important;
+      border: 1px solid rgba(15, 23, 42, 0.2) !important;
       border-radius: 10px !important;
       box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12) !important;
-      padding: 1.2rem 1.4rem !important;
-      margin: 1.5rem 0 !important;
+      padding: 1.3rem 1.6rem !important;
+      margin: 1.6rem 0 !important;
       position: relative;
     }
 
     .markdown-section pre code {
-      color: #f1f5f9 !important;
+      color: #f8fafc !important;
       font-family: var(--code-font-family) !important;
-      font-size: 13px !important;
-      line-height: 1.6;
+      font-size: 14.5px !important;
+      line-height: 1.65 !important;
     }
 
     .markdown-section p code,
     .markdown-section li code,
     .markdown-section td code {
-      background-color: rgba(0, 111, 205, 0.08) !important;
-      padding: 3px 7px !important;
+      background-color: rgba(0, 82, 204, 0.08) !important;
+      padding: 3px 8px !important;
       border-radius: 5px !important;
-      color: #0056b3 !important;
+      color: #003580 !important;
       font-weight: 600;
-      border: 1px solid rgba(0, 111, 205, 0.18);
-      font-size: 12.5px !important;
+      border: 1px solid rgba(0, 82, 204, 0.2);
+      font-size: 14.5px !important;
     }
 
-    /* PlayStation-style Callouts / Blockquotes */
+    /* High-Contrast PlayStation-style Callouts / Blockquotes */
     .markdown-section blockquote {
-      border-left: 4px solid #006FCD !important;
-      background: linear-gradient(90deg, rgba(0, 111, 205, 0.08) 0%, rgba(240, 246, 255, 0.5) 100%) !important;
-      color: #1e293b !important;
-      padding: 14px 20px !important;
-      margin: 1.5rem 0 !important;
+      border-left: 5px solid #0052cc !important;
+      background: linear-gradient(90deg, rgba(224, 242, 254, 0.75) 0%, rgba(245, 249, 255, 0.9) 100%) !important;
+      color: #0f172a !important;
+      padding: 16px 22px !important;
+      margin: 1.6rem 0 !important;
       border-radius: 0 10px 10px 0;
-      box-shadow: 0 4px 16px rgba(0, 67, 156, 0.06);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+      font-size: 16.5px !important;
     }
 
     /* Mermaid Diagrams */
     .mermaid {
-      background: rgba(255, 255, 255, 0.94);
-      border: 1px solid rgba(0, 67, 156, 0.14);
+      background: rgba(255, 255, 255, 0.97);
+      border: 1px solid rgba(15, 23, 42, 0.14);
       border-radius: 12px;
-      padding: 24px;
-      margin: 1.8rem 0;
+      padding: 26px;
+      margin: 2rem 0;
       text-align: center;
-      box-shadow: 0 8px 30px rgba(0, 67, 156, 0.06);
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
       backdrop-filter: blur(12px);
       overflow-x: auto;
     }
@@ -668,31 +682,31 @@
     }
 
     .app-nav a {
-      color: #475569;
-      font-size: 13.5px;
+      color: #334155;
+      font-size: 14.5px !important;
       font-weight: 600;
-      padding: 6px 14px;
+      padding: 7px 16px;
       border-radius: 8px;
       transition: all 0.2s ease;
-      background: rgba(255, 255, 255, 0.85);
-      border: 1px solid rgba(0, 67, 156, 0.14);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(15, 23, 42, 0.14);
       backdrop-filter: blur(12px);
-      box-shadow: 0 2px 8px rgba(0, 67, 156, 0.05);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
     }
 
     .app-nav a:hover {
-      color: #00439c;
-      border-color: #006FCD;
-      background: rgba(0, 111, 205, 0.08);
-      box-shadow: 0 0 12px rgba(0, 111, 205, 0.2);
+      color: #003580;
+      border-color: #0052cc;
+      background: rgba(0, 82, 204, 0.08);
+      box-shadow: 0 0 12px rgba(0, 82, 204, 0.2);
       text-decoration: none;
     }
 
     .app-nav ul {
       background: #ffffff !important;
-      border: 1px solid rgba(0, 67, 156, 0.14) !important;
+      border: 1px solid rgba(15, 23, 42, 0.14) !important;
       border-radius: 10px !important;
-      box-shadow: 0 12px 36px rgba(0, 67, 156, 0.12) !important;
+      box-shadow: 0 12px 36px rgba(15, 23, 42, 0.12) !important;
       padding: 8px !important;
     }
 
@@ -700,70 +714,71 @@
       border: none !important;
       background: transparent !important;
       border-radius: 6px !important;
-      color: #334155 !important;
+      color: #1e293b !important;
+      font-size: 14px !important;
     }
 
     .app-nav ul li a:hover {
-      background: rgba(0, 111, 205, 0.08) !important;
-      color: #006FCD !important;
+      background: rgba(0, 82, 204, 0.08) !important;
+      color: #0052cc !important;
     }
 
     /* Search Box */
     .search {
       padding: 16px 14px 12px 14px;
-      border-bottom: 1px solid rgba(0, 67, 156, 0.08);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
     }
 
     .search input {
-      background: rgba(255, 255, 255, 0.95) !important;
-      border: 1px solid rgba(0, 67, 156, 0.18) !important;
+      background: rgba(255, 255, 255, 0.98) !important;
+      border: 1px solid rgba(15, 23, 42, 0.2) !important;
       color: #0f172a !important;
       border-radius: 8px !important;
-      padding: 9px 14px !important;
-      font-size: 13px !important;
+      padding: 10px 14px !important;
+      font-size: 14.5px !important;
       transition: all 0.2s ease;
       width: 100% !important;
-      box-shadow: inset 0 1px 3px rgba(0, 67, 156, 0.04);
+      box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.04);
     }
 
     .search input:focus {
-      border-color: #006FCD !important;
-      box-shadow: 0 0 12px rgba(0, 111, 205, 0.25) !important;
+      border-color: #0052cc !important;
+      box-shadow: 0 0 12px rgba(0, 82, 204, 0.25) !important;
       background: #ffffff !important;
       outline: none;
     }
 
     .matching-post {
-      border-bottom: 1px solid rgba(0, 67, 156, 0.08) !important;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
     }
 
     .matching-post h2 {
-      color: #00439c !important;
-      font-size: 15px !important;
+      color: #003580 !important;
+      font-size: 16px !important;
     }
 
     .matching-post p {
       color: #475569 !important;
-      font-size: 13px !important;
+      font-size: 14px !important;
     }
 
     /* Copy Code Button */
     .docsify-copy-code-button {
       background: #1e293b !important;
-      color: #e2e8f0 !important;
-      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      color: #f8fafc !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
       border-radius: 6px !important;
-      font-size: 11px !important;
+      font-size: 12px !important;
       font-weight: 600 !important;
-      padding: 5px 10px !important;
+      padding: 6px 12px !important;
       transition: all 0.2s ease;
     }
 
     .docsify-copy-code-button:hover {
-      background: #006FCD !important;
+      background: #0052cc !important;
       color: #ffffff !important;
-      border-color: #006FCD !important;
-      box-shadow: 0 0 10px rgba(0, 111, 205, 0.4);
+      border-color: #0052cc !important;
+      box-shadow: 0 0 10px rgba(0, 82, 204, 0.4);
     }
 
     /* Mobile Responsive Overrides */
@@ -775,32 +790,32 @@
         left: 0 !important;
       }
       .sidebar {
-        width: 280px !important;
+        width: 290px !important;
       }
       .markdown-section {
-        padding: 20px 20px 60px 20px !important;
+        padding: 25px 22px 70px 22px !important;
       }
     }
 
     /* Scrollbars */
     ::-webkit-scrollbar {
-      width: 7px;
-      height: 7px;
+      width: 8px;
+      height: 8px;
     }
     ::-webkit-scrollbar-track {
-      background: rgba(0, 67, 156, 0.04);
+      background: rgba(15, 23, 42, 0.04);
     }
     ::-webkit-scrollbar-thumb {
-      background: rgba(0, 67, 156, 0.22);
+      background: rgba(15, 23, 42, 0.24);
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #006FCD;
+      background: #0052cc;
     }
   </style>
 </head>
 <body>
-  <!-- Ambient PS5 Background with Flowing Light Blue Waves -->
+  <!-- Ambient PS5 Background with Soft Pastel Colors & Flowing Waves -->
   <div class="ps5-bg-canvas" aria-hidden="true">
     <div class="ps5-ambient-glow glow-top"></div>
     <div class="ps5-ambient-glow glow-bottom"></div>
@@ -809,9 +824,9 @@
     <svg class="ps5-wave-svg wave-layer-1" viewBox="0 0 1440 900" preserveAspectRatio="none">
       <defs>
         <linearGradient id="ps5WaveGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#006FCD" stop-opacity="0.14" />
-          <stop offset="45%" stop-color="#38bdf8" stop-opacity="0.10" />
-          <stop offset="100%" stop-color="#93c5fd" stop-opacity="0.03" />
+          <stop offset="0%" stop-color="#93c5fd" stop-opacity="0.38" />
+          <stop offset="50%" stop-color="#c4b5fd" stop-opacity="0.25" />
+          <stop offset="100%" stop-color="#e0e7ff" stop-opacity="0.10" />
         </linearGradient>
       </defs>
       <path d="M0,320 C320,180 540,440 840,300 C1140,160 1320,380 1440,280 L1440,900 L0,900 Z" fill="url(#ps5WaveGrad1)" />
@@ -819,9 +834,9 @@
     <svg class="ps5-wave-svg wave-layer-2" viewBox="0 0 1440 900" preserveAspectRatio="none">
       <defs>
         <linearGradient id="ps5WaveGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#0284c7" stop-opacity="0.12" />
-          <stop offset="50%" stop-color="#006FCD" stop-opacity="0.08" />
-          <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.02" />
+          <stop offset="0%" stop-color="#a5f3fc" stop-opacity="0.32" />
+          <stop offset="50%" stop-color="#bfdbfe" stop-opacity="0.22" />
+          <stop offset="100%" stop-color="#f5d0fe" stop-opacity="0.08" />
         </linearGradient>
       </defs>
       <path d="M0,480 C280,340 580,580 920,420 C1220,260 1360,500 1440,410 L1440,900 L0,900 Z" fill="url(#ps5WaveGrad2)" />
@@ -829,9 +844,9 @@
     <svg class="ps5-wave-svg wave-layer-3" viewBox="0 0 1440 900" preserveAspectRatio="none">
       <defs>
         <linearGradient id="ps5WaveGrad3" x1="0%" y1="50%" x2="100%" y2="50%">
-          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.10" />
-          <stop offset="50%" stop-color="#006FCD" stop-opacity="0.06" />
-          <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0.12" />
+          <stop offset="0%" stop-color="#bae6fd" stop-opacity="0.28" />
+          <stop offset="50%" stop-color="#c7d2fe" stop-opacity="0.18" />
+          <stop offset="100%" stop-color="#ddd6fe" stop-opacity="0.10" />
         </linearGradient>
       </defs>
       <path d="M0,620 C380,500 640,740 1020,580 C1260,460 1380,620 1440,550 L1440,900 L0,900 Z" fill="url(#ps5WaveGrad3)" />
@@ -850,12 +865,13 @@
         darkMode: false,
         background: '#ffffff',
         primaryColor: '#e0f2fe',
-        primaryTextColor: '#00439c',
-        primaryBorderColor: '#006FCD',
-        lineColor: '#006FCD',
-        secondaryColor: '#f0f9ff',
+        primaryTextColor: '#003580',
+        primaryBorderColor: '#0052cc',
+        lineColor: '#0052cc',
+        secondaryColor: '#f0f7ff',
         tertiaryColor: '#f8fafc',
-        textColor: '#1e293b'
+        textColor: '#0f172a',
+        fontSize: '15px'
       }
     });
   </script>

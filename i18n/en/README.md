@@ -135,34 +135,36 @@ Released in late September 2026 by lead developer **ntfargo** (Nathan Fargo) wit
 ### Complete Execution Pipeline Flowchart
 
 ```mermaid
-flowchart TD
+graph TD
     subgraph Prep["Phase 1: Preparations & Hardening"]
-        P1["Verify Console Firmware <= 13.60"] --> P2["Disable Auto-Download & Auto-Install"]
+        P1["Verify Console Firmware (1.00 to 13.60)"] --> P2["Disable Auto-Download & Auto-Install"]
         P2 --> P3["Configure Router / DNS Firewall Rules"]
     end
 
     subgraph Net["Phase 2: Network Configuration"]
-        P3 --> N1["Set Custom Network Connection on PS5"]
-        N1 --> N2["Primary DNS: 45.56.67.85 | Secondary DNS: 0.0.0.0"]
+        N1["Set Custom Network Connection on PS5"]
+        N1 --> N2["Primary DNS: 45.56.67.85 - Secondary DNS: 0.0.0.0"]
         N2 --> N3["Verify Connection Test (PSN Should Fail)"]
     end
 
     subgraph Trigger["Phase 3: Exploit Execution"]
-        N3 --> E1["Open Settings ➔ User's Guide"]
+        E1["Open Settings - User's Guide"]
         E1 --> E2["Relapse WebKit Loader Sprays JSC Heap"]
         E2 --> E3["Trigger aio_multi_wait Kernel Race Condition"]
-        E3 --> E4["Kernel RW Established & elfldr Active on Port 9021"]
+        E3 --> E4["Kernel RW Established + elfldr Active on Port 9021"]
     end
 
     subgraph Payload["Phase 4: Payload Injection"]
-        E4 --> L1{"Payload Source"}
+        L1{"Payload Source"}
         L1 -->|USB Drive| L2["Auto-load /payloads/etaHEN.bin from exFAT USB"]
-        L1 -->|Local LAN| L3["Send via Netcat: nc <PS5_IP> 9021 < etaHEN.bin"]
-        L2 --> H1["etaHEN Toolbox & Homebrew Active!"]
+        L1 -->|Local LAN| L3["Send via Netcat on port 9021: nc IP 9021 (etaHEN.bin)"]
+        L2 --> H1["etaHEN Toolbox and Homebrew Active"]
         L3 --> H1
     end
 
-    Prep --> Net --> Trigger --> Payload
+    P3 --> N1
+    N3 --> E1
+    E4 --> L1
 ```
 
 ---
