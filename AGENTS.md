@@ -17,6 +17,11 @@ This repository uses an internationalized documentation structure:
 │   │   ├── _sidebar.md           # English Docsify sidebar navigation
 │   │   ├── jailbreak_how_to.md   # Step-by-step practical jailbreak guide
 │   │   └── jailbreak_tech_info.md# Technical deep-dive for advanced users/devs
+│   ├── es/
+│   │   ├── README.md             # Complete Spanish Documentation Index
+│   │   ├── _sidebar.md           # Spanish Docsify sidebar navigation
+│   │   ├── jailbreak_how_to.md   # Guía práctica de jailbreak paso a paso
+│   │   └── jailbreak_tech_info.md# Análisis técnico detallado para devs/investigación
 │   └── pt/
 │       ├── README.md             # Complete Portuguese Documentation Index
 │       ├── _sidebar.md           # Portuguese Docsify sidebar navigation
@@ -41,6 +46,7 @@ This repository uses an internationalized documentation structure:
 ### 1. Mandatory Multi-Language Synchronization
 - Whenever you make changes, updates, additions, or corrections to any documentation, you **MUST synchronize all active languages** across all documents:
   - English: `i18n/en/README.md`, `i18n/en/jailbreak_how_to.md`, `i18n/en/jailbreak_tech_info.md`
+  - Spanish: `i18n/es/README.md`, `i18n/es/jailbreak_how_to.md`, `i18n/es/jailbreak_tech_info.md`
   - Portuguese: `i18n/pt/README.md`, `i18n/pt/jailbreak_how_to.md`, `i18n/pt/jailbreak_tech_info.md`
 - **Never** leave one language updated while another remains outdated.
 - Keep the separation clean:
@@ -82,7 +88,7 @@ All language files must strictly maintain the same **11-section relevance hierar
 - **Zero-Build Principle**: Docsify dynamically parses and renders the raw Markdown files (`README.md`, `jailbreak_how_to.md`, `jailbreak_tech_info.md`) directly in the client browser. No static site generator compilation or build pipeline is required.
 - **Rules for Agents**:
   1. **Never delete or alter `.nojekyll`**: This file instructs GitHub Pages to bypass Jekyll, ensuring files beginning with underscores (`_sidebar.md`, `_navbar.md`) and asset directories are properly served.
-  2. **Navigation Parity**: Whenever new files or major documentation sections are introduced or rearranged, update `_sidebar.md`, `_navbar.md`, `i18n/en/_sidebar.md`, and `i18n/pt/_sidebar.md`.
+  2. **Navigation Parity**: Whenever new files or major documentation sections are introduced or rearranged, update `_sidebar.md`, `_navbar.md`, `i18n/en/_sidebar.md`, `i18n/es/_sidebar.md`, and `i18n/pt/_sidebar.md`.
   3. **Theme & Styling**: Maintain the dark PlayStation Cyberpunk aesthetic (neon cyan `#00d2ff`, violet `#9d4edd`, surface dark `#0b0e14`).
 
 ---

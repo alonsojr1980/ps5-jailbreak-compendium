@@ -10,6 +10,11 @@
   * [🔬 Análise Técnica Detalhada](/i18n/pt/jailbreak_tech_info.md)
   * [📖 Compêndio Completo](/i18n/pt/README.md)
 
+* **🇪🇸 Versión en Español**
+  * [🚀 Guía Práctica Paso a Paso](/i18n/es/jailbreak_how_to.md)
+  * [🔬 Análisis Técnico Detallado](/i18n/es/jailbreak_tech_info.md)
+  * [📖 Compendio Completo](/i18n/es/README.md)
+
 * **🔗 External & Scene Links**
   * [📦 GitHub Repository](https://github.com/alonsojr1980/ps5-jailbreak-compendium)
   * [⚡ Relapse Exploit (7.00-13.60)](https://github.com/ntfargo/Relapse-Exploit)

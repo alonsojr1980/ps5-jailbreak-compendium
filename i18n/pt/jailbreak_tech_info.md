@@ -9,7 +9,7 @@
 [![Hypervisor](https://img.shields.io/badge/Hypervisor-Byepervisor%20(1.00--2.50)-orange?style=for-the-badge)](https://github.com/PS5Dev/Byepervisor)
 
 **Navegação / Navigation:**
-[🚀 Guia Prático Passo a Passo (How-To)](jailbreak_how_to.md) | [🇺🇸 English Version](../en/jailbreak_tech_info.md) | [🌐 Portal Principal](../../README.md)
+[🚀 Guia Prático Passo a Passo (How-To)](jailbreak_how_to.md) | [🇺🇸 English Version](../en/jailbreak_tech_info.md) | [🇪🇸 Versión en Español](../es/jailbreak_tech_info.md) | [🌐 Portal Principal](../../README.md)
 
 </div>
 

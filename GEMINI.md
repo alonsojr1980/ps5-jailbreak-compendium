@@ -11,12 +11,15 @@ This document provides system-level instructions for **Gemini models** and **Ant
      - `i18n/en/README.md` (English Index)
      - `i18n/en/jailbreak_how_to.md` (English Step-by-Step Guide)
      - `i18n/en/jailbreak_tech_info.md` (English Technical Deep Dive)
+     - `i18n/es/README.md` (Español Index)
+     - `i18n/es/jailbreak_how_to.md` (Español Guía Práctica)
+     - `i18n/es/jailbreak_tech_info.md` (Español Análisis Técnico)
      - `i18n/pt/README.md` (Português Index)
      - `i18n/pt/jailbreak_how_to.md` (Português Guia Prático)
      - `i18n/pt/jailbreak_tech_info.md` (Português Análise Técnica)
    - **Action Rule**: Whenever you modify, expand, or fix any section in one language, you **must immediately reflect the equivalent changes in all other active languages**.
    - Keep the clean separation between practical how-to (`jailbreak_how_to.md`) and low-level internals (`jailbreak_tech_info.md`).
-   - Do not complete a task until both English and Portuguese versions are 100% synchronized in content, table columns, code snippets, and structural sections.
+   - Do not complete a task until English, Spanish, and Portuguese versions are 100% synchronized in content, table columns, code snippets, and structural sections.
 
 2. **Root `README.md` Contract**:
    - The root `README.md` must remain lightweight and visual.
@@ -70,7 +73,7 @@ This document provides system-level instructions for **Gemini models** and **Ant
      - The user will inspect changes and execute `upload.bat` manually to publish to GitHub.
    - On this machine, prioritize `C:\Program Files\Git\cmd\git.exe` for local git commands (it has Git Credential Manager configured).
    - Ensure `upload.bat` is ignored by `.gitignore` and never committed to the remote repo.
-   - Ensure commits for documentation updates reference both languages (e.g., `docs: Update technical terms and glossary across en and pt`).
+   - Ensure commits for documentation updates reference all languages (e.g., `docs: Update technical terms and glossary across en, es, and pt`).
 
 6. **AI Disclaimer Integrity**:
    - Preserve the notice indicating that this repository is an AI-generated and curated reference compendium for educational and research purposes.
@@ -79,4 +82,4 @@ This document provides system-level instructions for **Gemini models** and **Ant
    - The repository hosts an interactive web documentation site powered by Docsify in `index.html`.
    - Markdown documents are rendered on-the-fly client-side without static site compiler steps.
    - Always preserve `.nojekyll` (prevents GitHub Pages from filtering out files with leading underscores).
-   - Ensure `_sidebar.md`, `_navbar.md`, `i18n/en/_sidebar.md`, and `i18n/pt/_sidebar.md` remain synchronized whenever guides or sections are updated.
+   - Ensure `_sidebar.md`, `_navbar.md`, `i18n/en/_sidebar.md`, `i18n/es/_sidebar.md`, and `i18n/pt/_sidebar.md` remain synchronized whenever guides or sections are updated.

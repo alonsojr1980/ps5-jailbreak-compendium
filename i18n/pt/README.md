@@ -11,7 +11,7 @@
 [![Licença](https://img.shields.io/badge/Licen%C3%A7a-MIT%20%2F%20GPL--3.0-blue?style=for-the-badge)](../../LICENSE)
 
 **Idiomas / Languages:**
-[🇺🇸 English](../en/README.md) | 🇧🇷 **Português** | [🌐 Voltar ao Início](../../README.md)
+[🇺🇸 English](../en/README.md) | 🇧🇷 **Português** | [🇪🇸 Español](../es/README.md) | [🌐 Voltar ao Início](../../README.md)
 
 </div>
 

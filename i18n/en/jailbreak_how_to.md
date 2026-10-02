@@ -9,7 +9,7 @@
 [![Payloads](https://img.shields.io/badge/Payloads-etaHEN%20%7C%20ps5--kstuff-ff69b4?style=for-the-badge&logo=coffeescript&logoColor=white)](jailbreak_tech_info.md#4-payload-engineering--system-frameworks)
 
 **Navigation:**
-[🔬 Technical Deep Dive (Tech Info)](jailbreak_tech_info.md) | [🇧🇷 Versão em Português](../pt/jailbreak_how_to.md) | [🌐 Main Portal](../../README.md)
+[🔬 Technical Deep Dive (Tech Info)](jailbreak_tech_info.md) | [🇧🇷 Versão em Português](../pt/jailbreak_how_to.md) | [🇪🇸 Versión en Español](../es/jailbreak_how_to.md) | [🌐 Main Portal](../../README.md)
 
 </div>
 
