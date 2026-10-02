@@ -50,10 +50,10 @@
       --text-subtle: #64748b;
       --text-header: #f8fafc;
 
-      /* Sidebar Dimensions */
+      /* Sidebar Dimensions: default 320px */
       --sidebar-width: 320px;
       --sidebar-min-width: 240px;
-      --sidebar-max-width: 600px;
+      --sidebar-max-width: 640px;
 
       /* Docsify Overrides */
       --base-font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -118,12 +118,19 @@
     /* Resizable Sidebar Layout */
     .sidebar {
       width: var(--sidebar-width) !important;
+      min-width: var(--sidebar-min-width);
+      max-width: var(--sidebar-max-width);
       background: linear-gradient(180deg, #0e131e 0%, #0a0d14 100%) !important;
       border-right: 1px solid var(--border-subtle) !important;
       padding-top: 0 !important;
-      z-index: 20;
+      z-index: 30 !important;
       box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: fixed !important;
+      top: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
     }
 
     /* Custom Header Branding Inside Sidebar */
@@ -134,6 +141,7 @@
       gap: 8px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       background: radial-gradient(circle at top left, rgba(0, 210, 255, 0.12), transparent 70%);
+      user-select: none;
     }
 
     .brand-title {
@@ -183,54 +191,92 @@
       font-family: var(--code-font-family);
     }
 
-    /* Interactive Resizer Handle */
-    #sidebar-resizer {
-      position: fixed;
+    /* Interactive Resizer Handle (Placed directly inside .sidebar for bulletproof positioning) */
+    .sidebar-resizer-handle {
+      position: absolute;
       top: 0;
+      right: 0;
+      width: 14px;
       bottom: 0;
-      left: calc(var(--sidebar-width) - 4px);
-      width: 8px;
       cursor: col-resize;
-      z-index: 25;
-      transition: background-color 0.2s ease;
+      z-index: 100;
+      user-select: none;
       touch-action: none;
       display: flex;
       align-items: center;
       justify-content: center;
+      background: transparent;
+      transition: background 0.15s ease;
     }
 
-    #sidebar-resizer::after {
+    .sidebar-resizer-handle::after {
       content: "";
-      width: 2px;
-      height: 36px;
-      border-radius: 2px;
-      background-color: var(--border-bright);
-      transition: all 0.2s ease;
+      width: 3px;
+      height: 48px;
+      border-radius: 3px;
+      background: var(--border-bright);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       opacity: 0.6;
     }
 
-    #sidebar-resizer:hover,
-    #sidebar-resizer.is-dragging {
-      background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.25), transparent);
+    .sidebar-resizer-handle:hover,
+    .sidebar-resizer-handle.is-dragging {
+      background: rgba(0, 210, 255, 0.08);
     }
 
-    #sidebar-resizer:hover::after,
-    #sidebar-resizer.is-dragging::after {
-      background-color: var(--theme-color);
-      height: 70px;
+    .sidebar-resizer-handle:hover::after,
+    .sidebar-resizer-handle.is-dragging::after {
+      background: var(--theme-color);
+      height: 85px;
+      width: 4px;
       opacity: 1;
-      box-shadow: 0 0 12px var(--theme-color);
+      box-shadow: 0 0 14px var(--theme-color);
+    }
+
+    /* Live Width Tooltip in Resizer */
+    .resizer-tooltip {
+      position: absolute;
+      top: 50%;
+      right: 22px;
+      transform: translateY(-50%);
+      background: #141b2a;
+      border: 1px solid var(--theme-color);
+      color: var(--theme-color);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 5px;
+      pointer-events: none;
+      opacity: 0;
+      white-space: nowrap;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+      font-family: var(--code-font-family);
+    }
+
+    .sidebar-resizer-handle:hover .resizer-tooltip,
+    .sidebar-resizer-handle.is-dragging .resizer-tooltip {
+      opacity: 1;
+      transform: translateY(-50%) translateX(-4px);
     }
 
     /* Content Area Positioning Based on Resizable Sidebar */
     .content {
       left: var(--sidebar-width) !important;
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      padding-top: 30px;
-      transition: none;
+      position: absolute !important;
+      right: 0 !important;
+      top: 0 !important;
+      bottom: 0 !important;
+      padding-top: 30px !important;
+      transition: none !important;
+    }
+
+    body.close .sidebar {
+      transform: translateX(calc(-1 * var(--sidebar-width))) !important;
+    }
+
+    body.close .content {
+      left: 0 !important;
     }
 
     /* Sidebar Navigation Links */
@@ -571,34 +617,9 @@
       box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
     }
 
-    /* Reset Width Helper Tooltip in Resizer */
-    .resizer-tooltip {
-      position: absolute;
-      top: 50%;
-      left: 12px;
-      transform: translateY(-50%);
-      background: #141b2a;
-      border: 1px solid var(--theme-color);
-      color: var(--theme-color);
-      font-size: 10px;
-      padding: 3px 6px;
-      border-radius: 4px;
-      pointer-events: none;
-      opacity: 0;
-      white-space: nowrap;
-      transition: opacity 0.2s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-      font-family: var(--code-font-family);
-    }
-
-    #sidebar-resizer:hover .resizer-tooltip,
-    #sidebar-resizer.is-dragging .resizer-tooltip {
-      opacity: 1;
-    }
-
     /* Mobile Responsive Overrides */
     @media screen and (max-width: 768px) {
-      #sidebar-resizer {
+      .sidebar-resizer-handle {
         display: none !important;
       }
       .content {
@@ -631,11 +652,6 @@
 </head>
 <body>
   <div id="app">Loading PS5 Jailbreak Compendium...</div>
-
-  <!-- Resizer Handle for Left Sidebar -->
-  <div id="sidebar-resizer" title="Drag to resize sidebar • Double-click to reset">
-    <div class="resizer-tooltip" id="resizer-tooltip">320px</div>
-  </div>
 
   <!-- Mermaid.js for Diagrams -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
@@ -733,9 +749,9 @@
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-c.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-markdown.min.js"></script>
 
-  <!-- Resizable Sidebar Logic & Header Injection -->
+  <!-- Resizable Sidebar Manager with Bulletproof Handle Binding -->
   <script>
-    (function() {
+    (function initResizableSidebar() {
       const DEFAULT_WIDTH = 320;
       const MIN_WIDTH = 240;
       const MAX_WIDTH = 640;
@@ -745,76 +761,83 @@
       currentWidth = Math.min(Math.max(currentWidth, MIN_WIDTH), MAX_WIDTH);
 
       const root = document.documentElement;
-      const resizer = document.getElementById('sidebar-resizer');
-      const tooltip = document.getElementById('resizer-tooltip');
 
-      function applyWidth(width) {
-        root.style.setProperty('--sidebar-width', width + 'px');
+      function setSidebarWidth(width) {
+        currentWidth = Math.min(Math.max(width, MIN_WIDTH), MAX_WIDTH);
+        root.style.setProperty('--sidebar-width', currentWidth + 'px');
+
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar) {
+          sidebar.style.width = currentWidth + 'px';
+        }
+        const content = document.querySelector('.content');
+        if (content) {
+          content.style.left = currentWidth + 'px';
+        }
+
+        const tooltip = document.querySelector('.resizer-tooltip');
         if (tooltip) {
-          tooltip.textContent = width + 'px';
+          tooltip.textContent = currentWidth + 'px';
         }
       }
 
-      applyWidth(currentWidth);
+      setSidebarWidth(currentWidth);
 
-      // Mouse and Touch Drag Handling
       let isDragging = false;
       let startX = 0;
       let startWidth = currentWidth;
+      let activeHandle = null;
 
       function onPointerDown(e) {
         isDragging = true;
         startX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
-        startWidth = parseInt(getComputedStyle(root).getPropertyValue('--sidebar-width'), 10) || DEFAULT_WIDTH;
-        resizer.classList.add('is-dragging');
+        startWidth = currentWidth;
+        activeHandle = e.currentTarget;
+        if (activeHandle) {
+          activeHandle.classList.add('is-dragging');
+        }
         document.body.style.cursor = 'col-resize';
         document.body.style.userSelect = 'none';
         e.preventDefault();
+        e.stopPropagation();
       }
 
       function onPointerMove(e) {
         if (!isDragging) return;
         const clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
         const deltaX = clientX - startX;
-        let newWidth = startWidth + deltaX;
-
-        if (newWidth < MIN_WIDTH) newWidth = MIN_WIDTH;
-        if (newWidth > MAX_WIDTH) newWidth = MAX_WIDTH;
-
-        applyWidth(newWidth);
+        setSidebarWidth(startWidth + deltaX);
       }
 
       function onPointerUp() {
         if (!isDragging) return;
         isDragging = false;
-        resizer.classList.remove('is-dragging');
+        if (activeHandle) {
+          activeHandle.classList.remove('is-dragging');
+          activeHandle = null;
+        }
         document.body.style.cursor = '';
         document.body.style.userSelect = '';
-
-        const finalWidth = parseInt(getComputedStyle(root).getPropertyValue('--sidebar-width'), 10) || DEFAULT_WIDTH;
-        localStorage.setItem(STORAGE_KEY, finalWidth);
+        localStorage.setItem(STORAGE_KEY, currentWidth);
       }
 
-      resizer.addEventListener('mousedown', onPointerDown);
-      window.addEventListener('mousemove', onPointerMove);
+      window.addEventListener('mousemove', onPointerMove, { passive: true });
       window.addEventListener('mouseup', onPointerUp);
-
-      // Touch events for touchscreens/tablets
-      resizer.addEventListener('touchstart', onPointerDown, { passive: false });
       window.addEventListener('touchmove', onPointerMove, { passive: true });
       window.addEventListener('touchend', onPointerUp);
 
-      // Double-click to reset width
-      resizer.addEventListener('dblclick', function() {
-        applyWidth(DEFAULT_WIDTH);
-        localStorage.setItem(STORAGE_KEY, DEFAULT_WIDTH);
-      });
-
-      // Enhance Sidebar with Modern PS5 Header Branding
-      function enhanceSidebar() {
+      function attachSidebarEnhancements() {
         const sidebar = document.querySelector('.sidebar');
         if (!sidebar) return;
 
+        // Ensure sidebar width is applied directly to the element style
+        sidebar.style.width = currentWidth + 'px';
+        const content = document.querySelector('.content');
+        if (content) {
+          content.style.left = currentWidth + 'px';
+        }
+
+        // 1. Inject Header Branding if missing
         if (!sidebar.querySelector('.sidebar-header-custom')) {
           const header = document.createElement('div');
           header.className = 'sidebar-header-custom';
@@ -830,15 +853,36 @@
           `;
           sidebar.insertBefore(header, sidebar.firstChild);
         }
+
+        // 2. Inject Resizer Handle if missing inside sidebar
+        if (!sidebar.querySelector('.sidebar-resizer-handle')) {
+          const handle = document.createElement('div');
+          handle.className = 'sidebar-resizer-handle';
+          handle.setAttribute('title', 'Drag to resize sidebar • Double-click to reset');
+          handle.innerHTML = `<div class="resizer-tooltip">${currentWidth}px</div>`;
+
+          handle.addEventListener('mousedown', onPointerDown);
+          handle.addEventListener('touchstart', onPointerDown, { passive: false });
+          handle.addEventListener('dblclick', function(e) {
+            e.stopPropagation();
+            setSidebarWidth(DEFAULT_WIDTH);
+            localStorage.setItem(STORAGE_KEY, DEFAULT_WIDTH);
+          });
+
+          sidebar.appendChild(handle);
+        }
       }
 
-      // Observe DOM to inject custom header once Docsify initializes sidebar
+      // Keep observing DOM for Docsify sidebar render events
       const observer = new MutationObserver(function() {
-        enhanceSidebar();
+        attachSidebarEnhancements();
       });
       observer.observe(document.body, { childList: true, subtree: true });
-      setTimeout(enhanceSidebar, 200);
-      setTimeout(enhanceSidebar, 800);
+
+      // Run multiple passes during initial render lifecycle
+      [50, 150, 300, 600, 1200].forEach(delay => {
+        setTimeout(attachSidebarEnhancements, delay);
+      });
     })();
   </script>
 </body>
