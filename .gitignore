@@ -2,6 +2,11 @@
 upload.bat
 upload.cmd
 
+# Windows Explorer duplicate / backup copies
+* - Copia.*
+*- Copia.*
+* - Copy.*
+
 # Windows / OS generated files
 Thumbs.db
 Desktop.ini
