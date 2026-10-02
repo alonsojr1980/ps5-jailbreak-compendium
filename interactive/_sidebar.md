@@ -19,8 +19,8 @@
   * [🔬 Análisis Técnico Detallado](/i18n/es/jailbreak_tech_info.md)
   * [📖 Compendio Completo](/i18n/es/README.md)
 
-* **🔗 External & Scene Links**
+* **🔗 External Links**
   * [📦 GitHub Repository](https://github.com/alonsojr1980/ps5-jailbreak-compendium)
   * [⚡ Relapse Exploit (7.00-13.60)](https://github.com/ntfargo/Relapse-Exploit)
-  * [🛡️ ps5-kstuff (Kernel Hooks)](https://github.com/sleirsgoevy/ps5-kstuff)
+  * [🛡️ ps5-kstuff](https://github.com/sleirsgoevy/ps5-kstuff)
   * [🕹️ Itemzflow Game Manager](https://github.com/LightningMods/Itemzflow)
