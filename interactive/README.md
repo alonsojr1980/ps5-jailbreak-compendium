@@ -3,13 +3,12 @@
 
 <div align="center">
 
-[![PS5 Firmware](https://img.shields.io/badge/Interactive%20Wizard-FW%201.00%20--%2013.60-success?style=for-the-badge&logo=playstation&logoColor=white)](https://github.com/alonsojr1980/ps5-jailbreak-compendium)
-[![Exploit](https://img.shields.io/badge/Custom%20Generator-Relapse%20%7C%20UMTX-blueviolet?style=for-the-badge&logo=codeforces&logoColor=white)](../jailbreak_tech_info.md)
-[![Live Website](https://img.shields.io/badge/Live%20Website-GitHub%20Pages-00d2ff?style=for-the-badge&logo=githubpages&logoColor=white)](https://alonsojr1980.github.io/ps5-jailbreak-compendium/#/interactive/)
-[![Payloads](https://img.shields.io/badge/Payloads-etaHEN%20%7C%20ps5--kstuff-ff69b4?style=for-the-badge&logo=coffeescript&logoColor=white)](../jailbreak_tech_info.md#4-payload-engineering--system-frameworks)
+[![PS5 Firmware](https://img.shields.io/badge/Interactive%20Wizard-FW%201.00%20--%2013.60-success?style=for-the-badge&logo=playstation&logoColor=white)](#)
+[![Exploit](https://img.shields.io/badge/Custom%20Generator-Relapse%20%7C%20UMTX-blueviolet?style=for-the-badge&logo=codeforces&logoColor=white)](#)
+[![Payloads](https://img.shields.io/badge/Payloads-etaHEN%20%7C%20ps5--kstuff-ff69b4?style=for-the-badge&logo=coffeescript&logoColor=white)](#)
 
-**Navigation:**
-[🚀 Direct How-To Guide](../jailbreak_how_to.md) | [🔬 Technical Deep Dive](../jailbreak_tech_info.md) | [🇧🇷 Versão em Português](i18n/pt/README.md) | [🇪🇸 Versión en Español](i18n/es/README.md) | [🌐 Main Portal](../README.md)
+**Languages / Idiomas:**
+[🇺🇸 English](README.md) | [🇧🇷 Versão em Português](i18n/pt/README.md) | [🇪🇸 Versión en Español](i18n/es/README.md)
 
 </div>
 
@@ -110,6 +109,6 @@ Regardless of your hardware model or firmware bracket, always execute these anti
 ---
 
 <p align="center">
-  <b>Looking for the full step-by-step tutorial or low-level technical internals?</b><br>
-  👉 <a href="../jailbreak_how_to.md"><b>PS5 Jailbreak: Direct How-To Guide</b></a> &bull; <a href="../jailbreak_tech_info.md"><b>Technical Deep Dive (Tech Info)</b></a>
+  <b>🤖 Interactive Firmware Wizard for the PS5 Community</b><br>
+  <i>Select your hardware and firmware to generate custom offline jailbreak instructions.</i>
 </p>

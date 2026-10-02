@@ -3,13 +3,12 @@
 
 <div align="center">
 
-[![Firmwares Soportados](https://img.shields.io/badge/Asistente%20Interactivo-FW%201.00%20--%2013.60-success?style=for-the-badge&logo=playstation&logoColor=white)](https://github.com/alonsojr1980/ps5-jailbreak-compendium)
-[![Exploit](https://img.shields.io/badge/Generador%20Personalizado-Relapse%20%7C%20UMTX-blueviolet?style=for-the-badge&logo=codeforces&logoColor=white)](../../../i18n/es/jailbreak_tech_info.md)
-[![Sitio Web Online](https://img.shields.io/badge/Sitio%20Web-GitHub%20Pages-00d2ff?style=for-the-badge&logo=githubpages&logoColor=white)](https://alonsojr1980.github.io/ps5-jailbreak-compendium/#/interactive/i18n/es/)
-[![Payloads](https://img.shields.io/badge/Payloads-etaHEN%20%7C%20ps5--kstuff-ff69b4?style=for-the-badge&logo=coffeescript&logoColor=white)](../../../i18n/es/jailbreak_tech_info.md#4-ingenier%C3%ADa-de-payloads--frameworks-del-sistema)
+[![Firmwares Soportados](https://img.shields.io/badge/Asistente%20Interactivo-FW%201.00%20--%2013.60-success?style=for-the-badge&logo=playstation&logoColor=white)](#)
+[![Exploit](https://img.shields.io/badge/Generador%20Personalizado-Relapse%20%7C%20UMTX-blueviolet?style=for-the-badge&logo=codeforces&logoColor=white)](#)
+[![Payloads](https://img.shields.io/badge/Payloads-etaHEN%20%7C%20ps5--kstuff-ff69b4?style=for-the-badge&logo=coffeescript&logoColor=white)](#)
 
-**Navegación / Navigation:**
-[🚀 Guía Práctica Paso a Paso](../../../i18n/es/jailbreak_how_to.md) | [🔬 Análisis Técnico Detallado](../../../i18n/es/jailbreak_tech_info.md) | [🇺🇸 English Version](../en/README.md) | [🇧🇷 Versão em Português](../pt/README.md) | [🌐 Portal Principal](../../../README.md)
+**Idiomas / Languages:**
+[🇪🇸 Español](README.md) | [🇺🇸 English](../en/README.md) | [🇧🇷 Versão em Português](../pt/README.md)
 
 </div>
 
@@ -110,6 +109,6 @@ Sin importar el modelo o rango de firmware, aplica estas configuraciones antes d
 ---
 
 <p align="center">
-  <b>¿Buscas el tutorial paso a paso o el análisis técnico a bajo nivel?</b><br>
-  👉 <a href="../../../i18n/es/jailbreak_how_to.md"><b>Guía Práctica Paso a Paso</b></a> &bull; <a href="../../../i18n/es/jailbreak_tech_info.md"><b>Análisis Técnico Detallado</b></a>
+  <b>🤖 Asistente Interactivo de Firmware para la Comunidad PS5</b><br>
+  <i>Selecciona tu modelo y firmware para generar instrucciones personalizadas y seguras de jailbreak.</i>
 </p>

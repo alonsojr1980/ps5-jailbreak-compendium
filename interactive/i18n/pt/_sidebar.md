@@ -1,26 +1,12 @@
-* [🏠 **Portal Principal**](/README.md)
-* [⚡ **Assistente Interativo**](/interactive/i18n/pt/README.md)
+* [⚡ **Assistente Interativo**](README.md)
 
-* **🇧🇷 Documentação em Português**
-  * [⚡ Assistente Interativo](/interactive/i18n/pt/README.md)
-  * [🚀 Guia Prático Passo a Passo](/i18n/pt/jailbreak_how_to.md)
-  * [🔬 Análise Técnica Detalhada](/i18n/pt/jailbreak_tech_info.md)
-  * [📖 Compêndio Completo](/i18n/pt/README.md)
+* **🌐 Idiomas / Languages**
+  * [🇧🇷 Português](README.md)
+  * [🇺🇸 English](../en/README.md)
+  * [🇪🇸 Español](../es/README.md)
 
-* **🇺🇸 Versão em Inglês**
-  * [⚡ Interactive Wizard](/interactive/i18n/en/README.md)
-  * [🚀 Practical How-To Guide](/i18n/en/jailbreak_how_to.md)
-  * [🔬 Technical Deep Dive](/i18n/en/jailbreak_tech_info.md)
-  * [📖 Full Compendium Index](/i18n/en/README.md)
-
-* **🇪🇸 Versión en Español**
-  * [⚡ Asistente Interactivo](/interactive/i18n/es/README.md)
-  * [🚀 Guía Práctica Paso a Paso](/i18n/es/jailbreak_how_to.md)
-  * [🔬 Análisis Técnico Detallado](/i18n/es/jailbreak_tech_info.md)
-  * [📖 Compendio Completo](/i18n/es/README.md)
-
-* **🔗 Links Externos**
-  * [📦 Repositório GitHub](https://github.com/alonsojr1980/ps5-jailbreak-compendium)
-  * [⚡ Relapse Exploit (7.00-13.60)](https://github.com/ntfargo/Relapse-Exploit)
-  * [🛡️ ps5-kstuff](https://github.com/sleirsgoevy/ps5-kstuff)
-  * [🕹️ Itemzflow Game Manager](https://github.com/LightningMods/Itemzflow)
+* **🎮 Navegação Rápida**
+  * [🕹️ Seleção de Modelo](README.md?id=_1-escolha-o-modelo-do-console)
+  * [📊 Seleção de Firmware](README.md?id=_2-escolha-ou-digite-seu-firmware)
+  * [🛡️ Blindagem Anti-Atualização](README.md?id=-checklist-global-de-blindagem-pr-jailbreak)
+  * [⚠️ Alerta do Leitor Removível](README.md?id=-lembrete-cr-tico-sobre-o-leitor-remov-vel)
