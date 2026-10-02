@@ -89,7 +89,7 @@ All language files must strictly maintain the same **11-section relevance hierar
 - **Rules for Agents**:
   1. **Never delete or alter `.nojekyll`**: This file instructs GitHub Pages to bypass Jekyll, ensuring files beginning with underscores (`_sidebar.md`, `_navbar.md`) and asset directories are properly served.
   2. **Navigation Parity**: Whenever new files or major documentation sections are introduced or rearranged, update `_sidebar.md`, `_navbar.md`, `i18n/en/_sidebar.md`, `i18n/es/_sidebar.md`, and `i18n/pt/_sidebar.md`.
-  3. **Theme & Styling**: Maintain the dark PlayStation Cyberpunk aesthetic (neon cyan `#00d2ff`, violet `#9d4edd`, surface dark `#0b0e14`).
+  3. **Theme & Styling**: Maintain the official PlayStation 5 Light aesthetic (luminous pearl-white surface `#f4f8fd`, PlayStation blue accents `#006FCD` / `#00439c`, high-contrast slate typography, frosted glass sidebars, and flowing light blue waves in the background).
 
 ---
 

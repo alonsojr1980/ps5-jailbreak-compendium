@@ -16,10 +16,10 @@
   <meta property="og:type" content="website">
 
   <!-- Favicon (PlayStation SVG) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300d2ff'><path d='M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S20.17 9 21 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'/></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23006FCD'><path d='M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S20.17 9 21 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'/></svg>">
 
-  <!-- Docsify Theme: Dark base -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css">
+  <!-- Docsify Theme: Clean Light base -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,27 +28,29 @@
 
   <style>
     :root {
-      /* PlayStation Cyberpunk Design Tokens */
-      --theme-color: #00d2ff;
-      --theme-color-alt: #9d4edd;
-      --theme-color-glow: rgba(0, 210, 255, 0.45);
+      /* PlayStation 5 Light Design Tokens */
+      --theme-color: #006FCD;
+      --theme-color-alt: #00439c;
+      --theme-color-glow: rgba(0, 111, 205, 0.25);
       --ps-blue: #00439c;
-      --ps-blue-light: #2d74da;
+      --ps-blue-vibrant: #006FCD;
+      --ps-blue-light: #38bdf8;
+      --ps-cyan: #00b4d8;
 
-      --bg-main: #0a0d14;
-      --bg-sidebar: #0f1420;
-      --bg-surface: #141b2a;
-      --bg-surface-elevated: #1a2235;
-      --bg-code: #101522;
+      --bg-main: #f4f8fd;
+      --bg-sidebar: rgba(255, 255, 255, 0.92);
+      --bg-surface: rgba(255, 255, 255, 0.94);
+      --bg-surface-elevated: #ffffff;
+      --bg-code: #0b1120;
 
-      --border-subtle: #1e293b;
-      --border-bright: #334155;
-      --border-glow: rgba(0, 210, 255, 0.35);
+      --border-subtle: rgba(0, 67, 156, 0.12);
+      --border-bright: rgba(0, 111, 205, 0.25);
+      --border-glow: rgba(0, 111, 205, 0.35);
 
-      --text-main: #e2e8f0;
-      --text-muted: #94a3b8;
-      --text-subtle: #64748b;
-      --text-header: #f8fafc;
+      --text-main: #334155;
+      --text-muted: #64748b;
+      --text-subtle: #94a3b8;
+      --text-header: #0a192f;
 
       /* Sidebar Dimensions: default 320px */
       --sidebar-width: 320px;
@@ -58,7 +60,7 @@
       /* Docsify Overrides */
       --base-font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --code-font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
-      --base-background-color: var(--bg-main);
+      --base-background-color: transparent;
       --sidebar-background: var(--bg-sidebar);
       --sidebar-border-color: var(--border-subtle);
       --sidebar-name-color: var(--theme-color);
@@ -73,7 +75,7 @@
     }
 
     body {
-      background-color: var(--bg-main) !important;
+      background-color: transparent !important;
       color: var(--text-main) !important;
       font-family: var(--base-font-family);
       letter-spacing: -0.01em;
@@ -81,20 +83,137 @@
       overflow-x: hidden;
     }
 
-    /* Ambient Cyberpunk Background Glow */
-    body::after {
-      content: "";
+    /* PS5 Ambient Background with Flowing Light Blue Waves */
+    .ps5-bg-canvas {
       position: fixed;
-      top: -10vw;
-      right: -10vw;
-      width: 45vw;
-      height: 45vw;
-      background: radial-gradient(circle, rgba(157, 78, 221, 0.08) 0%, transparent 70%);
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
       z-index: 0;
+      overflow: hidden;
+      background: radial-gradient(circle at 75% 15%, #e0f2fe 0%, #f4f8fd 45%, #eef5fc 100%);
     }
 
-    /* Glow Header Line */
+    .ps5-ambient-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .glow-top {
+      top: -12vw;
+      right: -8vw;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, rgba(0, 111, 205, 0.1) 60%, transparent 80%);
+      animation: glowFloat 14s ease-in-out infinite alternate;
+    }
+
+    .glow-bottom {
+      bottom: -15vw;
+      left: 8vw;
+      width: 58vw;
+      height: 58vw;
+      background: radial-gradient(circle, rgba(0, 111, 205, 0.18) 0%, rgba(147, 197, 253, 0.14) 50%, transparent 80%);
+      animation: glowFloat 18s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes glowFloat {
+      0% { transform: scale(1) translate(0, 0); }
+      50% { transform: scale(1.08) translate(20px, -15px); }
+      100% { transform: scale(0.95) translate(-15px, 20px); }
+    }
+
+    /* Flowing SVG Wave Ribbons */
+    .ps5-wave-svg {
+      position: absolute;
+      bottom: 0;
+      left: -10%;
+      width: 120%;
+      height: 100%;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .wave-layer-1 {
+      animation: waveFlow1 24s ease-in-out infinite alternate;
+      opacity: 0.9;
+    }
+
+    .wave-layer-2 {
+      animation: waveFlow2 30s ease-in-out infinite alternate;
+      opacity: 0.8;
+    }
+
+    .wave-layer-3 {
+      animation: waveFlow3 20s ease-in-out infinite alternate;
+      opacity: 0.7;
+    }
+
+    @keyframes waveFlow1 {
+      0% { transform: translateY(0) scaleY(1); }
+      50% { transform: translateY(-35px) scaleY(1.08); }
+      100% { transform: translateY(18px) scaleY(0.95); }
+    }
+
+    @keyframes waveFlow2 {
+      0% { transform: translateY(0) scaleX(1); }
+      50% { transform: translateY(28px) scaleX(1.05); }
+      100% { transform: translateY(-22px) scaleX(0.97); }
+    }
+
+    @keyframes waveFlow3 {
+      0% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.04); }
+      100% { transform: translateY(15px) scale(0.96); }
+    }
+
+    /* Radiant PS5 light curve ribbons */
+    .ps5-wave-ribbon {
+      position: absolute;
+      pointer-events: none;
+      border-radius: 50%;
+      filter: blur(45px);
+      will-change: transform, opacity;
+    }
+
+    .ribbon-1 {
+      top: 22%;
+      left: -15%;
+      width: 130%;
+      height: 380px;
+      background: linear-gradient(115deg, transparent 20%, rgba(56, 189, 248, 0.22) 50%, rgba(0, 111, 205, 0.12) 75%, transparent 95%);
+      transform: rotate(-12deg);
+      animation: ribbonShift1 22s ease-in-out infinite alternate;
+    }
+
+    .ribbon-2 {
+      top: 42%;
+      right: -20%;
+      width: 140%;
+      height: 420px;
+      background: linear-gradient(125deg, transparent 15%, rgba(0, 111, 205, 0.15) 45%, rgba(125, 211, 252, 0.22) 70%, transparent 90%);
+      transform: rotate(10deg);
+      animation: ribbonShift2 28s ease-in-out infinite alternate;
+    }
+
+    @keyframes ribbonShift1 {
+      0% { transform: rotate(-12deg) translateY(0); opacity: 0.6; }
+      50% { transform: rotate(-9deg) translateY(-28px); opacity: 0.85; }
+      100% { transform: rotate(-14deg) translateY(22px); opacity: 0.55; }
+    }
+
+    @keyframes ribbonShift2 {
+      0% { transform: rotate(10deg) translateY(0); opacity: 0.5; }
+      50% { transform: rotate(13deg) translateY(32px); opacity: 0.8; }
+      100% { transform: rotate(8deg) translateY(-16px); opacity: 0.6; }
+    }
+
+    /* PlayStation Glowing Header Line */
     body::before {
       content: "";
       position: fixed;
@@ -102,11 +221,11 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: linear-gradient(90deg, #00439c 0%, #00d2ff 45%, #9d4edd 90%, #00439c 100%);
+      background: linear-gradient(90deg, #00439c 0%, #006FCD 35%, #38bdf8 65%, #00439c 100%);
       background-size: 200% 100%;
       animation: headerGradient 10s linear infinite;
       z-index: 9999;
-      box-shadow: 0 0 16px rgba(0, 210, 255, 0.6);
+      box-shadow: 0 0 16px rgba(0, 111, 205, 0.45);
     }
 
     @keyframes headerGradient {
@@ -120,17 +239,18 @@
       width: var(--sidebar-width) !important;
       min-width: var(--sidebar-min-width);
       max-width: var(--sidebar-max-width);
-      background: linear-gradient(180deg, #0e131e 0%, #0a0d14 100%) !important;
-      border-right: 1px solid var(--border-subtle) !important;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(240, 246, 253, 0.96) 100%) !important;
+      border-right: 1px solid rgba(0, 67, 156, 0.12) !important;
       padding-top: 0 !important;
       z-index: 30 !important;
-      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
+      box-shadow: 4px 0 24px rgba(0, 67, 156, 0.06);
       position: fixed !important;
       top: 0 !important;
       bottom: 0 !important;
       left: 0 !important;
       overflow-y: auto !important;
       overflow-x: hidden !important;
+      backdrop-filter: blur(24px) saturate(180%);
     }
 
     /* Custom Header Branding Inside Sidebar */
@@ -139,8 +259,8 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      background: radial-gradient(circle at top left, rgba(0, 210, 255, 0.12), transparent 70%);
+      border-bottom: 1px solid rgba(0, 67, 156, 0.08);
+      background: radial-gradient(circle at top left, rgba(0, 111, 205, 0.09), transparent 70%);
       user-select: none;
     }
 
@@ -151,20 +271,20 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #ffffff;
+      color: #0a192f;
       text-decoration: none;
     }
 
     .brand-badge {
-      background: linear-gradient(135deg, #00d2ff, #0056b3);
-      color: #050b14;
+      background: linear-gradient(135deg, #006FCD, #00439c);
+      color: #ffffff;
       font-size: 0.65rem;
       font-weight: 800;
       padding: 2px 7px;
       border-radius: 4px;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+      box-shadow: 0 2px 8px rgba(0, 111, 205, 0.3);
     }
 
     .brand-sub {
@@ -176,14 +296,14 @@
     }
 
     .brand-author {
-      color: #9d4edd;
-      font-weight: 600;
+      color: #006FCD;
+      font-weight: 700;
     }
 
     .fw-chip {
-      background: rgba(0, 210, 255, 0.1);
-      border: 1px solid rgba(0, 210, 255, 0.25);
-      color: #7dd3fc;
+      background: rgba(0, 111, 205, 0.08);
+      border: 1px solid rgba(0, 111, 205, 0.22);
+      color: #0056b3;
       font-size: 0.68rem;
       padding: 2px 6px;
       border-radius: 999px;
@@ -214,23 +334,23 @@
       width: 3px;
       height: 48px;
       border-radius: 3px;
-      background: var(--border-bright);
+      background: rgba(0, 67, 156, 0.25);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      opacity: 0.6;
+      opacity: 0.7;
     }
 
     .sidebar-resizer-handle:hover,
     .sidebar-resizer-handle.is-dragging {
-      background: rgba(0, 210, 255, 0.08);
+      background: rgba(0, 111, 205, 0.08);
     }
 
     .sidebar-resizer-handle:hover::after,
     .sidebar-resizer-handle.is-dragging::after {
-      background: var(--theme-color);
+      background: #006FCD;
       height: 85px;
       width: 4px;
       opacity: 1;
-      box-shadow: 0 0 14px var(--theme-color);
+      box-shadow: 0 0 12px rgba(0, 111, 205, 0.4);
     }
 
     /* Live Width Tooltip in Resizer */
@@ -239,18 +359,18 @@
       top: 50%;
       right: 22px;
       transform: translateY(-50%);
-      background: #141b2a;
-      border: 1px solid var(--theme-color);
-      color: var(--theme-color);
+      background: #ffffff;
+      border: 1px solid #006FCD;
+      color: #006FCD;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       padding: 4px 8px;
       border-radius: 5px;
       pointer-events: none;
       opacity: 0;
       white-space: nowrap;
       transition: opacity 0.15s ease, transform 0.15s ease;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 4px 16px rgba(0, 67, 156, 0.15);
       font-family: var(--code-font-family);
     }
 
@@ -269,6 +389,7 @@
       bottom: 0 !important;
       padding-top: 30px !important;
       transition: none !important;
+      z-index: 10;
     }
 
     body.close .sidebar {
@@ -298,7 +419,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      color: #9d4edd;
+      color: #00439c;
       font-size: 0.72rem;
       font-weight: 800;
       text-transform: uppercase;
@@ -307,12 +428,12 @@
       margin-bottom: 8px;
       padding: 4px 10px;
       border-radius: 6px;
-      background: rgba(157, 78, 221, 0.08);
-      border-left: 2px solid #9d4edd;
+      background: rgba(0, 111, 205, 0.08);
+      border-left: 3px solid #006FCD;
     }
 
     .sidebar-nav ul li a {
-      color: var(--text-muted);
+      color: #475569;
       font-size: 13.5px;
       font-weight: 500;
       padding: 7px 12px;
@@ -326,18 +447,18 @@
     }
 
     .sidebar-nav ul li a:hover {
-      color: #ffffff !important;
-      background: rgba(0, 210, 255, 0.08);
+      color: #00439c !important;
+      background: rgba(0, 111, 205, 0.07);
       transform: translateX(3px);
     }
 
     .sidebar-nav ul li.active > a {
-      color: var(--theme-color) !important;
+      color: #006FCD !important;
       font-weight: 700;
-      background: linear-gradient(90deg, rgba(0, 210, 255, 0.14) 0%, rgba(0, 210, 255, 0.02) 100%);
-      border-left: 3px solid var(--theme-color);
+      background: linear-gradient(90deg, rgba(0, 111, 205, 0.12) 0%, rgba(0, 111, 205, 0.02) 100%);
+      border-left: 3px solid #006FCD;
       border-radius: 2px 6px 6px 2px;
-      box-shadow: inset 1px 0 0 rgba(0, 210, 255, 0.3);
+      box-shadow: inset 1px 0 0 rgba(0, 111, 205, 0.25);
       padding-left: 10px;
     }
 
@@ -346,18 +467,18 @@
       padding-left: 14px;
       margin-top: 3px;
       margin-bottom: 6px;
-      border-left: 1px dashed rgba(255, 255, 255, 0.1);
+      border-left: 1px dashed rgba(0, 67, 156, 0.18);
       margin-left: 16px;
     }
 
     .sidebar-nav ul ul li a {
       font-size: 12.5px;
       padding: 4px 8px;
-      color: var(--text-subtle);
+      color: #64748b;
     }
 
     .sidebar-nav ul ul li a:hover {
-      color: var(--theme-color) !important;
+      color: #006FCD !important;
     }
 
     /* Markdown Reader Section */
@@ -379,10 +500,10 @@
     .markdown-section h1 {
       font-size: 2.25rem;
       font-weight: 800;
-      background: linear-gradient(135deg, #ffffff 40%, #7dd3fc 100%);
+      background: linear-gradient(135deg, #0a192f 30%, #00439c 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      border-bottom: 2px solid rgba(0, 210, 255, 0.3);
+      border-bottom: 2px solid rgba(0, 111, 205, 0.25);
       padding-bottom: 12px;
       margin-top: 1.5rem;
       margin-bottom: 1.5rem;
@@ -390,8 +511,8 @@
 
     .markdown-section h2 {
       font-size: 1.55rem;
-      color: #93c5fd;
-      border-bottom: 1px solid var(--border-subtle);
+      color: #00439c;
+      border-bottom: 1px solid rgba(0, 67, 156, 0.12);
       padding-bottom: 10px;
       margin-top: 2.8rem;
       margin-bottom: 1rem;
@@ -402,9 +523,16 @@
 
     .markdown-section h3 {
       font-size: 1.22rem;
-      color: #c084fc;
+      color: #006FCD;
       margin-top: 2rem;
       margin-bottom: 0.8rem;
+    }
+
+    .markdown-section h4 {
+      font-size: 1.05rem;
+      color: #0284c7;
+      margin-top: 1.6rem;
+      margin-bottom: 0.6rem;
     }
 
     .markdown-section p, .markdown-section li {
@@ -414,18 +542,18 @@
     }
 
     .markdown-section a {
-      color: var(--theme-color);
+      color: #006FCD;
       font-weight: 600;
       text-decoration: none;
-      border-bottom: 1px solid rgba(0, 210, 255, 0.3);
+      border-bottom: 1px solid rgba(0, 111, 205, 0.3);
       padding-bottom: 1px;
       transition: all 0.2s ease;
     }
 
     .markdown-section a:hover {
-      color: #7dd3fc;
-      border-bottom-color: #7dd3fc;
-      text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+      color: #00439c;
+      border-bottom-color: #00439c;
+      text-shadow: 0 0 10px rgba(0, 111, 205, 0.2);
     }
 
     /* Modern Glassmorphic Cards & Tables */
@@ -435,35 +563,36 @@
       border-collapse: separate !important;
       border-spacing: 0 !important;
       margin: 1.8rem 0 !important;
-      background: var(--bg-surface) !important;
-      border-radius: 10px !important;
+      background: rgba(255, 255, 255, 0.94) !important;
+      border-radius: 12px !important;
       overflow: hidden !important;
-      border: 1px solid var(--border-subtle) !important;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(0, 67, 156, 0.14) !important;
+      box-shadow: 0 10px 30px rgba(0, 67, 156, 0.07);
+      backdrop-filter: blur(12px);
     }
 
     .markdown-section th {
-      background: #172033 !important;
-      color: #38bdf8 !important;
+      background: linear-gradient(180deg, #edf5ff 0%, #e1effe 100%) !important;
+      color: #00439c !important;
       font-weight: 700 !important;
-      border-bottom: 1px solid var(--border-bright) !important;
+      border-bottom: 2px solid rgba(0, 111, 205, 0.22) !important;
       border-top: none !important;
       border-left: none !important;
       border-right: none !important;
       padding: 14px 18px !important;
       text-align: left !important;
-      font-size: 13.5px !important;
-      letter-spacing: 0.03em;
+      font-size: 13px !important;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
     }
 
     .markdown-section td {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+      border-bottom: 1px solid rgba(0, 67, 156, 0.08) !important;
       border-top: none !important;
       border-left: none !important;
       border-right: none !important;
-      padding: 12px 18px !important;
-      color: var(--text-main) !important;
+      padding: 13px 18px !important;
+      color: #334155 !important;
       font-size: 14px !important;
       transition: background-color 0.15s ease;
     }
@@ -473,21 +602,22 @@
     }
 
     .markdown-section tr:hover td {
-      background-color: rgba(0, 210, 255, 0.04) !important;
+      background-color: rgba(0, 111, 205, 0.05) !important;
     }
 
     /* Polished Code Blocks */
     .markdown-section pre {
       background-color: var(--bg-code) !important;
-      border: 1px solid var(--border-subtle) !important;
+      border: 1px solid rgba(0, 67, 156, 0.2) !important;
       border-radius: 10px !important;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45) !important;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12) !important;
       padding: 1.2rem 1.4rem !important;
       margin: 1.5rem 0 !important;
       position: relative;
     }
 
-    .markdown-section code {
+    .markdown-section pre code {
+      color: #f1f5f9 !important;
       font-family: var(--code-font-family) !important;
       font-size: 13px !important;
       line-height: 1.6;
@@ -496,35 +626,36 @@
     .markdown-section p code,
     .markdown-section li code,
     .markdown-section td code {
-      background-color: rgba(30, 41, 59, 0.7) !important;
+      background-color: rgba(0, 111, 205, 0.08) !important;
       padding: 3px 7px !important;
       border-radius: 5px !important;
-      color: #38bdf8 !important;
-      font-weight: 500;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #0056b3 !important;
+      font-weight: 600;
+      border: 1px solid rgba(0, 111, 205, 0.18);
       font-size: 12.5px !important;
     }
 
-    /* GitHub-style Callouts / Blockquotes */
+    /* PlayStation-style Callouts / Blockquotes */
     .markdown-section blockquote {
-      border-left: 4px solid var(--theme-color) !important;
-      background: linear-gradient(90deg, rgba(0, 210, 255, 0.07) 0%, rgba(0, 210, 255, 0.01) 100%) !important;
-      color: var(--text-main) !important;
+      border-left: 4px solid #006FCD !important;
+      background: linear-gradient(90deg, rgba(0, 111, 205, 0.08) 0%, rgba(240, 246, 255, 0.5) 100%) !important;
+      color: #1e293b !important;
       padding: 14px 20px !important;
       margin: 1.5rem 0 !important;
       border-radius: 0 10px 10px 0;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 4px 16px rgba(0, 67, 156, 0.06);
     }
 
     /* Mermaid Diagrams */
     .mermaid {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(0, 67, 156, 0.14);
+      border-radius: 12px;
       padding: 24px;
       margin: 1.8rem 0;
       text-align: center;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 8px 30px rgba(0, 67, 156, 0.06);
+      backdrop-filter: blur(12px);
       overflow-x: auto;
     }
 
@@ -533,33 +664,35 @@
       top: 18px;
       right: 30px;
       margin: 0;
+      z-index: 25;
     }
 
     .app-nav a {
-      color: var(--text-muted);
+      color: #475569;
       font-size: 13.5px;
       font-weight: 600;
       padding: 6px 14px;
       border-radius: 8px;
       transition: all 0.2s ease;
-      background: rgba(20, 27, 42, 0.6);
-      border: 1px solid var(--border-subtle);
-      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(0, 67, 156, 0.14);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 8px rgba(0, 67, 156, 0.05);
     }
 
     .app-nav a:hover {
-      color: #ffffff;
-      border-color: var(--theme-color);
-      background: rgba(0, 210, 255, 0.12);
-      box-shadow: 0 0 12px rgba(0, 210, 255, 0.3);
+      color: #00439c;
+      border-color: #006FCD;
+      background: rgba(0, 111, 205, 0.08);
+      box-shadow: 0 0 12px rgba(0, 111, 205, 0.2);
       text-decoration: none;
     }
 
     .app-nav ul {
-      background: #141b2a !important;
-      border: 1px solid var(--border-bright) !important;
+      background: #ffffff !important;
+      border: 1px solid rgba(0, 67, 156, 0.14) !important;
       border-radius: 10px !important;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6) !important;
+      box-shadow: 0 12px 36px rgba(0, 67, 156, 0.12) !important;
       padding: 8px !important;
     }
 
@@ -567,42 +700,58 @@
       border: none !important;
       background: transparent !important;
       border-radius: 6px !important;
+      color: #334155 !important;
     }
 
     .app-nav ul li a:hover {
-      background: rgba(0, 210, 255, 0.15) !important;
-      color: var(--theme-color) !important;
+      background: rgba(0, 111, 205, 0.08) !important;
+      color: #006FCD !important;
     }
 
     /* Search Box */
     .search {
       padding: 16px 14px 12px 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(0, 67, 156, 0.08);
     }
 
     .search input {
-      background: var(--bg-surface) !important;
-      border: 1px solid var(--border-subtle) !important;
-      color: var(--text-main) !important;
+      background: rgba(255, 255, 255, 0.95) !important;
+      border: 1px solid rgba(0, 67, 156, 0.18) !important;
+      color: #0f172a !important;
       border-radius: 8px !important;
       padding: 9px 14px !important;
       font-size: 13px !important;
       transition: all 0.2s ease;
       width: 100% !important;
+      box-shadow: inset 0 1px 3px rgba(0, 67, 156, 0.04);
     }
 
     .search input:focus {
-      border-color: var(--theme-color) !important;
-      box-shadow: 0 0 14px rgba(0, 210, 255, 0.35) !important;
-      background: #192233 !important;
+      border-color: #006FCD !important;
+      box-shadow: 0 0 12px rgba(0, 111, 205, 0.25) !important;
+      background: #ffffff !important;
       outline: none;
+    }
+
+    .matching-post {
+      border-bottom: 1px solid rgba(0, 67, 156, 0.08) !important;
+    }
+
+    .matching-post h2 {
+      color: #00439c !important;
+      font-size: 15px !important;
+    }
+
+    .matching-post p {
+      color: #475569 !important;
+      font-size: 13px !important;
     }
 
     /* Copy Code Button */
     .docsify-copy-code-button {
       background: #1e293b !important;
-      color: var(--text-muted) !important;
-      border: 1px solid var(--border-subtle) !important;
+      color: #e2e8f0 !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
       border-radius: 6px !important;
       font-size: 11px !important;
       font-weight: 600 !important;
@@ -611,10 +760,10 @@
     }
 
     .docsify-copy-code-button:hover {
-      background: var(--theme-color) !important;
-      color: #080d1a !important;
-      border-color: var(--theme-color) !important;
-      box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+      background: #006FCD !important;
+      color: #ffffff !important;
+      border-color: #006FCD !important;
+      box-shadow: 0 0 10px rgba(0, 111, 205, 0.4);
     }
 
     /* Mobile Responsive Overrides */
@@ -639,18 +788,56 @@
       height: 7px;
     }
     ::-webkit-scrollbar-track {
-      background: var(--bg-main);
+      background: rgba(0, 67, 156, 0.04);
     }
     ::-webkit-scrollbar-thumb {
-      background: #1e293b;
+      background: rgba(0, 67, 156, 0.22);
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: var(--theme-color);
+      background: #006FCD;
     }
   </style>
 </head>
 <body>
+  <!-- Ambient PS5 Background with Flowing Light Blue Waves -->
+  <div class="ps5-bg-canvas" aria-hidden="true">
+    <div class="ps5-ambient-glow glow-top"></div>
+    <div class="ps5-ambient-glow glow-bottom"></div>
+    <div class="ps5-wave-ribbon ribbon-1"></div>
+    <div class="ps5-wave-ribbon ribbon-2"></div>
+    <svg class="ps5-wave-svg wave-layer-1" viewBox="0 0 1440 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="ps5WaveGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#006FCD" stop-opacity="0.14" />
+          <stop offset="45%" stop-color="#38bdf8" stop-opacity="0.10" />
+          <stop offset="100%" stop-color="#93c5fd" stop-opacity="0.03" />
+        </linearGradient>
+      </defs>
+      <path d="M0,320 C320,180 540,440 840,300 C1140,160 1320,380 1440,280 L1440,900 L0,900 Z" fill="url(#ps5WaveGrad1)" />
+    </svg>
+    <svg class="ps5-wave-svg wave-layer-2" viewBox="0 0 1440 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="ps5WaveGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#0284c7" stop-opacity="0.12" />
+          <stop offset="50%" stop-color="#006FCD" stop-opacity="0.08" />
+          <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.02" />
+        </linearGradient>
+      </defs>
+      <path d="M0,480 C280,340 580,580 920,420 C1220,260 1360,500 1440,410 L1440,900 L0,900 Z" fill="url(#ps5WaveGrad2)" />
+    </svg>
+    <svg class="ps5-wave-svg wave-layer-3" viewBox="0 0 1440 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="ps5WaveGrad3" x1="0%" y1="50%" x2="100%" y2="50%">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.10" />
+          <stop offset="50%" stop-color="#006FCD" stop-opacity="0.06" />
+          <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0.12" />
+        </linearGradient>
+      </defs>
+      <path d="M0,620 C380,500 640,740 1020,580 C1260,460 1380,620 1440,550 L1440,900 L0,900 Z" fill="url(#ps5WaveGrad3)" />
+    </svg>
+  </div>
+
   <div id="app">Loading PS5 Jailbreak Compendium...</div>
 
   <!-- Mermaid.js for Diagrams -->
@@ -658,16 +845,17 @@
   <script>
     mermaid.initialize({
       startOnLoad: false,
-      theme: 'dark',
+      theme: 'neutral',
       themeVariables: {
-        darkMode: true,
-        background: '#141b2a',
-        primaryColor: '#172033',
-        primaryTextColor: '#00d2ff',
-        primaryBorderColor: '#00d2ff',
-        lineColor: '#9d4edd',
-        secondaryColor: '#1e293b',
-        tertiaryColor: '#0f1420'
+        darkMode: false,
+        background: '#ffffff',
+        primaryColor: '#e0f2fe',
+        primaryTextColor: '#00439c',
+        primaryBorderColor: '#006FCD',
+        lineColor: '#006FCD',
+        secondaryColor: '#f0f9ff',
+        tertiaryColor: '#f8fafc',
+        textColor: '#1e293b'
       }
     });
   </script>
@@ -675,7 +863,7 @@
   <!-- Docsify Configuration -->
   <script>
     window.$docsify = {
-      name: '<span style="color:#00d2ff;font-weight:800;">PS5</span> JB Compendium',
+      name: '<span style="color:#006FCD;font-weight:800;">PS5</span> JB Compendium',
       repo: 'https://github.com/alonsojr1980/ps5-jailbreak-compendium',
       loadSidebar: true,
       loadNavbar: true,
