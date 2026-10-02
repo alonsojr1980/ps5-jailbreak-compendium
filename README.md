@@ -20,5 +20,6 @@
 ---
 
 <sub>🤖 AI-Generated & Curated Compendium for the PS5 Security & Homebrew Community.</sub>
+<sub>by ALONSOJR1980</sub>
 
 </div>

@@ -1,4 +1,5 @@
 # 🎮 O Compêndio Definitivo de Jailbreak e Exploits do PS5 🚀
+### *by ALONSOJR1980*
 
 <div align="center">
 
