@@ -13,11 +13,15 @@ This repository uses an internationalized documentation structure:
 │   └── banner.png                # Master header banner graphic
 ├── i18n/
 │   ├── en/
-│   │   └── README.md             # Complete English Documentation
+│   │   ├── README.md             # Complete English Documentation Index
+│   │   ├── jailbreak_how_to.md   # Step-by-step practical jailbreak guide
+│   │   └── jailbreak_tech_info.md# Technical deep-dive for advanced users/devs
 │   └── pt/
-│       └── README.md             # Complete Portuguese Documentation (Português)
+│       ├── README.md             # Complete Portuguese Documentation Index
+│       ├── jailbreak_how_to.md   # Guia prático de jailbreak passo a passo
+│       └── jailbreak_tech_info.md# Análise técnica detalhada para devs/pesquisa
 ├── banner.png                    # Root fallback banner
-├── README.md                     # Landing page with header banner & language links ONLY
+├── README.md                     # Landing page with header banner & guide selector
 ├── upload.bat                    # Windows Git push automation helper (ignored in git)
 ├── .gitignore                    # Local ignore rules
 ├── AGENTS.md                     # Universal AI Agent maintenance guidelines (this file)
@@ -29,9 +33,13 @@ This repository uses an internationalized documentation structure:
 ## 🚨 Core Rules for Agents
 
 ### 1. Mandatory Multi-Language Synchronization
-- Whenever you make changes, updates, additions, or corrections to any documentation, you **MUST synchronize all active languages** (`i18n/en/README.md` and `i18n/pt/README.md`).
+- Whenever you make changes, updates, additions, or corrections to any documentation, you **MUST synchronize all active languages** across all documents:
+  - English: `i18n/en/README.md`, `i18n/en/jailbreak_how_to.md`, `i18n/en/jailbreak_tech_info.md`
+  - Portuguese: `i18n/pt/README.md`, `i18n/pt/jailbreak_how_to.md`, `i18n/pt/jailbreak_tech_info.md`
 - **Never** leave one language updated while another remains outdated.
-- If new technical developments occur (e.g., a new firmware jailbreak, payload release, DNS address change, or vulnerability patch), update both English and Portuguese files in the same turn or task.
+- Keep the separation clean:
+  - **`jailbreak_how_to.md`**: Direct, user-facing, step-by-step tutorial on how to exploit consoles and load payloads.
+  - **`jailbreak_tech_info.md`**: Low-level internals, memory primitives, syscall research, payload engineering, and socket specifications for developers.
 
 ### 2. Preserve the Root `README.md` Contract
 - The root `README.md` is **strictly a portal / landing page**.

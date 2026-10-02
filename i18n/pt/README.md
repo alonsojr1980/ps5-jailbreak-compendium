@@ -14,6 +14,11 @@
 
 </div>
 
+> [!TIP]
+> **Procurando guias específicos?**
+> - 🚀 **[Como Fazer Jailbreak no PS5: Guia Prático Passo a Passo](jailbreak_how_to.md)** — Um passo a passo direto e objetivo para realizar o jailbreak em cada versão de firmware.
+> - 🔬 **[Jailbreak do PS5: Análise Técnica Aprofundada](jailbreak_tech_info.md)** — Análise arquitetural aprofundada, mecanismos de exploit, engenharia de payloads e soquetes de rede para usuários avançados.
+
 Uma enciclopédia exaustiva, selecionada e verificada pela comunidade contendo links de jailbreak do PlayStation 5, cadeias de exploits, payloads, aplicativos homebrew, ferramentas de desenvolvimento, documentação de engenharia reversa e pesquisa em segurança de sistemas.
 
 ---

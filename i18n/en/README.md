@@ -14,6 +14,11 @@
 
 </div>
 
+> [!TIP]
+> **Looking for specific guides?**
+> - 🚀 **[PS5 Jailbreak: Direct How-To Guide](jailbreak_how_to.md)** — A direct, step-by-step procedural walkthrough for jailbreaking each firmware.
+> - 🔬 **[PS5 Jailbreak: Technical Deep Dive](jailbreak_tech_info.md)** — In-depth architectural analysis, exploit mechanics, payload engineering, and socket internals for tech-savvy readers.
+
 An exhaustive, curated, and community-verified encyclopedia of PlayStation 5 jailbreak links, exploit chains, payloads, homebrew applications, development tools, reverse-engineering documentation, and system security research.
 
 ---

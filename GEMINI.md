@@ -8,9 +8,14 @@ This document provides system-level instructions for **Gemini models** and **Ant
 
 1. **Keep All Internationalized Documents in Sync**:
    - The documentation in this repository is distributed across:
-     - `i18n/en/README.md` (English)
-     - `i18n/pt/README.md` (Português)
+     - `i18n/en/README.md` (English Index)
+     - `i18n/en/jailbreak_how_to.md` (English Step-by-Step Guide)
+     - `i18n/en/jailbreak_tech_info.md` (English Technical Deep Dive)
+     - `i18n/pt/README.md` (Português Index)
+     - `i18n/pt/jailbreak_how_to.md` (Português Guia Prático)
+     - `i18n/pt/jailbreak_tech_info.md` (Português Análise Técnica)
    - **Action Rule**: Whenever you modify, expand, or fix any section in one language, you **must immediately reflect the equivalent changes in all other active languages**.
+   - Keep the clean separation between practical how-to (`jailbreak_how_to.md`) and low-level internals (`jailbreak_tech_info.md`).
    - Do not complete a task until both English and Portuguese versions are 100% synchronized in content, table columns, code snippets, and structural sections.
 
 2. **Root `README.md` Contract**:
