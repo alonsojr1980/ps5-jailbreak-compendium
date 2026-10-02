@@ -47,7 +47,7 @@ Uma enciclopédia exaustiva, selecionada e verificada pela comunidade contendo l
 6. [🕹️ 6. Aplicativos Homebrew, Emuladores e Gerenciadores de Jogos](#️-6-aplicativos-homebrew-emuladores-e-gerenciadores-de-jogos)
 7. [🌐 7. Servidores de Exploit, DNS e Ferramentas Offline](#-7-servidores-de-exploit-dns-e-ferramentas-offline)
 8. [🔧 8. Resolução de Problemas e Recuperação de Kernel Panics](#-8-resolu%C3%A7%C3%A3o-de-problemas-e-recupera%C3%A7%C3%A3o-de-kernel-panics)
-9. [📚 9. Glossário de Termos da Cena PS5](#-9-gloss%C3%A1rio-de-termos-da-cena-ps5)
+9. [📚 9. Termos Técnicos & Glossário da Cena PS5](#-9-termos-t%C3%A9cnicos--gloss%C3%A1rio-da-cena-ps5)
 10. [🏛️ 10. Contexto: Linha do Tempo e Arquitetura de Segurança](#️-10-contexto-linha-do-tempo-e-arquitetura-de-seguran%C3%A7a)
 11. [⚖️ 11. Isenção de Responsabilidade e Nota sobre Curadoria por IA](#️-11-isen%C3%A7%C3%A3o-de-responsabilidade-e-nota-sobre-curadoria-por-ia)
 
@@ -201,9 +201,9 @@ ares.dl.playstation.net
 ### Fase 2: Aviso Crítico sobre o Leitor Removível Slim & Pro
 
 > [!CAUTION]
-> **Aperto de Mão Criptográfico do Leitor Removível:**
-> - Nos modelos **PS5 Slim (série CFI-2000)** e **PS5 Pro (série CFI-7000)**, o leitor de Blu-ray removível exige um registro único junto aos servidores da Sony para ser pareado com a placa-mãe.
-> - **O Dilemma**: Conectar-se à PlayStation Network em um firmware antigo forçará uma atualização imediata do sistema.
+> **Handshake Criptográfico do Leitor Removível:**
+> - Nos modelos **PS5 Slim (série CFI-2000)** e **PS5 Pro (série CFI-7000)**, o leitor de Blu-ray removível exige um handshake criptográfico único junto aos servidores da Sony para ser pareado com a placa-mãe.
+> - **O Dilema**: Conectar-se à PlayStation Network em um firmware antigo forçará uma atualização imediata do sistema.
 > - **A Solução**: Se adquirir um Slim ou Pro novo, verifique se o leitor já foi pareado. Se não foi, **não atualize** para pareá-lo. Você ainda poderá usar o console para jogos digitais, homebrew, emuladores e armazenamento em SSD NVMe/USB sem a unidade de disco pareada.
 
 ---
@@ -479,20 +479,49 @@ python -m http.server 8080
 
 ---
 
-## 📚 9. Glossário de Termos da Cena PS5
+## 📚 9. Termos Técnicos & Glossário da Cena PS5
 
-- **WebKit**: Motor de renderização usado no Guia do Usuário do PS5. Serve como entrada primária em userland para executar código JavaScript.
-- **UAF (Use-After-Free)**: Vulnerabilidade de corrupção de memória onde um ponteiro continua sendo acessado após a liberação da memória alocada, viabilizando condições de corrida.
-- **Relapse**: Cadeia de exploit direcionada aos firmwares 7.00 a 13.60 utilizando JavaScriptCore e `aio_multi_wait`.
-- **kASLR (Kernel Address Space Layout Randomization)**: Proteção que randomiza os endereços de memória do kernel a cada inicialização. O exploit precisa contorná-la para localizar funções críticas.
-- **Hypervisor (HV)**: Camada de segurança acima do kernel FreeBSD (Ring -1). No PS5, aplica proteção contra modificação de tabelas de página (XOM) e assinatura de código.
-- **Byepervisor**: Exploit que quebrou o Hypervisor nos firmwares 1.00 a 2.50.
-- **FPKG (Fake Package)**: Pacotes de aplicativos e jogos descriptografados e reempacotados para execução livre.
-- **FSELF (Fake Signed ELF)**: Binários executáveis desprovidos da assinatura criptográfica ECDSA oficial da Sony.
-- **etaHEN**: O Homebrew Enabler mais completo para o PS5, oferecendo menu de configurações e suporte a plugins.
-- **ps5-kstuff**: Payload responsável por aplicar patches essenciais no kernel para contornar checagens de segurança.
-- **elfldr**: Daemon residente que recebe e executa binários ELF enviados pela porta TCP 9021.
-- **libhijacker**: Biblioteca de injeção de processos utilizada para aplicar trapaças, patches de 60 FPS e mods em jogos em execução.
+> [!NOTE]
+> Na área de segurança cibernética, engenharia reversa e exploração de consoles, termos técnicos específicos representam conceitos padronizados internacionalmente. Estes termos **nunca devem ser traduzidos**, pois traduções literais geram ambiguidades graves e quebram a correspondência com ferramentas de desenvolvimento, códigos-fonte e documentações oficiais da cena.
+
+### 🔒 Termos Técnicos Fundamentais (Nunca Devem Ser Traduzidos)
+
+| Termo Técnico | Domínio | Definição & Contexto Técnico | Por Que NUNCA Deve Ser Traduzido |
+| :--- | :--- | :--- | :--- |
+| **Handshake** | Criptografia / Redes | Processo mútuo de autenticação e verificação entre o hardware do console e os servidores da Sony (ex.: pareamento do leitor removível do Slim/Pro). | Traduzir como "aperto de mão" descaracteriza o protocolo criptográfico. |
+| **Jailbreak** | Segurança de Sistemas | Processo de escalação de privilégios para obter acesso root/kernel e rodar código não assinado. | Termo universal da cena hacker desde o iOS, PS3, PS4 e PS5. |
+| **Exploit / Exploit Chain** | Pesquisa de Segurança | Código ou técnica que aproveita uma vulnerabilidade (ex.: WebKit + `aio_multi_wait`) para alterar o fluxo de execução. | Nomenclatura internacional e padrão da taxonomia de vulnerabilidades. |
+| **Payload** | Execução de Binários | Código executável injetado na memória após a exploração (`etaHEN`, `kstuff`, `elfldr`). | Traduzir como "carga útil" gera confusão conceitual e quebra ferramentas. |
+| **Payload Injection** | Entrega de Execução | Ato de transmitir e executar binários na memória via portas TCP (Porta 9021) ou pendrives USB. | Termo técnico consagrado de injeção de código em memória. |
+| **Kernel Panic (KP)** | Sistema Operacional | Falha crítica irrecuperável disparada pelo kernel FreeBSD quando ocorrem exceções ou corrupções de memória. | Classificação padrão de crash em sistemas UNIX/POSIX. |
+| **Use-After-Free (UAF)** | Corrupção de Memória | Vulnerabilidade em que a memória é acessada após ser liberada, gerando ponteiros soltos. | Categoria oficial de vulnerabilidade (CWE-416). |
+| **Heap Spray / Grooming** | Exploração de Memória | Alocação repetida de estruturas na memória heap para torná-la previsível e controlável. | Conceito clássico de exploração de memória. |
+| **Race Condition** | Falha de Concorrência | Condição de corrida em que duas threads competem pelo acesso a recursos compartilhados do kernel. | Classificação internacional de defeitos de concorrência. |
+| **Information Leak (Infoleak)** | Segurança de Memória | Vulnerabilidade que revela endereços internos da memória, permitindo contornar o kASLR. | Termo essencial da cadeia de exploração de sistemas modernos. |
+| **Sandbox / Sandbox Escape** | Isolamento de Processos | Ambiente isolado de segurança (Capsicum/WebKit) e a técnica de fuga de suas restrições. | Termo padrão da computação moderna para limites de execução. |
+| **Userland** | Espaço de Execução | Espaço de privilégio comum da CPU (Ring 3) onde rodam o navegador WebKit, jogos e a interface gráfica. | Termo padrão de arquitetura de sistemas operacionais. |
+| **Kernel** | Sistema Operacional | Núcleo de Ring 0 com privilégio supervisor gerenciando hardware, syscalls e memória virtual. | Termo fundamental e universal de sistemas operacionais. |
+| **Hypervisor (HV)** | Virtualização | Camada de segurança em Ring -1 acima do kernel que protege tabelas de páginas (XOM) e assinatura de código. | Termo padrão da indústria para virtualizadores de baixo nível. |
+| **kASLR** | Mitigação de Segurança | Randomização do layout do espaço de endereçamento do kernel aplicada a cada boot. | Sigla padrão da indústria para proteção de memória. |
+| **FSELF** | Formato de Binário | Fake Signed ELF; executáveis desprovidos das assinaturas oficiais ECDSA da Sony. | Nomenclatura proprietária da cena PlayStation para binários modificados. |
+| **FPKG** | Formato de Pacote | Fake Package; arquivos de pacotes de jogos/aplicativos assinados com chaves falsas para homebrew. | Padrão consagrado para instalação de pacotes não oficiais no PS4/PS5. |
+| **Rest Mode** | Estado de Energia | Modo de repouso / suspensão oficial do sistema operacional do PlayStation. | Designação oficial do recurso da Sony e do sistema. |
+| **Dump / Dumping** | Extração de Arquivos | Processo de extração e descriptografia de jogos em disco, digitais ou partições do console. | Termo unânime na cena para extração de arquivos. |
+| **Hook / Hooking** | Injeção Dinâmica | Interceptação de chamadas de funções ou syscalls em tempo de execução para alterar o comportamento. | Conceito universal da engenharia reversa. |
+| **Keystone / Keystone DRM** | DRM da PlayStation | Arquivo criptográfico que vincula os saves de jogos à conta e ao console do usuário. | Mecanismo proprietário da Sony de proteção de dados salvos. |
+| **Autoloader** | Automação | Ferramenta ou script que carrega e injeta payloads automaticamente após a conclusão do exploit. | Designação consagrada de utilitários de automação. |
+
+### 🛠️ Frameworks e Ferramentas do Ecossistema
+
+- **WebKit**: Motor de navegação web utilizado no Guia do Usuário; serve como ponto de entrada em userland.
+- **etaHEN**: All-In-One Homebrew Enabler fornecendo menu de configurações, FTP (Porta 1337), klog (Porta 3232) e suporte a cheats.
+- **ps5-kstuff / kstuff-lite**: Modificador de kernel fundamental que viabiliza a execução de FSELF, montagem de FPKG e liberação de sandbox.
+- **elfldr**: Daemon residente na Porta 9021 que recebe binários ELF para execução em memória.
+- **libhijacker**: Biblioteca de hooking que injeta códigos, patches de 60 FPS e mods em jogos em execução.
+- **shsrv**: Servidor de shell root interativo do FreeBSD operando na Porta 2323.
+- **ftps5**: Servidor FTP multi-threaded de alta velocidade com acesso aos diretórios root do sistema.
+- **Byepervisor**: Exploit de hypervisor nos firmwares 1.00 a 2.50 que concede controle total de leitura e escrita bare-metal no Hypervisor.
+- **Relapse**: Cadeia moderna de exploit para firmwares 7.00 a 13.60 utilizando JSC e `aio_multi_wait`.
 
 ---
 

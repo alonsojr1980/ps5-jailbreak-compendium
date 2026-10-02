@@ -47,7 +47,7 @@ An exhaustive, curated, and community-verified encyclopedia of PlayStation 5 jai
 6. [🕹️ 6. Homebrew Apps, Emulators & Game Managers](#️-6-homebrew-apps-emulators--game-managers)
 7. [🌐 7. Exploit Hosts, DNS Servers & Offline Tools](#-7-exploit-hosts-dns-servers--offline-tools)
 8. [🔧 8. Troubleshooting & Panic Recovery](#-8-troubleshooting--panic-recovery)
-9. [📚 9. Glossary of PS5 Scene Terms](#-9-glossary-of-ps5-scene-terms)
+9. [📚 9. Technical Terms & Scene Glossary](#-9-technical-terms--scene-glossary)
 10. [🏛️ 10. Background: Exploitation Timeline & Security Architecture](#️-10-background-exploitation-timeline--security-architecture)
 11. [⚖️ 11. Disclaimer & AI Curation Notice](#️-11-disclaimer--ai-curation-notice)
 
@@ -479,20 +479,49 @@ python -m http.server 8080
 
 ---
 
-## 📚 9. Glossary of PS5 Scene Terms
+## 📚 9. Technical Terms & Scene Glossary
 
-- **WebKit**: The open-source browser rendering engine used in the PS5 User's Guide. Serves as the primary userland entry point to execute unprivileged JavaScript.
-- **UAF (Use-After-Free)**: A memory corruption flaw where an application continues to use a memory pointer after the allocated buffer has been freed, enabling race-condition exploitation.
-- **Relapse**: The multi-stage exploit chain targeting PS5 firmware 7.00–13.60 utilizing JavaScriptCore and `aio_multi_wait`.
-- **kASLR (Kernel Address Space Layout Randomization)**: A defense mechanism that randomizes kernel memory addresses upon each boot. Exploit chains must bypass kASLR to locate kernel functions.
-- **Hypervisor (HV)**: A security layer operating above the FreeBSD kernel (Ring -1). On PS5, the hypervisor enforces code signing and page table integrity (XOM).
-- **Byepervisor**: A specialized exploit defeating the hypervisor on firmwares 1.00–2.50.
-- **FPKG (Fake Package)**: Decrypted and repackaged PlayStation application packages created for homebrew execution.
-- **FSELF (Fake Signed ELF)**: Executable binaries stripped of Sony's proprietary ECDSA signatures, executable only when kernel verification is bypassed.
-- **etaHEN**: An all-in-one Homebrew Enabler payload providing settings menus, debug options, and patch hooks.
-- **ps5-kstuff**: A lightweight kernel patcher payload that circumvents application execution security checks.
-- **elfldr**: Resident payload daemon that accepts ELF binaries over TCP port 9021.
-- **libhijacker**: Process hooking library used to inject cheats, patches, and mods into running game threads.
+> [!NOTE]
+> In cybersecurity, reverse engineering, and console exploitation, specific technical terms represent standardized industry concepts. These core terms must **never be translated** into regional dialects across localized documentation, as doing so leads to ambiguity and breaks alignment with developer tools and security advisories.
+
+### 🔒 Core Technical Terms (Untranslatable Standards)
+
+| Technical Term | Domain | Definition & Technical Context | Why It Must NOT Be Translated |
+| :--- | :--- | :--- | :--- |
+| **Handshake** | Cryptography / Networking | Automated mutual verification between console hardware/firmware and Sony servers (e.g., Slim/Pro detachable disc drive pairing). | Translating as "aperto de mão" obscures the cryptographic protocol definition. |
+| **Jailbreak** | System Exploitation | Privilege escalation process gaining root/kernel access to execute unsigned code. | Universal term across iOS, PS4, and PS5 scenes. |
+| **Exploit / Exploit Chain** | Security Research | Software technique leveraging a vulnerability (e.g. WebKit + `aio_multi_wait`) to alter execution flow. | Standard security vulnerability taxonomy term. |
+| **Payload** | Binary Execution | Executable code delivered and run post-exploitation (`etaHEN`, `kstuff`, `elfldr`). | Translating as "carga útil" causes confusion with physical/network payloads. |
+| **Payload Injection** | Execution Delivery | Transmitting binary payloads to memory over TCP sockets (Port 9021) or USB loaders. | Standard low-level execution terminology. |
+| **Kernel Panic (KP)** | Operating System | Critical internal crash halted by the FreeBSD kernel when memory corruption or illegal states occur. | Standard POSIX/UNIX crash classification. |
+| **Use-After-Free (UAF)** | Memory Corruption | Vulnerability where memory is accessed after deallocation, creating race condition primitives. | Standard CWE category (CWE-416). |
+| **Heap Spray / Grooming** | Memory Exploitation | Allocating structured objects across memory to make memory layouts deterministic and exploitable. | Technical memory exploitation concept. |
+| **Race Condition** | Concurrency Flaw | Asynchronous timing flaw where two threads compete for access to shared kernel resources. | Standard concurrency defect classification. |
+| **Information Leak (Infoleak)** | Memory Safety | Vulnerability revealing memory addresses, enabling bypass of kASLR. | Standard exploitation primitive term. |
+| **Sandbox / Sandbox Escape** | Security Boundary | Process isolation jail (Capsicum/WebKit) and the breakout technique used to escape it. | Universal security boundary term. |
+| **Userland** | Execution Ring | Unprivileged CPU privilege space (Ring 3) running the UI, games, and WebKit browser. | Standard operating systems architectural term. |
+| **Kernel** | Operating System | Ring 0 privileged core supervisor managing hardware, syscalls, and virtual memory. | Standard OS terminology. |
+| **Hypervisor (HV)** | Virtualization | Ring -1 security layer above the kernel enforcing code signing and eXecute-Only-Memory (XOM). | Universal computing architecture term. |
+| **kASLR** | Security Mitigation | Kernel Address Space Layout Randomization; randomizes base kernel memory addresses on each boot. | Industry-standard security mitigation acronym. |
+| **FSELF** | Sony Binary Format | Fake Signed ELF; binary executables stripped of proprietary Sony ECDSA signatures. | Proprietary PlayStation binary format designation. |
+| **FPKG** | Package Format | Fake Package; decrypted PlayStation application archive signed with dummy keys for homebrew. | PlayStation scene standard package format. |
+| **Rest Mode** | Power State | Official low-power sleep state of the PlayStation operating system. | Official Sony console feature and state name. |
+| **Dump / Dumping** | File Extraction | Extracting and decrypting disc or digital games, keys, and system partitions to storage. | Universal scene terminology for extraction. |
+| **Hook / Hooking** | Dynamic Code Injection | Intercepting function calls or syscalls at runtime to alter behavior (used by `libhijacker`). | Standard software engineering & reverse engineering term. |
+| **Keystone / Keystone DRM** | PlayStation DRM | Cryptographic data file tying game saves to individual user account IDs. | Proprietary Sony save data encryption mechanism. |
+| **Autoloader** | Automation | Script or web routine that automatically runs and injects payloads upon exploit trigger. | Scene automation utility term. |
+
+### 🛠️ Ecosystem Frameworks & Tools
+
+- **WebKit**: Open-source web engine used in the User's Guide browser; serves as the initial userland entry point.
+- **etaHEN**: All-In-One Homebrew Enabler payload providing settings toolbox, FTP (Port 1337), klog (Port 3232), and cheat support.
+- **ps5-kstuff / kstuff-lite**: Foundational kernel patcher enabling FSELF execution, FPKG mounting, and sandbox decapsulation.
+- **elfldr**: Resident daemon on Port 9021 accepting ELF binaries for in-memory execution.
+- **libhijacker**: Process hooking library injecting code, 60 FPS patches, and cheats into running game processes.
+- **shsrv**: Root FreeBSD interactive shell server operating on Port 2323.
+- **ftps5**: High-speed multi-threaded FTP server exposing root system directories.
+- **Byepervisor**: Hypervisor exploit on firmwares 1.00–2.50 providing bare-metal hypervisor read/write control.
+- **Relapse**: Modern multi-stage exploit chain targeting firmwares 7.00–13.60 via JSC and `aio_multi_wait`.
 
 ---
 

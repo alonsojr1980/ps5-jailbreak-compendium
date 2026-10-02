@@ -53,24 +53,46 @@ All language files must strictly maintain the same **11-section relevance hierar
 6. **🕹️ 6. Homebrew Apps, Emulators & Game Managers** (Itemzflow, Apollo, PS5SX2, Chiaki-ng, RetroArch)
 7. **🌐 7. Exploit Hosts, DNS Servers & Offline Tools** (DNS table, web hosts, local Python server, ESP32)
 8. **🔧 8. Troubleshooting & Panic Recovery** (Symptom / Cause / Solution table)
-9. **📚 9. Glossary of PS5 Scene Terms**
+9. **📚 9. Technical Terms & Scene Glossary** (Untranslatable standards table & scene definitions)
 10. **🏛️ 10. Background: Exploitation Timeline & Security Architecture**
 11. **⚖️ 11. Disclaimer & AI Curation Notice**
 
 ---
 
-## 🔒 Technical Consistency & Glossary Rules
+## 🛡️ Technical Terms Policy: Untranslatable Industry Vocabulary
 
-When translating into Portuguese or adding future languages, preserve all technical keywords, CVE identifiers, system calls, port numbers, and tool names verbatim:
+Certain technical terms in computer security, console hacking, and reverse engineering are globally standardized and **must NEVER be translated** into regional dialects under any circumstances. Literal translations obscure technical meaning and break alignment with developer tools.
 
-| Domain | Technical Terms (Must NOT be translated) |
-| :--- | :--- |
-| **Exploits** | `Relapse-Exploit`, `UMTX`, `UMTX2`, `Byepervisor`, `BD-JB`, `Mast1c0re` |
-| **Syscalls & Internals** | `aio_multi_wait()`, `JavaScriptCore`, `StructuredSerialize`, `ArrayBuffer`, `Uint32Array`, `kASLR`, `Use-After-Free (UAF)`, `Heap Spray`, `Capsicum` |
-| **Security Concepts** | `Hypervisor`, `XOM (eXecute-Only-Memory)`, `Ring -1`, `FSELF`, `FPKG`, `keystone DRM`, `app.db` |
-| **Payloads & Daemons** | `etaHEN`, `ps5-kstuff`, `kstuff-lite`, `elfldr`, `libhijacker`, `shsrv`, `ftps5`, `websrv`, `gdbsrv` |
-| **Default Ports** | `9021` (`elfldr`), `9027` (`kstuff`), `1337` (`ftps5`), `2323` (`shsrv`), `3232` (`klog`), `8080` (`websrv`), `2159` (`gdbsrv`) |
-| **DNS Addresses** | `45.56.67.85` (Relapse DNS), `62.210.38.117`, `165.227.83.145` |
+### ❌ Prohibited Literal Translations (Never Translate These):
+- **`Handshake`**: **NEVER** translate as `"aperto de mão"` (use `Handshake` or `Handshake Criptográfico`).
+- **`Jailbreak`**: **NEVER** translate as `"fuga da prisão"` or regional slang.
+- **`Payload`**: **NEVER** translate as `"carga útil"`.
+- **`Kernel Panic`**: **NEVER** translate as `"pânico no kernel"`.
+- **`Heap Spray`**: **NEVER** translate as `"spray de heap"`.
+- **`Use-After-Free (UAF)`**: Preserve abbreviation and concept verbatim.
+- **`Sandbox` / `Sandbox Escape`**: **NEVER** translate as `"caixa de areia"`.
+- **`Rest Mode`**: Preserve as `Rest Mode` (or reference alongside `Modo de Repouso`).
+- **`Dump` / `Dumping`**: **NEVER** translate as `"despejo"`.
+- **`Hook` / `Hooking`**: Preserve verbatim.
+
+### 🔒 Master Untranslatable Terms Directory
+
+| Domain | Technical Term (Preserve Verbatim) | Context & Explanatory Requirement |
+| :--- | :--- | :--- |
+| **Protocols & Crypto** | `Handshake`, `Cryptographic Handshake` | Mutual authentication between console & servers (e.g. Slim/Pro drive pairing). |
+| **Exploitation** | `Jailbreak`, `Exploit`, `Exploit Chain`, `PoC` | Privilege escalation and vulnerability exploitation taxonomy. |
+| **Memory Safety** | `Use-After-Free (UAF)`, `Heap Spray`, `Heap Grooming`, `Race Condition`, `Infoleak` | Standard vulnerability primitives and CWE definitions. |
+| **Operating System** | `Kernel Panic (KP)`, `Kernel`, `Userland`, `Hypervisor (HV)`, `Ring -1`, `Ring 0`, `kASLR`, `Syscall` | POSIX, FreeBSD, and hardware privilege architecture. |
+| **Execution Delivery** | `Payload`, `Payload Injection`, `Autoloader`, `Daemon`, `ELF Loader` | Binary injection and execution mechanisms. |
+| **Formats & Security** | `FSELF`, `FPKG`, `Keystone`, `Keystone DRM`, `app.db`, `Capsicum` | Proprietary Sony Prospero file formats and container systems. |
+| **Homebrew Ecosystem** | `Homebrew`, `Toolbox`, `Trainer`, `Backups`, `Savegame`, `Debug Settings` | Community application and modification terms. |
+| **Specific Projects** | `Relapse-Exploit`, `UMTX`, `Byepervisor`, `BD-JB`, `Mast1c0re`, `etaHEN`, `ps5-kstuff`, `elfldr`, `libhijacker`, `shsrv`, `ftps5`, `websrv`, `gdbsrv`, `Itemzflow` | Software package names and project identifiers. |
+| **Ports** | `9021`, `9027`, `1337`, `2323`, `3232`, `8080`, `2159` | Standardized network service ports. |
+| **DNS Addresses** | `45.56.67.85`, `62.210.38.117`, `165.227.83.145` | Static public community redirect servers. |
+
+### 📖 The "TECHNICAL TERMS" Topic Obligation
+Every translated documentation file **must include Section 9 ("Technical Terms & Scene Glossary")**.
+- In Section 9, explain these terms in the target language so readers understand their underlying mechanisms, but **keep the terms themselves in English**.
 
 ---
 
@@ -80,8 +102,9 @@ If a user or task asks to support a new language (e.g., Spanish `es`, French `fr
 
 1. Create directory `i18n/<lang_code>/`.
 2. Translate the entire documentation into `i18n/<lang_code>/README.md` ensuring full section parity.
-3. Update the language selector table in the root `README.md` with the new language option and flag emoji.
-4. Update the language navigation bar at the top of all existing `i18n/*/README.md` files.
+3. Strictly enforce the Untranslatable Technical Terms policy above.
+4. Update the language selector table in the root `README.md` with the new language option and flag emoji.
+5. Update the language navigation bar at the top of all existing `i18n/*/README.md` files.
 
 ---
 
