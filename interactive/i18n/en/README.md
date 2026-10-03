@@ -101,7 +101,7 @@ Select your PlayStation 5 hardware model and firmware version below to instantly
 <div class="ps-ip-wrap">
 <label for="customIpInput" class="ps-ip-label">
 <span class="ps-ip-title">Console IP Address (optional):</span>
-<span class="ps-ip-desc">Tailors netcat commands in the execution checklist below to your console.</span>
+<span class="ps-ip-desc">Tailors netcat commands in the "WITH PC/PHONE" tab below to your console.</span>
 </label>
 <input type="text" id="customIpInput" class="ps-input" value="192.168.1.150" placeholder="192.168.1.xxx" oninput="onCustomIpInput(this.value)">
 </div>

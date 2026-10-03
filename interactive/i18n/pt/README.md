@@ -101,7 +101,7 @@ Selecione o modelo do seu console PlayStation 5 e a versão do seu firmware abai
 <div class="ps-ip-wrap">
 <label for="customIpInput" class="ps-ip-label">
 <span class="ps-ip-title">Endereço IP do Console (opcional):</span>
-<span class="ps-ip-desc">Personaliza os comandos netcat no checklist de execução abaixo para o seu console.</span>
+<span class="ps-ip-desc">Personaliza os comandos netcat na aba "COM PC/CELULAR" abaixo para o seu console.</span>
 </label>
 <input type="text" id="customIpInput" class="ps-input" value="192.168.1.150" placeholder="192.168.1.xxx" oninput="onCustomIpInput(this.value)">
 </div>
