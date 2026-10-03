@@ -134,40 +134,51 @@
     .ps-model-btn .model-icon { font-size: 22px; }
     .ps-model-btn .model-name { font-size: 15.5px; font-weight: 700; color: #ffffff; }
     .ps-model-btn .model-sub { font-size: 12px; color: #94a3b8; }
-    .ps-fw-sections {
+    .ps-exploit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .ps-exploit-btn {
+      background: rgba(14, 20, 32, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px 18px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-top: 6px;
+      align-items: flex-start;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
-    .ps-fw-group {
-      background: rgba(14, 20, 32, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      padding: 12px 14px;
-      transition: all 0.25s ease;
-    }
-    .ps-fw-group:hover, .ps-fw-group.active-group {
+    .ps-exploit-btn:hover {
+      background: rgba(18, 28, 48, 0.85);
       border-color: rgba(0, 112, 209, 0.55);
-      background: rgba(16, 24, 40, 0.85);
-      box-shadow: 0 4px 16px rgba(0, 112, 209, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 112, 209, 0.15);
     }
-    .ps-fw-group-header {
+    .ps-exploit-btn.active {
+      background: linear-gradient(135deg, rgba(0, 112, 209, 0.25) 0%, rgba(10, 20, 35, 0.9) 100%) !important;
+      border-color: #0070d1 !important;
+      box-shadow: 0 0 0 1px #0070d1, 0 8px 24px rgba(0, 112, 209, 0.3) !important;
+    }
+    .ps-exploit-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      width: 100%;
       margin-bottom: 8px;
-      flex-wrap: wrap;
-      gap: 8px;
     }
-    .ps-fw-group-title {
-      font-family: var(--code-font-family);
-      font-size: 13.5px;
-      font-weight: 700;
-      color: #7dd3fc;
-      letter-spacing: 0.04em;
+    .ps-exploit-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.01em;
     }
-    .ps-fw-group-badge {
+    .ps-exploit-badge {
       font-family: var(--code-font-family);
       font-size: 11px;
       font-weight: 700;
@@ -176,50 +187,33 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
-    .ps-fw-group-badge.ready {
+    .ps-exploit-badge.ready {
       background: rgba(16, 185, 129, 0.15);
       color: #34d399;
       border: 1px solid rgba(16, 185, 129, 0.35);
     }
-    .ps-fw-group-badge.wip {
+    .ps-exploit-badge.wip {
       background: rgba(245, 158, 11, 0.15);
       color: #fbbf24;
       border: 1px solid rgba(245, 158, 11, 0.35);
     }
-    .ps-fw-group-badge.special {
+    .ps-exploit-badge.special {
       background: rgba(168, 85, 247, 0.15);
       color: #c084fc;
       border: 1px solid rgba(168, 85, 247, 0.35);
     }
-    .ps-fw-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-    .ps-fw-btn {
-      background: rgba(14, 20, 32, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #cbd5e1;
+    .ps-exploit-range {
       font-family: var(--code-font-family);
+      font-size: 14px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+    .ps-exploit-sub {
       font-size: 12.5px;
-      font-weight: 600;
-      padding: 6px 13px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .ps-fw-btn:hover {
-      background: rgba(0, 112, 209, 0.25);
-      border-color: #0070d1;
-      color: #ffffff;
-      transform: translateY(-1px);
-    }
-    .ps-fw-btn.active {
-      background: #0070d1 !important;
-      border-color: #38bdf8 !important;
-      color: #ffffff !important;
-      font-weight: 700;
-      box-shadow: 0 0 12px rgba(0, 112, 209, 0.6);
+      color: #94a3b8;
+      line-height: 1.4;
     }
     .ps-ip-wrap {
       margin-top: 14px;
@@ -424,19 +418,9 @@
 
         const activeBracket = getBracketForFw(currentWizardFw);
 
-        const groupCards = document.querySelectorAll('.ps-fw-group');
-        groupCards.forEach(function(card) {
-          if (card.getAttribute('data-group') === activeBracket) {
-            card.classList.add('active-group');
-          } else {
-            card.classList.remove('active-group');
-          }
-        });
-
-        const fwBtns = document.querySelectorAll('.ps-fw-btn');
-        fwBtns.forEach(function(btn) {
-          const btnFw = btn.getAttribute('data-fw');
-          if (btnFw === currentWizardFw || (currentWizardFw === activeBracket && btnFw === activeBracket)) {
+        const exploitBtns = document.querySelectorAll('.ps-exploit-btn');
+        exploitBtns.forEach(function(btn) {
+          if (btn.getAttribute('data-fw') === activeBracket) {
             btn.classList.add('active');
           } else {
             btn.classList.remove('active');
