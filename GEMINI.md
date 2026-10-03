@@ -1,92 +1,21 @@
 # ♊ Guidelines for Gemini & Antigravity Agents
 
-This document provides system-level instructions for **Gemini models** and **Antigravity CLI agents** operating within the `PS5-JB-LINKS` workspace.
+The repository is an interactive, multilingual PS5 guide. The wizard is the only user-facing procedure; do not recreate or maintain separate static how-to, technical, or compendium guides.
 
----
+## Maintenance Rules
 
-## 🎯 Primary Directives
+1. **Keep all wizard languages in sync.** Update equivalent user-facing content in `interactive/i18n/en/README.md`, `interactive/i18n/es/README.md`, and `interactive/i18n/pt/README.md`. Keep relevant UI and route logic in `interactive/index.html` consistent across languages.
+2. **Write for readers who want to follow steps.** Put clear actions and expected outcomes first. Keep technical explanations optional and concise. If a firmware has no verified wizard route, ask the reader to check current compatibility rather than assigning it to another route.
+3. **Preserve technical and project names** when they are needed, but do not make understanding exploit internals a prerequisite for using the wizard.
+4. **Keep the root `README.md` a portal** with the banner, repository/license badges, links to all three interactive wizard languages, and the AI-curation notice. Do not put guide content there.
+5. **Preserve `.nojekyll`** and the PlayStation dark visual theme. Keep root and localized navigation links pointed at the interactive wizard.
+6. **Never push to GitHub.** Changes stay local; the user decides when to publish.
+7. **Stay within the requested scope** and preserve unrelated files and behavior.
 
-1. **Keep All Internationalized Documents in Sync**:
-   - The documentation in this repository is distributed across:
-     - `i18n/en/README.md` (English Index)
-     - `i18n/en/jailbreak_how_to.md` (English Step-by-Step Guide)
-     - `i18n/en/jailbreak_tech_info.md` (English Technical Deep Dive)
-     - `i18n/es/README.md` (Español Index)
-     - `i18n/es/jailbreak_how_to.md` (Español Guía Práctica)
-     - `i18n/es/jailbreak_tech_info.md` (Español Análisis Técnico)
-     - `i18n/pt/README.md` (Português Index)
-     - `i18n/pt/jailbreak_how_to.md` (Português Guia Prático)
-     - `i18n/pt/jailbreak_tech_info.md` (Português Análise Técnica)
-   - **Action Rule**: Whenever you modify, expand, or fix any section in one language, you **must immediately reflect the equivalent changes in all other active languages**.
-   - Keep the clean separation between practical how-to (`jailbreak_how_to.md`) and low-level internals (`jailbreak_tech_info.md`).
-   - Do not complete a task until English, Spanish, and Portuguese versions are 100% synchronized in content, table columns, code snippets, and structural sections.
+## Adding a Language
 
-2. **Root `README.md` Contract**:
-   - The root `README.md` must remain lightweight and visual.
-   - It contains only:
-     - The top header banner (`assets/banner.png` or `banner.png`) with text `"PS5 JAILBREAK COMPENDIUM"`.
-     - Badges (Firmware status, latest exploit, license).
-     - The language selector table linking to `/i18n/[lang]/README.md`.
-     - The AI curation disclaimer.
-   - Do not bloat the root `README.md` with full documentation bodies.
+Add a localized wizard page under `interactive/i18n/<lang_code>/README.md`, synchronize its navigation and wording, and add it to the root portal.
 
-3. **Untranslatable Technical Terms Policy**:
-   - **Strict Prohibition**: Never translate standardized technical keywords, protocols, or exploitation concepts into regional dialects.
-   - Specifically:
-     - **`Handshake`**: Never translate as `"aperto de mão"`. Use `Handshake` or `Handshake Criptográfico`.
-     - **`Jailbreak`**: Never translate as `"fuga da prisão"`.
-     - **`Payload`**: Never translate as `"carga útil"`.
-     - **`Kernel Panic`**: Never translate as `"pânico no kernel"`.
-     - **`Heap Spray`**: Never translate as `"spray de heap"`.
-     - **`Use-After-Free (UAF)`**: Preserve abbreviation and concept verbatim.
-     - **`Sandbox` / `Sandbox Escape`**: Never translate as `"caixa de areia"`.
-     - **`Rest Mode`**: Preserve as `Rest Mode` (or mention alongside `Modo de Repouso`).
-     - **`Dump` / `Dumping`**: Never translate as `"despejo"`.
-     - **`Hook` / `Hooking`**: Preserve verbatim.
-   - Also preserve:
-     - `Relapse-Exploit`, `UMTX`, `Byepervisor`, `BD-JB`, `Mast1c0re`
-     - `aio_multi_wait`, `JavaScriptCore`, `StructuredSerialize`, `ArrayBuffer`, `Uint32Array`
-     - `etaHEN`, `ps5-kstuff`, `kstuff-lite`, `elfldr`, `libhijacker`, `shsrv`, `ftps5`, `websrv`, `gdbsrv`
-     - Ports: `9021`, `9027`, `1337`, `2323`, `3232`, `8080`, `2159`
-     - DNS IPs: `45.56.67.85`, `62.210.38.117`, `165.227.83.145`
-   - **Mandatory Topic**: Every language file must maintain Section 9 as **"Technical Terms & Scene Glossary"** where these terms are thoroughly explained in the local language, while keeping the terms themselves in English.
+## AI Disclosure
 
-4. **11-Section Relevance Order**:
-   Every translation file must follow this exact section sequence:
-   1. 📊 1. Firmwares with Available Jailbreaks (Matrix, Tiers, Relapse Exploit, Hardware models)
-   2. 🚀 2. How to Jailbreak: Chain of Procedures & Preparations (Flowchart, Anti-Update, Slim/Pro Advisory, DNS, Trigger, Payload Injection)
-   3. 🧰 3. Curated Exploits & Entry Points
-   4. ⚙️ 4. Essential Payloads & System Frameworks
-   5. 📦 5. Payload Injection & Automation Methods
-   6. 🕹️ 6. Homebrew Apps, Emulators & Game Managers
-   7. 🌐 7. Exploit Hosts, DNS Servers & Offline Tools
-   8. 🔧 8. Troubleshooting & Panic Recovery
-   9. 📚 9. Technical Terms & Scene Glossary
-   10. 🏛️ 10. Background: Exploitation Timeline & Security Architecture
-   11. ⚖️ 11. Disclaimer & AI Curation Notice
-
-5. **Windows & Git Environment Guidelines**:
-   - **🚫 STRICT DIRECTIVE: NEVER execute `git push` automatically**:
-     - Agents must **NEVER** push commits or files to GitHub or any remote repository automatically.
-     - All documentation, translation, and code updates must remain local to the workspace.
-     - If the upload workflow, remote URL, or push commands require changes, update the local [`upload.bat`](upload.bat) script only.
-     - The user will inspect changes and execute `upload.bat` manually to publish to GitHub.
-   - On this machine, prioritize `C:\Program Files\Git\cmd\git.exe` for local git commands (it has Git Credential Manager configured).
-   - Ensure `upload.bat` is ignored by `.gitignore` and never committed to the remote repo.
-   - Ensure commits for documentation updates reference all languages (e.g., `docs: Update technical terms and glossary across en, es, and pt`).
-
-6. **AI Disclaimer Integrity**:
-   - Preserve the notice indicating that this repository is an AI-generated and curated reference compendium for educational and research purposes.
-
-7. **HTML Web Version (Docsify & GitHub Pages)**:
-   - The repository hosts an interactive web documentation site powered by Docsify in `index.html`.
-   - Markdown documents are rendered on-the-fly client-side without static site compiler steps.
-   - Always preserve `.nojekyll` (prevents GitHub Pages from filtering out files with leading underscores).
-   - Ensure `_sidebar.md`, `_navbar.md`, `i18n/en/_sidebar.md`, `i18n/es/_sidebar.md`, and `i18n/pt/_sidebar.md` remain synchronized whenever guides or sections are updated.
-   - Maintain the PlayStation 30th Anniversary dark aesthetic (deep obsidian `#080c14` to midnight slate `#151d2a`, iconic PlayStation symbols △ ◯ ✕ ▢ ambient wallpaper art, luminous white/blue typography, frosted obsidian glass sidebars, and PlayStation blue `#0070d1` accents).
-
-8. **Strict Scope: Never Change What Wasn't Explicitly Asked or Acknowledged**:
-   - **Zero Unprompted Modifications**: Strictly confine all edits, refactors, and additions to what was explicitly requested or acknowledged by the user.
-   - **No Opportunistic Changes**: Never modify unrelated files, sections, scripts, or styles that were not part of the explicit user instruction.
-   - **Preserve Untouched Areas**: Leave existing features, files, comments, and structure intact unless directly instructed to modify them.
-
+Retain the AI-assisted curation notice on the root portal. Do not imply Sony or another organization endorses or maintains this repository without evidence.

@@ -3,16 +3,15 @@
 
 <div align="center">
 
-[![Firmwares Soportados](https://img.shields.io/badge/Asistente%20Interactivo-FW%201.00%20--%2013.60-success?style=for-the-badge&logo=playstation&logoColor=white)](#)
-[![Exploit](https://img.shields.io/badge/Generador%20Personalizado-Relapse%20%7C%20UMTX-blueviolet?style=for-the-badge&logo=codeforces&logoColor=white)](#)
-[![Payloads](https://img.shields.io/badge/Payloads-etaHEN%20%7C%20ps5--kstuff-ff69b4?style=for-the-badge&logo=coffeescript&logoColor=white)](#)
+[![Firmwares](https://img.shields.io/badge/Asistente%20Interactivo-Rutas%20de%20Firmware-success?style=for-the-badge&logo=playstation&logoColor=white)](#)
+[![Guía](https://img.shields.io/badge/Guía-Paso%20a%20Paso-blueviolet?style=for-the-badge&logo=playstation&logoColor=white)](#)
 
 **Idiomas / Languages:**
 [🇪🇸 Español](README.md) | [🇺🇸 English](../en/README.md) | [🇧🇷 Versão em Português](../pt/README.md)
 
 </div>
 
-Selecciona el modelo de tu consola PlayStation 5 y la versión de tu firmware a continuación para generar al instante una guía de despliegue personalizada, configuraciones de DNS recomendadas y comandos de inyección de payload para la terminal.
+Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones adecuadas para tu consola. Sigue los pasos que aparecen abajo; no necesitas aprender cómo funciona el software.
 
 ---
 
@@ -20,8 +19,8 @@ Selecciona el modelo de tu consola PlayStation 5 y la versión de tu firmware a 
 <div class="ps-wizard-container" id="psWizard">
 <div class="ps-wizard-header">
 <div class="ps-wizard-badge">⚡ ASISTENTE INTERACTIVO DE FIRMWARE</div>
-<h2 class="ps-wizard-title">Generador a Medida de Jailbreak & Exploit</h2>
-<p class="ps-wizard-subtitle">Selecciona el modelo de hardware de tu PS5 y la versión del firmware para obtener instrucciones personalizadas.</p>
+<h2 class="ps-wizard-title">Configuración de PS5 paso a paso</h2>
+<p class="ps-wizard-subtitle">Elige el modelo de tu consola y el rango de firmware para ver los pasos correspondientes.</p>
 </div>
 <div class="ps-wizard-controls">
 <!-- Selección de Modelo -->
@@ -47,61 +46,85 @@ Selecciona el modelo de tu consola PlayStation 5 y la versión de tu firmware a 
 </div>
 <!-- Selección de Firmware -->
 <div class="ps-wizard-field">
-<label class="ps-wizard-label">2. SELECCIONA EL TIPO DE EXPLOIT Y RANGO DE FIRMWARE:</label>
+<label class="ps-wizard-label">2. ELIGE EL RANGO DE FIRMWARE:</label>
 <div class="ps-exploit-grid">
 <button type="button" class="ps-exploit-btn active" data-fw="9.60 - 13.60" onclick="setWizardFw('9.60 - 13.60')">
 <div class="ps-exploit-header">
-<span class="ps-exploit-name">Relapse Exploit</span>
-<span class="ps-exploit-badge ready">WebKit</span>
+<span class="ps-exploit-name">Firmware 9.60–13.60</span>
+<span class="ps-exploit-badge ready">PASOS DISPONIBLES</span>
 </div>
 <div class="ps-exploit-range">Firmware 9.60 – 13.60</div>
-<div class="ps-exploit-sub">WebKit (JSC) + Exploit de Kernel aio_multi_wait</div>
+<div class="ps-exploit-sub">Sigue los pasos que aparecen para este rango de firmware.</div>
+</button>
+<button type="button" class="ps-exploit-btn" data-fw="14.00+" onclick="setWizardFw('14.00+')">
+<div class="ps-exploit-header">
+<span class="ps-exploit-name">Firmware 14.00 o superior</span>
+<span class="ps-exploit-badge wip">SIN PASOS</span>
+</div>
+<div class="ps-exploit-range">Firmware 14.00+</div>
+<div class="ps-exploit-sub">Este asistente no tiene una ruta para esta versión. Mantén la consola sin conexión.</div>
 </button>
 <button type="button" class="ps-exploit-btn" data-fw="7.00 - 8.20" onclick="setWizardFw('7.00 - 8.20')">
 <div class="ps-exploit-header">
-<span class="ps-exploit-name">BD-JB / Mast1c0re</span>
-<span class="ps-exploit-badge ready">Disco / PS2</span>
+<span class="ps-exploit-name">Firmware 7.00–8.20</span>
+<span class="ps-exploit-badge wip">VERIFICA LA RUTA</span>
 </div>
 <div class="ps-exploit-range">Firmware 7.00 – 8.20</div>
-<div class="ps-exploit-sub">Disco Blu-ray BD-J / Savegame PS2 + aio_multi_wait</div>
+<div class="ps-exploit-sub">Este asistente aún no incluye todos los pasos para este rango.</div>
 </button>
 <button type="button" class="ps-exploit-btn" data-fw="6.00 - 6.50" onclick="setWizardFw('6.00 - 6.50')">
 <div class="ps-exploit-header">
-<span class="ps-exploit-name">UMTX2 / Mast1c0re</span>
-<span class="ps-exploit-badge wip">En Progreso</span>
+<span class="ps-exploit-name">Firmware 6.00–6.50</span>
+<span class="ps-exploit-badge wip">AÚN NO LISTO</span>
 </div>
 <div class="ps-exploit-range">Firmware 6.00 – 6.50</div>
-<div class="ps-exploit-sub">Primitivas UMTX2 y Savegame PS2 (Porting en Progreso)</div>
+<div class="ps-exploit-sub">Aún no hay instrucciones paso a paso para este rango.</div>
 </button>
 <button type="button" class="ps-exploit-btn" data-fw="5.00 - 5.50" onclick="setWizardFw('5.00 - 5.50')">
 <div class="ps-exploit-header">
-<span class="ps-exploit-name">UMTX Exploit</span>
-<span class="ps-exploit-badge ready">Kernel UAF</span>
+<span class="ps-exploit-name">Firmware 5.00–5.50</span>
+<span class="ps-exploit-badge ready">PASOS DISPONIBLES</span>
 </div>
 <div class="ps-exploit-range">Firmware 5.00 – 5.50</div>
-<div class="ps-exploit-sub">Primitivas Mutex libthr FreeBSD (CVE-2024-43102)</div>
+<div class="ps-exploit-sub">Sigue los pasos que aparecen para este rango de firmware.</div>
 </button>
 <button type="button" class="ps-exploit-btn" data-fw="3.00 - 4.51" onclick="setWizardFw('3.00 - 4.51')">
 <div class="ps-exploit-header">
-<span class="ps-exploit-name">IPv6 Socket UAF</span>
-<span class="ps-exploit-badge ready">Era Dorada</span>
+<span class="ps-exploit-name">Firmware 3.00–4.51</span>
+<span class="ps-exploit-badge ready">PASOS DISPONIBLES</span>
 </div>
 <div class="ps-exploit-range">Firmware 3.00 – 4.51</div>
-<div class="ps-exploit-sub">Socket UAF netinet6 FreeBSD / UMTX</div>
+<div class="ps-exploit-sub">Sigue los pasos que aparecen para este rango de firmware.</div>
 </button>
 <button type="button" class="ps-exploit-btn" data-fw="1.00 - 2.50" onclick="setWizardFw('1.00 - 2.50')">
 <div class="ps-exploit-header">
-<span class="ps-exploit-name">Byepervisor</span>
-<span class="ps-exploit-badge special">Ring -1 Root</span>
+<span class="ps-exploit-name">Firmware 1.00–2.50</span>
+<span class="ps-exploit-badge wip">VERIFICA LA RUTA</span>
 </div>
 <div class="ps-exploit-range">Firmware 1.00 – 2.50</div>
-<div class="ps-exploit-sub">Control Total del Hypervisor (Santo Grial)</div>
+<div class="ps-exploit-sub">Este asistente aún no incluye todos los pasos para este rango.</div>
+</button>
+<button type="button" class="ps-exploit-btn" data-fw="8.21 - 9.59" onclick="setWizardFw('8.21 - 9.59')">
+<div class="ps-exploit-header">
+<span class="ps-exploit-name">Verificar compatibilidad</span>
+<span class="ps-exploit-badge wip">SIN PASOS</span>
+</div>
+<div class="ps-exploit-range">Firmware 8.21 – 9.59</div>
+<div class="ps-exploit-sub">Este asistente no tiene una ruta verificada para este rango.</div>
+</button>
+<button type="button" class="ps-exploit-btn" data-fw="unlisted" onclick="setWizardFw('unlisted')">
+<div class="ps-exploit-header">
+<span class="ps-exploit-name">Mi firmware no aparece en la lista</span>
+<span class="ps-exploit-badge wip">VERIFICA PRIMERO</span>
+</div>
+<div class="ps-exploit-range">Otra versión de firmware</div>
+<div class="ps-exploit-sub">No elijas un rango cercano; verifica primero la compatibilidad.</div>
 </button>
 </div>
 <div class="ps-ip-wrap">
 <label for="customIpInput" class="ps-ip-label">
 <span class="ps-ip-title">Dirección IP de la Consola (opcional):</span>
-<span class="ps-ip-desc">Personaliza los comandos netcat en la pestaña "CON PC/TELÉFONO" inferior para tu consola.</span>
+<span class="ps-ip-desc">Se usa para completar los comandos si eliges el método con ordenador o teléfono.</span>
 </label>
 <input type="text" id="customIpInput" class="ps-input" value="192.168.1.150" placeholder="192.168.1.xxx" oninput="onCustomIpInput(this.value)">
 </div>
@@ -134,7 +157,7 @@ Sin importar el modelo o rango de firmware, aplica estas configuraciones antes d
 
 > [!CAUTION]
 > Si tu consola es una **PS5 Slim (CFI-2000)** o **PS5 Pro (CFI-7000)**:
-> - El lector de discos extraíble requiere un **Handshake** criptográfico con los servidores de Sony para autenticarse por primera vez.
+> - El lector de discos extraíble necesita un registro en línea único con Sony para vincularse a la consola.
 > - **Nunca te conectes a PSN para registrar el lector si la consola está en un firmware vulnerable (<= 13.60)**, ya que esto **forzará una actualización irreversible al firmware más reciente**.
 > - Backups digitales, emuladores, homebrew y almacenamiento en SSD M.2 funcionan al 100% sin el lector físico emparejado.
 

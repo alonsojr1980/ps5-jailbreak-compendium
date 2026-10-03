@@ -1,159 +1,60 @@
-# 🤖 Guidelines for AI Agents: Maintaining Multi-Language Synchronization
+# 🤖 Repository Maintenance Guidelines
 
-Welcome, AI Agent! This document outlines strict operational rules, architectural standards, and synchronization workflows for maintaining and updating the **PS5 Jailbreak Compendium** repository.
+This repository is an interactive, multilingual PS5 guide. The wizard is the only user-facing procedure; do not recreate or maintain separate static how-to, technical, or compendium guides.
 
----
-
-## 🏛️ Repository Architecture
-
-This repository uses an internationalized documentation structure:
+## Repository Structure
 
 ```text
-├── assets/
-│   └── banner.png                # Master header banner graphic
-├── i18n/
-│   ├── en/
-│   │   ├── README.md             # Complete English Documentation Index
-│   │   ├── _sidebar.md           # English Docsify sidebar navigation
-│   │   ├── jailbreak_how_to.md   # Step-by-step practical jailbreak guide
-│   │   └── jailbreak_tech_info.md# Technical deep-dive for advanced users/devs
-│   ├── es/
-│   │   ├── README.md             # Complete Spanish Documentation Index
-│   │   ├── _sidebar.md           # Spanish Docsify sidebar navigation
-│   │   ├── jailbreak_how_to.md   # Guía práctica de jailbreak paso a paso
-│   │   └── jailbreak_tech_info.md# Análisis técnico detallado para devs/investigación
-│   └── pt/
-│       ├── README.md             # Complete Portuguese Documentation Index
-│       ├── _sidebar.md           # Portuguese Docsify sidebar navigation
-│       ├── jailbreak_how_to.md   # Guia prático de jailbreak passo a passo
-│       └── jailbreak_tech_info.md# Análise técnica detalhada para devs/pesquisa
-├── .nojekyll                     # Tells GitHub Pages to bypass Jekyll (serves Docsify files)
-├── index.html                    # Docsify SPA HTML entrypoint (PlayStation Cyberpunk theme)
-├── _sidebar.md                   # Global Docsify sidebar navigation
-├── _navbar.md                    # Docsify header navbar (quick language switch & repo link)
-├── banner.png                    # Root fallback banner
-├── README.md                     # Landing page with header banner & guide selector
-├── upload.bat                    # Windows Git push automation helper (ignored in git)
-├── .gitignore                    # Local ignore rules
-├── AGENTS.md                     # Universal AI Agent maintenance guidelines (this file)
-└── GEMINI.md                     # Specific instructions for Gemini & Antigravity agents
+├── assets/                         # Shared visual assets
+├── interactive/
+│   ├── README.md                   # English interactive wizard
+│   ├── i18n/en/README.md           # English wizard route
+│   ├── i18n/es/README.md           # Spanish wizard route
+│   ├── i18n/pt/README.md           # Portuguese wizard route
+│   ├── index.html                  # Docsify app, styling, and wizard behavior
+│   ├── _sidebar.md                # Wizard navigation
+│   ├── _navbar.md                 # Wizard language navigation
+│   └── i18n/*/_sidebar.md          # Localized wizard navigation
+├── i18n/*/_sidebar.md              # Root-site language navigation
+├── index.html                     # Entry point redirecting to the wizard
+├── README.md                      # Lightweight language-selection portal
+├── .nojekyll                      # Preserve for GitHub Pages
+└── GEMINI.md                      # Gemini/Antigravity maintenance guidance
 ```
 
----
+## Core Rules
 
-## 🚨 Core Rules for Agents
+### 1. Keep the wizard languages synchronized
+- When changing wizard content or behavior, update the equivalent English, Spanish, and Portuguese versions in `interactive/i18n/{en,es,pt}/README.md` and `interactive/index.html` as applicable.
+- Keep firmware choices, warnings, steps, and outcomes consistent in all three languages.
+- Check navigation links whenever routes change.
 
-### 1. Mandatory Multi-Language Synchronization
-- Whenever you make changes, updates, additions, or corrections to any documentation, you **MUST synchronize all active languages** across all documents:
-  - English: `i18n/en/README.md`, `i18n/en/jailbreak_how_to.md`, `i18n/en/jailbreak_tech_info.md`
-  - Spanish: `i18n/es/README.md`, `i18n/es/jailbreak_how_to.md`, `i18n/es/jailbreak_tech_info.md`
-  - Portuguese: `i18n/pt/README.md`, `i18n/pt/jailbreak_how_to.md`, `i18n/pt/jailbreak_tech_info.md`
-- **Never** leave one language updated while another remains outdated.
-- Keep the separation clean:
-  - **`jailbreak_how_to.md`**: Direct, user-facing, step-by-step tutorial on how to exploit consoles and load payloads.
-  - **`jailbreak_tech_info.md`**: Low-level internals, memory primitives, syscall research, payload engineering, and socket specifications for developers.
+### 2. Write for people who want to follow steps
+- Lead with the action the reader needs to take and the expected result.
+- Keep technical explanations optional and brief; do not require readers to learn exploit internals to follow a procedure.
+- Use clear firmware choices and stop with an explicit verification message when the wizard has no supported route. Never silently assign an unlisted firmware to another route.
+- Preserve standard project and technical names (for example, `Jailbreak`, `Payload`, `etaHEN`, and `ps5-kstuff`) when they appear, but avoid adding a glossary or jargon-heavy explanations unless requested.
 
-### 2. Preserve the Root `README.md` Contract
-- The root `README.md` is **strictly a portal / landing page**.
-- It must contain **only**:
-  1. The big header banner image (`assets/banner.png`) labeled `"PS5 JAILBREAK COMPENDIUM"`.
-  2. Repository status and license badges.
-  3. The language selector table with links to the translated documentation in `/i18n/[language]/README.md`.
-  4. The AI curation disclaimer footer.
-- **Do not** insert full documentation guides, exploits, or payload tutorials directly into the root `README.md`.
+### 3. Keep the root README as a portal
+- The root `README.md` must remain a landing page with the banner, repository/license badges, links to the three interactive language versions, and the AI-curation notice.
+- Do not add standalone guides or technical documentation to the root README.
 
-### 3. Structural & Section Parity
-All language files must strictly maintain the same **11-section relevance hierarchy**:
+### 4. Docsify and GitHub Pages
+- The site uses Docsify and requires no static-site build step.
+- Never delete or alter `.nojekyll`.
+- Keep `_sidebar.md`, `_navbar.md`, and the language sidebars free of links to removed static guides; point readers to the interactive wizard.
+- Preserve the established dark PlayStation visual theme when changing app styling.
 
-1. **📊 1. Firmwares with Available Jailbreaks** (Matrix, Tiers, Relapse Exploit deep-dive, Hardware model notes)
-2. **🚀 2. How to Jailbreak: Chain of Procedures & Preparations** (Mermaid flowchart, anti-update firewall, Slim/Pro detachable drive advisory, DNS setup, exploit trigger, payload injection)
-3. **🧰 3. Curated Exploits & Entry Points** (Relapse, UMTX, IPv6, BD-JB, Mast1c0re, Byepervisor)
-4. **⚙️ 4. Essential Payloads & System Frameworks** (Architecture diagram, etaHEN, kstuff, elfldr, libhijacker, shsrv, ftps5, Master Ports Directory)
-5. **📦 5. Payload Injection & Automation Methods** (USB auto-loader layout, netcat terminal commands, Python sender script)
-6. **🕹️ 6. Homebrew Apps, Emulators & Game Managers** (Itemzflow, Apollo, PS5SX2, Chiaki-ng, RetroArch)
-7. **🌐 7. Exploit Hosts, DNS Servers & Offline Tools** (DNS table, web hosts, local Python server, ESP32)
-8. **🔧 8. Troubleshooting & Panic Recovery** (Symptom / Cause / Solution table)
-9. **📚 9. Technical Terms & Scene Glossary** (Untranslatable standards table & scene definitions)
-10. **🏛️ 10. Background: Exploitation Timeline & Security Architecture**
-11. **⚖️ 11. Disclaimer & AI Curation Notice**
+### 5. Local-only changes
+- Never run `git push` or publish changes to a remote. The user controls publishing.
+- Make only changes explicitly requested or required to keep the requested work consistent.
 
-### 4. 🚫 Strict Prohibition: NEVER Push Automatically to Remote (GitHub)
-- **NEVER execute `git push`** or attempt to publish changes to the remote GitHub repository automatically in any turn or workflow.
-- **Local Modifications Only**: Agents must only create, modify, and verify local files within the workspace.
-- **Maintain `upload.bat`**: If changes to the upload routine, branches, remotes, or credentials handling are required, update the local [`upload.bat`](upload.bat) script only.
-- **Manual User Execution**: The user retains sole authority to push commits to GitHub and will execute `upload.bat` manually when ready.
+## Adding a Language
 
-### 5. 🌐 HTML Web Version & GitHub Pages (Docsify Architecture)
-- The repository is equipped with a zero-build Single-Page Application (SPA) driven by **Docsify** in `index.html`.
-- **Zero-Build Principle**: Docsify dynamically parses and renders the raw Markdown files (`README.md`, `jailbreak_how_to.md`, `jailbreak_tech_info.md`) directly in the client browser. No static site generator compilation or build pipeline is required.
-- **Rules for Agents**:
-  1. **Never delete or alter `.nojekyll`**: This file instructs GitHub Pages to bypass Jekyll, ensuring files beginning with underscores (`_sidebar.md`, `_navbar.md`) and asset directories are properly served.
-  2. **Navigation Parity**: Whenever new files or major documentation sections are introduced or rearranged, update `_sidebar.md`, `_navbar.md`, `i18n/en/_sidebar.md`, `i18n/es/_sidebar.md`, and `i18n/pt/_sidebar.md`.
-  3. **Theme & Styling**: Maintain the PlayStation 30th Anniversary dark aesthetic (deep obsidian `#080c14` to midnight slate `#151d2a`, iconic PlayStation symbols △ ◯ ✕ ▢ ambient wallpaper art, luminous white/blue typography, frosted obsidian glass sidebars, and PlayStation blue `#0070d1` accents).
+1. Add `interactive/i18n/<lang_code>/README.md` and its localized sidebar.
+2. Translate the wizard UI and procedure text while preserving project names and route behavior.
+3. Add the language to the root portal and navigation.
 
-### 6. 🎯 Strict Scope: Never Change What Wasn't Explicitly Asked or Acknowledged
-- **Zero Unprompted Modifications**: Agents must strictly confine all edits, creations, refactorings, and file operations to what the user explicitly requested or acknowledged.
-- **Do Not Overreach**: Never modify unrelated files, documentation sections, scripts, styling, or architecture outside the explicit scope of the current user request.
-- **Preserve Existing Functionality**: Leave all existing working features, files, and comments intact unless explicitly directed to alter or remove them.
+## AI Disclosure
 
----
-
-## 🛡️ Technical Terms Policy: Untranslatable Industry Vocabulary
-
-Certain technical terms in computer security, console hacking, and reverse engineering are globally standardized and **must NEVER be translated** into regional dialects under any circumstances. Literal translations obscure technical meaning and break alignment with developer tools.
-
-### ❌ Prohibited Literal Translations (Never Translate These):
-- **`Handshake`**: **NEVER** translate as `"aperto de mão"` (use `Handshake` or `Handshake Criptográfico`).
-- **`Jailbreak`**: **NEVER** translate as `"fuga da prisão"` or regional slang.
-- **`Payload`**: **NEVER** translate as `"carga útil"`.
-- **`Kernel Panic`**: **NEVER** translate as `"pânico no kernel"`.
-- **`Heap Spray`**: **NEVER** translate as `"spray de heap"`.
-- **`Use-After-Free (UAF)`**: Preserve abbreviation and concept verbatim.
-- **`Sandbox` / `Sandbox Escape`**: **NEVER** translate as `"caixa de areia"`.
-- **`Rest Mode`**: Preserve as `Rest Mode` (or reference alongside `Modo de Repouso`).
-- **`Dump` / `Dumping`**: **NEVER** translate as `"despejo"`.
-- **`Hook` / `Hooking`**: Preserve verbatim.
-
-### 🔒 Master Untranslatable Terms Directory
-
-| Domain | Technical Term (Preserve Verbatim) | Context & Explanatory Requirement |
-| :--- | :--- | :--- |
-| **Protocols & Crypto** | `Handshake`, `Cryptographic Handshake` | Mutual authentication between console & servers (e.g. Slim/Pro drive pairing). |
-| **Exploitation** | `Jailbreak`, `Exploit`, `Exploit Chain`, `PoC` | Privilege escalation and vulnerability exploitation taxonomy. |
-| **Memory Safety** | `Use-After-Free (UAF)`, `Heap Spray`, `Heap Grooming`, `Race Condition`, `Infoleak` | Standard vulnerability primitives and CWE definitions. |
-| **Operating System** | `Kernel Panic (KP)`, `Kernel`, `Userland`, `Hypervisor (HV)`, `Ring -1`, `Ring 0`, `kASLR`, `Syscall` | POSIX, FreeBSD, and hardware privilege architecture. |
-| **Execution Delivery** | `Payload`, `Payload Injection`, `Autoloader`, `Daemon`, `ELF Loader` | Binary injection and execution mechanisms. |
-| **Formats & Security** | `FSELF`, `FPKG`, `Keystone`, `Keystone DRM`, `app.db`, `Capsicum` | Proprietary Sony Prospero file formats and container systems. |
-| **Homebrew Ecosystem** | `Homebrew`, `Toolbox`, `Trainer`, `Backups`, `Savegame`, `Debug Settings` | Community application and modification terms. |
-| **Specific Projects** | `Relapse-Exploit`, `UMTX`, `Byepervisor`, `BD-JB`, `Mast1c0re`, `etaHEN`, `ps5-kstuff`, `elfldr`, `libhijacker`, `shsrv`, `ftps5`, `websrv`, `gdbsrv`, `Itemzflow` | Software package names and project identifiers. |
-| **Ports** | `9021`, `9027`, `1337`, `2323`, `3232`, `8080`, `2159` | Standardized network service ports. |
-| **DNS Addresses** | `45.56.67.85`, `62.210.38.117`, `165.227.83.145` | Static public community redirect servers. |
-
-### 📖 The "TECHNICAL TERMS" Topic Obligation
-Every translated documentation file **must include Section 9 ("Technical Terms & Scene Glossary")**.
-- In Section 9, explain these terms in the target language so readers understand their underlying mechanisms, but **keep the terms themselves in English**.
-
----
-
-## 🌐 Adding New Languages
-
-If a user or task asks to support a new language (e.g., Spanish `es`, French `fr`, German `de`, Japanese `ja`):
-
-1. Create directory `i18n/<lang_code>/`.
-2. Translate the entire documentation into `i18n/<lang_code>/README.md` ensuring full section parity.
-3. Strictly enforce the Untranslatable Technical Terms policy above.
-4. Update the language selector table in the root `README.md` with the new language option and flag emoji.
-5. Update the language navigation bar at the top of all existing `i18n/*/README.md` files.
-
----
-
-## 🤖 AI Disclosure & Legal Preservation
-
-Always retain the AI-assisted curation notice in Section 11 and in the document footers:
-```html
-<p align="center">
-  <b>🤖 AI-Generated & Curated Compendium</b><br>
-  <i>This reference guide is synthesized using AI from publicly disclosed security research and community documentation for educational and archival purposes. Keep your console offline and preserve your firmware.</i>
-</p>
-```
-Do not claim maintenance by Sony, official organizations, or unofficial teams without factual attribution.
+Retain the AI-assisted curation notice in the root portal and do not claim endorsement or maintenance by Sony or other organizations without factual attribution.
