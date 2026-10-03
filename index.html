@@ -1362,59 +1362,132 @@
       color: #94a3b8;
     }
 
-    .ps-fw-quick-picks {
+    .ps-fw-sections {
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 14px;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 6px;
     }
 
-    .ps-fw-btn {
-      background: rgba(14, 20, 32, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #cbd5e1;
+    .ps-fw-group {
+      background: rgba(14, 20, 32, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px 14px;
+      transition: all 0.25s ease;
+    }
+
+    .ps-fw-group:hover, .ps-fw-group.active-group {
+      border-color: rgba(0, 112, 209, 0.55);
+      background: rgba(16, 24, 40, 0.85);
+      box-shadow: 0 4px 16px rgba(0, 112, 209, 0.15);
+    }
+
+    .ps-fw-group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .ps-fw-group-title {
       font-family: var(--code-font-family);
       font-size: 13.5px;
       font-weight: 700;
-      padding: 7px 16px;
-      border-radius: 8px;
+      color: #7dd3fc;
+      letter-spacing: 0.04em;
+    }
+
+    .ps-fw-group-badge {
+      font-family: var(--code-font-family);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .ps-fw-group-badge.ready {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    .ps-fw-group-badge.wip {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .ps-fw-group-badge.special {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+    }
+
+    .ps-fw-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .ps-fw-btn {
+      background: rgba(14, 20, 32, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+      font-family: var(--code-font-family);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 6px 13px;
+      border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .ps-fw-btn:hover {
-      background: rgba(0, 112, 209, 0.2);
+      background: rgba(0, 112, 209, 0.25);
       border-color: #0070d1;
       color: #ffffff;
+      transform: translateY(-1px);
     }
 
     .ps-fw-btn.active {
-      background: #0070d1;
-      border-color: #38bdf8;
-      color: #ffffff;
-      box-shadow: 0 0 12px rgba(0, 112, 209, 0.5);
+      background: #0070d1 !important;
+      border-color: #38bdf8 !important;
+      color: #ffffff !important;
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(0, 112, 209, 0.6);
     }
 
-    .ps-fw-custom-wrap {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--border-subtle);
+    .ps-ip-wrap {
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(14, 20, 32, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 10px;
-      padding: 14px 18px;
-    }
-
-    .ps-input-field {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
 
-    .ps-input-field label {
-      font-size: 12.5px;
+    .ps-ip-label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ps-ip-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+
+    .ps-ip-desc {
+      font-size: 11.5px;
       color: #94a3b8;
-      font-weight: 600;
     }
 
     .ps-input {
@@ -1426,6 +1499,7 @@
       font-family: var(--code-font-family) !important;
       font-size: 14px !important;
       width: 100% !important;
+      max-width: 320px;
       transition: border-color 0.2s ease;
     }
 
@@ -2093,7 +2167,7 @@
       function getBracketForFw(val) {
         if (!val) return '9.60 - 13.60';
         const str = String(val).trim();
-        if (str === '9.60 - 13.60' || str === '7.00 - 8.20' || str === '5.00 - 5.50' || str === '3.00 - 4.51' || str === '1.00 - 2.50') {
+        if (str === '9.60 - 13.60' || str === '7.00 - 8.20' || str === '6.00 - 6.50' || str === '5.00 - 5.50' || str === '3.00 - 4.51' || str === '1.00 - 2.50') {
           return str;
         }
         const num = parseFloat(str);
@@ -2101,6 +2175,7 @@
         if (num <= 2.50) return '1.00 - 2.50';
         if (num <= 4.51) return '3.00 - 4.51';
         if (num <= 5.50) return '5.00 - 5.50';
+        if (num <= 6.50) return '6.00 - 6.50';
         if (num <= 8.20) return '7.00 - 8.20';
         if (num <= 13.60) return '9.60 - 13.60';
         return '14.00+';
@@ -2115,14 +2190,6 @@
       window.setWizardFw = function(fw) {
         currentWizardFw = fw;
         try { localStorage.setItem('ps5_wizard_fw', fw); } catch(e) {}
-        const input = document.getElementById('customFwInput');
-        if (input) input.value = fw;
-        updateWizardUI();
-      };
-
-      window.onCustomFwInput = function(val) {
-        currentWizardFw = val.trim();
-        try { localStorage.setItem('ps5_wizard_fw', currentWizardFw); } catch(e) {}
         updateWizardUI();
       };
 
@@ -2150,11 +2217,22 @@
           }
         });
 
-        // Update fw buttons
+        // Update group cards and fw buttons
         const activeBracket = getBracketForFw(currentWizardFw);
+
+        const groupCards = document.querySelectorAll('.ps-fw-group');
+        groupCards.forEach(function(card) {
+          if (card.getAttribute('data-group') === activeBracket) {
+            card.classList.add('active-group');
+          } else {
+            card.classList.remove('active-group');
+          }
+        });
+
         const fwBtns = document.querySelectorAll('.ps-fw-btn');
         fwBtns.forEach(function(btn) {
-          if (btn.getAttribute('data-fw') === activeBracket) {
+          const btnFw = btn.getAttribute('data-fw');
+          if (btnFw === currentWizardFw || (currentWizardFw === activeBracket && btnFw === activeBracket)) {
             btn.classList.add('active');
           } else {
             btn.classList.remove('active');
@@ -2251,6 +2329,29 @@
             'Trigger: Open User\'s Guide and select UMTX Exploit.',
             'Injection: Deploy etaHEN and ps5-kstuff to Port 9021.'
           ];
+        } else if (bracket === '6.00 - 6.50') {
+          statusClass = 'wip';
+          statusBadge = (lang === 'pt') ? 'EM DESENVOLVIMENTO • UMTX2 / MAST1C0RE' : (lang === 'es' ? 'EN DESARROLLO • UMTX2 / MAST1C0RE' : 'IN DEVELOPMENT • UMTX2 / MAST1C0RE');
+          exploitName = 'UMTX2 / Mast1c0re';
+          exploitVector = (lang === 'pt') ? 'Primitivas UMTX2 e Mast1c0re PS2 (Porting do ps5-kstuff em andamento)' : (lang === 'es' ? 'Primitivas UMTX2 y Mast1c0re PS2 (Porting de ps5-kstuff en progreso)' : 'UMTX2 and Mast1c0re PS2 primitives (ps5-kstuff porting in progress)');
+          dnsIp = '62.210.38.117';
+          payloads = 'elfldr + etaHEN (WIP)';
+          steps = (lang === 'pt') ? [
+            'Blindagem: Desative atualizações e downloads automáticos nas configurações.',
+            'Rede: Configure o DNS Primário para 62.210.38.117 (Secundário 0.0.0.0).',
+            'Trigger: Execute o Mast1c0re via savegame PS2 ou exploit WebKit UMTX2.',
+            'Status: Aguarde a disponibilização pública dos offsets de kstuff para este firmware.'
+          ] : (lang === 'es') ? [
+            'Blindaje: Desactiva descargas y actualizaciones automáticas en Ajustes.',
+            'Red: Configura el DNS Primario en 62.210.38.117 (Secundario 0.0.0.0).',
+            'Trigger: Ejecuta Mast1c0re vía savegame PS2 o exploit WebKit UMTX2.',
+            'Estado: Espera la publicación de los offsets finales de kstuff para este firmware.'
+          ] : [
+            'Hardening: Disable all automatic downloads and Rest Mode internet.',
+            'Network: Set Primary DNS to 62.210.38.117 (Secondary 0.0.0.0).',
+            'Trigger: Execute Mast1c0re via PS2 savegame or WebKit UMTX2 trigger.',
+            'Status: Await finalized public kstuff offsets for complete homebrew loading.'
+          ];
         } else if (bracket === '7.00 - 8.20') {
           statusClass = 'ready';
           statusBadge = (lang === 'pt') ? 'VETOR BD-JB / MAST1C0RE' : (lang === 'es' ? 'VECTOR BD-JB / MAST1C0RE' : 'BD-JB / MAST1C0RE VECTOR');
@@ -2323,10 +2424,7 @@
           ];
         }
 
-        let fwSummary = currentWizardFw;
-        if (currentWizardFw !== bracket && !currentWizardFw.includes('-')) {
-          fwSummary = `${currentWizardFw} (Bracket: ${bracket})`;
-        }
+        let fwSummary = bracket.replace('-', '–');
 
         // Build HTML
         let html = `
@@ -2403,9 +2501,7 @@
 
       window.initJailbreakWizard = function() {
         // Sync inputs from localStorage
-        const customFwInput = document.getElementById('customFwInput');
         const customIpInput = document.getElementById('customIpInput');
-        if (customFwInput) customFwInput.value = currentWizardFw;
         if (customIpInput) customIpInput.value = currentWizardIp;
         updateWizardUI();
       };
