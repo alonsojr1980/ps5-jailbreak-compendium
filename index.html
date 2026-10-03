@@ -2083,8 +2083,28 @@
       // INTERACTIVE FIRMWARE WIZARD ENGINE
       // ============================================================
       let currentWizardModel = localStorage.getItem('ps5_wizard_model') || 'fat';
-      let currentWizardFw = localStorage.getItem('ps5_wizard_fw') || '13.60';
+      let storedFw = localStorage.getItem('ps5_wizard_fw');
+      if (!storedFw || storedFw === '13.60' || storedFw === '9.60') {
+        storedFw = '9.60 - 13.60';
+      }
+      let currentWizardFw = storedFw;
       let currentWizardIp = localStorage.getItem('ps5_wizard_ip') || '192.168.1.150';
+
+      function getBracketForFw(val) {
+        if (!val) return '9.60 - 13.60';
+        const str = String(val).trim();
+        if (str === '9.60 - 13.60' || str === '7.00 - 8.20' || str === '5.00 - 5.50' || str === '3.00 - 4.51' || str === '1.00 - 2.50') {
+          return str;
+        }
+        const num = parseFloat(str);
+        if (isNaN(num)) return '9.60 - 13.60';
+        if (num <= 2.50) return '1.00 - 2.50';
+        if (num <= 4.51) return '3.00 - 4.51';
+        if (num <= 5.50) return '5.00 - 5.50';
+        if (num <= 8.20) return '7.00 - 8.20';
+        if (num <= 13.60) return '9.60 - 13.60';
+        return '14.00+';
+      }
 
       window.setWizardModel = function(model) {
         currentWizardModel = model;
@@ -2131,9 +2151,10 @@
         });
 
         // Update fw buttons
+        const activeBracket = getBracketForFw(currentWizardFw);
         const fwBtns = document.querySelectorAll('.ps-fw-btn');
         fwBtns.forEach(function(btn) {
-          if (btn.getAttribute('data-fw') === currentWizardFw) {
+          if (btn.getAttribute('data-fw') === activeBracket) {
             btn.classList.add('active');
           } else {
             btn.classList.remove('active');
@@ -2145,9 +2166,9 @@
         if (!resultContainer) return;
 
         const lang = getLanguage();
-        const fwNum = parseFloat(currentWizardFw) || 0;
         const model = currentWizardModel;
         const ip = currentWizardIp || '192.168.1.150';
+        const bracket = activeBracket;
 
         let statusClass = 'ready';
         let statusBadge = '';
@@ -2161,9 +2182,9 @@
         // Detachable drive check
         const isSlimOrPro = (model === 'slim' || model === 'pro');
 
-        if (fwNum <= 2.50) {
+        if (bracket === '1.00 - 2.50') {
           statusClass = 'ready';
-          statusBadge = (lang === 'pt') ? 'ROOT DE HYPERVISOR' : (lang === 'es' ? 'ROOT DE HYPERVISOR' : 'HYPERVISOR ROOT');
+          statusBadge = (lang === 'pt') ? 'ROOT DE HYPERVISOR • SANTO GRAAL' : (lang === 'es' ? 'ROOT DE HYPERVISOR • SANTO GRIAL' : 'HYPERVISOR ROOT • THE HOLY GRAIL');
           exploitName = 'Byepervisor / IPv6 Socket UAF';
           exploitVector = (lang === 'pt') ? 'Bypass de Hypervisor (Ring -1) via WebKit ou BD-JB' : (lang === 'es' ? 'Bypass de Hypervisor (Ring -1) vía WebKit o BD-JB' : 'Hypervisor (Ring -1) defeat via WebKit or BD-JB');
           dnsIp = '62.210.38.117';
@@ -2184,9 +2205,9 @@
             'Trigger: Open User\'s Guide or insert BD-JB Blu-ray disc.',
             'Injection: Deploy Byepervisor to conquer Hypervisor (Ring -1).'
           ];
-        } else if (fwNum <= 4.51) {
+        } else if (bracket === '3.00 - 4.51') {
           statusClass = 'ready';
-          statusBadge = (lang === 'pt') ? 'ESTABILIDADE MÁXIMA' : (lang === 'es' ? 'MÁXIMA ESTABILIDAD' : 'PEAK STABILITY');
+          statusBadge = (lang === 'pt') ? 'ESTABILIDADE MÁXIMA • ERA DE OURO' : (lang === 'es' ? 'MÁXIMA ESTABILIDAD • ERA DORADA' : 'PEAK STABILITY • GOLDEN ERA');
           exploitName = 'UMTX / IPv6 Socket UAF';
           exploitVector = 'Kernel Read/Write via IPv6 socket UAF (FreeBSD netinet6)';
           dnsIp = '62.210.38.117';
@@ -2207,11 +2228,11 @@
             'Trigger: Open User\'s Guide and select IPv6 UAF or UMTX Exploit.',
             'Injection: Deliver etaHEN via USB autoloader or Netcat port 9021.'
           ];
-        } else if (fwNum <= 5.50) {
+        } else if (bracket === '5.00 - 5.50') {
           statusClass = 'ready';
-          statusBadge = (lang === 'pt') ? 'ALTAMENTE ESTÁVEL' : (lang === 'es' ? 'ALTA ESTABILIDAD' : 'HIGH STABILITY');
+          statusBadge = (lang === 'pt') ? 'ALTAMENTE ESTÁVEL • UMTX' : (lang === 'es' ? 'ALTA ESTABILIDAD • UMTX' : 'HIGH STABILITY • UMTX');
           exploitName = 'UMTX Exploit';
-          exploitVector = 'Kernel UAF via FreeBSD libthr mutex primitives';
+          exploitVector = 'Kernel UAF via FreeBSD libthr mutex primitives (CVE-2024-43102)';
           dnsIp = '62.210.38.117';
           payloads = 'etaHEN.bin + ps5-kstuff.bin';
           steps = (lang === 'pt') ? [
@@ -2230,27 +2251,34 @@
             'Trigger: Open User\'s Guide and select UMTX Exploit.',
             'Injection: Deploy etaHEN and ps5-kstuff to Port 9021.'
           ];
-        } else if (fwNum <= 6.50) {
-          statusClass = 'wip';
-          statusBadge = (lang === 'pt') ? 'PORT EM ANDAMENTO' : (lang === 'es' ? 'PORT EN DESARROLLO' : 'ACTIVE PORTING');
-          exploitName = 'UMTX2 / Mast1c0re';
-          exploitVector = 'Mast1c0re PS4 Savegame or UMTX2 offsets port';
+        } else if (bracket === '7.00 - 8.20') {
+          statusClass = 'ready';
+          statusBadge = (lang === 'pt') ? 'VETOR BD-JB / MAST1C0RE' : (lang === 'es' ? 'VECTOR BD-JB / MAST1C0RE' : 'BD-JB / MAST1C0RE VECTOR');
+          exploitName = 'BD-JB / Mast1c0re (aio_multi_wait)';
+          exploitVector = (lang === 'pt') ? 'Entrada via BD-J (disco Blu-ray) ou savegame PS2 + exploit aio_multi_wait' : (lang === 'es' ? 'Entrada vía BD-J (disco Blu-ray) o savegame PS2 + exploit aio_multi_wait' : 'BD-J (Blu-ray Disc) or PS2 savegame entry + aio_multi_wait kernel exploit');
           dnsIp = '62.210.38.117';
-          payloads = 'kstuff-lite / elfldr';
+          payloads = 'elfldr + etaHEN.bin';
+          port = '9021';
           steps = (lang === 'pt') ? [
-            'Blindagem: Isole o console da internet para não atualizar.',
-            'Vetor: Utilize Mast1c0re via jogo Okage Shadow King ou UMTX2 host.',
-            'Status: Suporte a homebrew avançado em andamento.'
+            'Blindagem: Desative downloads e atualizações automáticas nas Configurações.',
+            'Ponto de Entrada: Grave a ISO BD-JB em disco Blu-ray ou use Mast1c0re (WebKit indisponível neste firmware).',
+            'Exploit de Kernel: Execute o gatilho aio_multi_wait a partir do menu BD-JB / Mast1c0re.',
+            'Confirmação: Aguarde "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
+            'Injeção: Envie o etaHEN via autoloader USB (/payloads/) ou via Netcat na porta 9021.'
           ] : (lang === 'es') ? [
-            'Blindaje: Aísla la consola para no actualizar.',
-            'Vetor: Utiliza Mast1c0re vía juego Okage Shadow King o host UMTX2.',
-            'Status: Soporte para homebrew avanzado en desarrollo activo.'
+            'Blindaje: Desactiva descargas y actualizaciones automáticas en Ajustes.',
+            'Punto de Entrada: Graba la ISO BD-JB en un disco Blu-ray o usa Mast1c0re (WebKit no disponible en este firmware).',
+            'Exploit de Kernel: Ejecuta el trigger aio_multi_wait desde el menú de BD-JB / Mast1c0re.',
+            'Confirmación: Espera a "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
+            'Inyección: Envía etaHEN vía autoloader USB (/payloads/) o vía Netcat al puerto 9021.'
           ] : [
-            'Hardening: Keep console offline to preserve firmware.',
-            'Vector: Use Mast1c0re via Okage Shadow King or UMTX2 port host.',
-            'Status: Porting underway for complete etaHEN integration.'
+            'Hardening: Turn off all auto-update and background internet downloads.',
+            'Entry Point: Burn BD-JB ISO to Blu-ray disc or load Mast1c0re PS2 savegame (WebKit unavailable).',
+            'Kernel Exploit: Execute aio_multi_wait kernel trigger from the BD-JB / Mast1c0re menu.',
+            'Confirmation: Wait for "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
+            'Injection: Deliver etaHEN via USB autoloader (/payloads/) or Netcat port 9021.'
           ];
-        } else if (fwNum <= 13.60) {
+        } else if (bracket === '9.60 - 13.60') {
           statusClass = 'ready';
           statusBadge = (lang === 'pt') ? 'ERA MODERNA • TOTALMENTE EXPLORÁVEL' : (lang === 'es' ? 'ERA MODERNA • TOTALMENTE VULNERABLE' : 'MODERN ERA • FULLY EXPLOITABLE');
           exploitName = 'Relapse Exploit (aio_multi_wait)';
@@ -2280,7 +2308,7 @@
           statusClass = 'patched';
           statusBadge = (lang === 'pt') ? 'CORRIGIDO / NÃO SUPORTADO' : (lang === 'es' ? 'PARCHEADO / NO COMPATIBLE' : 'PATCHED / UNSUPPORTED');
           exploitName = (lang === 'pt') ? 'Nenhum Exploit Público Disponível' : (lang === 'es' ? 'Ningún Exploit Público Disponible' : 'No Public Exploit Available');
-          exploitVector = (lang === 'pt') ? 'Vulnerabilidade aio_multi_wait corrigida no FW 14.00+' : (lang === 'es' ? 'Vulnerabilidad aio_multi_wait corregida en FW 14.00+' : 'Vulnerability aio_multi_wait patched in FW 14.00+');
+          exploitVector = (lang === 'pt') ? 'Vulnerabilidade aio_multi_wait corrigida no FW 14.00+' : (lang === 'es' ? 'Vulnerabilidad aio_multi_wait corrigida en FW 14.00+' : 'Vulnerability aio_multi_wait patched in FW 14.00+');
           dnsIp = 'N/A (Keep Offline)';
           payloads = 'None';
           steps = (lang === 'pt') ? [
@@ -2295,13 +2323,18 @@
           ];
         }
 
+        let fwSummary = currentWizardFw;
+        if (currentWizardFw !== bracket && !currentWizardFw.includes('-')) {
+          fwSummary = `${currentWizardFw} (Bracket: ${bracket})`;
+        }
+
         // Build HTML
         let html = `
           <div class="ps-res-top-bar">
             <div>
               <span class="ps-res-status-pill ${statusClass}">${statusBadge}</span>
               <div class="ps-res-summary-text" style="margin-top:8px;">
-                PS5 ${model.toUpperCase()} &bull; Firmware ${currentWizardFw}
+                PS5 ${model.toUpperCase()} &bull; Firmware ${fwSummary}
               </div>
             </div>
             <div style="font-family:var(--code-font-family);font-size:13px;color:#94a3b8;">
@@ -2352,7 +2385,7 @@
         html += `</ul>`;
 
         // Payload Injection Commands (if supported)
-        if (fwNum <= 13.60) {
+        if (bracket !== '14.00+') {
           const cmdTitle = (lang === 'pt') ? '📦 COMANDOS DE INJEÇÃO (TERMINAL):' : (lang === 'es' ? '📦 COMANDOS DE INYECCIÓN (TERMINAL):' : '📦 TERMINAL PAYLOAD INJECTION SNIPPET:');
           html += `<div class="ps-res-actions-title"><span>💻</span> ${cmdTitle}</div>`;
           html += `

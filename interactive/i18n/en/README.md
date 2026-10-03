@@ -49,19 +49,16 @@ Select your PlayStation 5 hardware model and firmware version below to instantly
 <div class="ps-wizard-field">
 <label class="ps-wizard-label">2. SELECT OR ENTER YOUR FIRMWARE:</label>
 <div class="ps-fw-quick-picks">
-<button type="button" class="ps-fw-btn active" data-fw="13.60" onclick="setWizardFw('13.60')">13.60</button>
-<button type="button" class="ps-fw-btn" data-fw="9.60" onclick="setWizardFw('9.60')">9.60</button>
-<button type="button" class="ps-fw-btn" data-fw="8.20" onclick="setWizardFw('8.20')">8.20</button>
-<button type="button" class="ps-fw-btn" data-fw="7.61" onclick="setWizardFw('7.61')">7.61</button>
-<button type="button" class="ps-fw-btn" data-fw="5.50" onclick="setWizardFw('5.50')">5.50</button>
-<button type="button" class="ps-fw-btn" data-fw="4.51" onclick="setWizardFw('4.51')">4.51</button>
-<button type="button" class="ps-fw-btn" data-fw="2.50" onclick="setWizardFw('2.50')">2.50</button>
-<button type="button" class="ps-fw-btn" data-fw="1.00" onclick="setWizardFw('1.00')">1.00</button>
+<button type="button" class="ps-fw-btn active" data-fw="9.60 - 13.60" onclick="setWizardFw('9.60 - 13.60')">9.60 – 13.60</button>
+<button type="button" class="ps-fw-btn" data-fw="7.00 - 8.20" onclick="setWizardFw('7.00 - 8.20')">7.00 – 8.20</button>
+<button type="button" class="ps-fw-btn" data-fw="5.00 - 5.50" onclick="setWizardFw('5.00 - 5.50')">5.00 – 5.50</button>
+<button type="button" class="ps-fw-btn" data-fw="3.00 - 4.51" onclick="setWizardFw('3.00 - 4.51')">3.00 – 4.51</button>
+<button type="button" class="ps-fw-btn" data-fw="1.00 - 2.50" onclick="setWizardFw('1.00 - 2.50')">1.00 – 2.50</button>
 </div>
 <div class="ps-fw-custom-wrap">
 <div class="ps-input-field">
 <label for="customFwInput">Or type specific firmware:</label>
-<input type="text" id="customFwInput" class="ps-input" value="13.60" placeholder="e.g. 08.00 or 04.03" oninput="onCustomFwInput(this.value)">
+<input type="text" id="customFwInput" class="ps-input" value="9.60 - 13.60" placeholder="e.g. 10.01, 7.61, 4.03" oninput="onCustomFwInput(this.value)">
 </div>
 <div class="ps-input-field">
 <label for="customIpInput">Console IP (optional for payload commands):</label>
