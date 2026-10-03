@@ -23,7 +23,12 @@ Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones ade
 <p class="ps-wizard-subtitle">Elige el modelo de tu consola y el rango de firmware para ver los pasos correspondientes.</p>
 </div>
 <div class="ps-wizard-controls">
-<!-- Selección de Modelo -->
+<!-- Paso 1: Selección de Modelo -->
+<div class="ps-wizard-step" id="wizardStep1">
+<div class="ps-wizard-bookmark" aria-hidden="true">
+<span class="ps-bm-num">01</span>
+<span class="ps-bm-text">MODELO</span>
+</div>
 <div class="ps-wizard-field">
 <label class="ps-wizard-label">1. SELECCIONA EL MODELO DE CONSOLA:</label>
 <div class="ps-model-buttons">
@@ -44,7 +49,13 @@ Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones ade
 </button>
 </div>
 </div>
-<!-- Selección de Firmware -->
+</div>
+<!-- Paso 2: Selección de Firmware -->
+<div class="ps-wizard-step" id="wizardStep2">
+<div class="ps-wizard-bookmark" aria-hidden="true">
+<span class="ps-bm-num">02</span>
+<span class="ps-bm-text">FIRMWARE</span>
+</div>
 <div class="ps-wizard-field">
 <label class="ps-wizard-label">2. ELIGE EL RANGO DE FIRMWARE:</label>
 <div class="ps-exploit-grid">
@@ -87,6 +98,7 @@ Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones ade
 <span class="ps-ip-desc">Se usa para completar los comandos si eliges el método con ordenador o teléfono.</span>
 </label>
 <input type="text" id="customIpInput" class="ps-input" value="192.168.1.150" placeholder="192.168.1.xxx" oninput="onCustomIpInput(this.value)">
+</div>
 </div>
 </div>
 </div>

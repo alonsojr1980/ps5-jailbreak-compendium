@@ -23,7 +23,12 @@ Select your PS5 model and firmware range to get instructions for your console. F
 <p class="ps-wizard-subtitle">Choose your console model and firmware range to see the matching steps.</p>
 </div>
 <div class="ps-wizard-controls">
-<!-- Model Selection -->
+<!-- Step 1: Model Selection -->
+<div class="ps-wizard-step" id="wizardStep1">
+<div class="ps-wizard-bookmark" aria-hidden="true">
+<span class="ps-bm-num">01</span>
+<span class="ps-bm-text">MODEL</span>
+</div>
 <div class="ps-wizard-field">
 <label class="ps-wizard-label">1. SELECT YOUR HARDWARE MODEL:</label>
 <div class="ps-model-buttons">
@@ -44,7 +49,13 @@ Select your PS5 model and firmware range to get instructions for your console. F
 </button>
 </div>
 </div>
-<!-- Firmware Selection -->
+</div>
+<!-- Step 2: Firmware Selection -->
+<div class="ps-wizard-step" id="wizardStep2">
+<div class="ps-wizard-bookmark" aria-hidden="true">
+<span class="ps-bm-num">02</span>
+<span class="ps-bm-text">FIRMWARE</span>
+</div>
 <div class="ps-wizard-field">
 <label class="ps-wizard-label">2. CHOOSE YOUR FIRMWARE RANGE:</label>
 <div class="ps-exploit-grid">
@@ -87,6 +98,7 @@ Select your PS5 model and firmware range to get instructions for your console. F
 <span class="ps-ip-desc">Used to fill in commands if you choose the computer or phone method.</span>
 </label>
 <input type="text" id="customIpInput" class="ps-input" value="192.168.1.150" placeholder="192.168.1.xxx" oninput="onCustomIpInput(this.value)">
+</div>
 </div>
 </div>
 </div>

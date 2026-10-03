@@ -152,6 +152,57 @@
       padding: 24px 28px; margin: 28px 0;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), 0 0 25px rgba(0, 112, 209, 0.25);
     }
+    .ps-wizard-step {
+      position: relative;
+      margin-bottom: 24px;
+    }
+    .ps-wizard-step:last-child {
+      margin-bottom: 0;
+    }
+    .ps-wizard-bookmark {
+      position: absolute;
+      left: -48px;
+      top: 2px;
+      width: 36px;
+      background: linear-gradient(180deg, #0070d1 0%, #034685 100%);
+      border: 1px solid #38bdf8;
+      border-right: none;
+      border-radius: 8px 0 0 8px;
+      padding: 10px 4px 12px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      box-shadow: -4px 6px 14px rgba(0, 0, 0, 0.5), inset 1px 1px 2px rgba(255, 255, 255, 0.25);
+      z-index: 5;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .ps-wizard-bookmark:hover {
+      left: -52px;
+      background: linear-gradient(180deg, #0082f3 0%, #0053a4 100%);
+      box-shadow: -6px 8px 18px rgba(0, 112, 209, 0.45);
+    }
+    .ps-bm-num {
+      font-family: var(--code-font-family);
+      font-size: 13px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    }
+    .ps-bm-text {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: var(--code-font-family);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      color: #7dd3fc;
+      text-transform: uppercase;
+      line-height: 1;
+      white-space: nowrap;
+    }
     .ps-wizard-header { margin-bottom: 22px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 18px; }
     .ps-wizard-badge {
       display: inline-block; background: linear-gradient(135deg, #0070d1 0%, #00439c 100%);
@@ -522,6 +573,25 @@
     @media screen and (max-width: 768px) {
       .markdown-section { padding: 16px 16px 60px 16px !important; }
       .ps-wizard-container { padding: 16px 14px; }
+      .ps-wizard-bookmark {
+        position: static;
+        display: inline-flex;
+        flex-direction: row;
+        width: auto;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+        border-radius: 6px;
+        border-right: 1px solid #38bdf8;
+        gap: 6px;
+      }
+      .ps-wizard-bookmark:hover {
+        left: 0;
+        transform: none;
+      }
+      .ps-bm-text {
+        writing-mode: horizontal-tb;
+        transform: none;
+      }
       .ps-model-buttons, .ps-exploit-grid, .ps-proc-grid, .ps-res-grid { grid-template-columns: 1fr; }
       .ps-res-top-bar { flex-direction: column; align-items: flex-start; }
     }
@@ -1154,12 +1224,20 @@
         `;
 
         const actionTitle = (lang === 'pt') ? '⚡ SUAS ETAPAS:' : (lang === 'es' ? '⚡ TUS PASOS:' : '⚡ YOUR STEPS:');
+        const bookmark3Text = (lang === 'pt') ? 'ETAPAS' : (lang === 'es' ? 'PASOS' : 'STEPS');
         const tabOnlineTitle = (lang === 'pt') ? 'COM INTERNET' : (lang === 'es' ? 'CON INTERNET' : 'WITH INTERNET');
         const tabOnlineBadge = (lang === 'pt') ? 'REDE NECESSÁRIA' : (lang === 'es' ? 'REQUIERE RED' : 'NETWORK NEEDED');
         const tabLocalTitle = (lang === 'pt') ? 'SEM INTERNET' : (lang === 'es' ? 'SIN INTERNET' : 'WITHOUT INTERNET');
         const tabLocalBadge = (lang === 'pt') ? 'DISPOSITIVO LOCAL' : (lang === 'es' ? 'DISPOSITIVO LOCAL' : 'LOCAL DEVICE');
 
-        html += `<div class="ps-res-actions-title"><span>🎮</span> ${actionTitle}</div>`;
+        html += `
+          <div class="ps-wizard-step" id="wizardStep3">
+            <div class="ps-wizard-bookmark" aria-hidden="true">
+              <span class="ps-bm-num">03</span>
+              <span class="ps-bm-text">${bookmark3Text}</span>
+            </div>
+            <div class="ps-res-actions-title"><span>🎮</span> ${actionTitle}</div>
+        `;
 
         html += `
           <div class="ps-res-tabs">
@@ -1250,6 +1328,7 @@
               </ul>
               ${activeLocalData.codeSnippet || ''}
             </div>
+          </div>
           </div>
         `;
 
