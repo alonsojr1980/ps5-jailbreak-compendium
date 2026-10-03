@@ -48,69 +48,37 @@ Selecione o modelo do seu PS5 e a faixa de firmware para ver as instruções ade
 <div class="ps-wizard-field">
 <label class="ps-wizard-label">2. ESCOLHA A FAIXA DO FIRMWARE:</label>
 <div class="ps-exploit-grid">
-<button type="button" class="ps-exploit-btn active" data-fw="9.60 - 13.60" onclick="setWizardFw('9.60 - 13.60')">
+<button type="button" class="ps-exploit-btn active" data-fw="7.00 - 13.60" onclick="setWizardFw('7.00 - 13.60')">
 <div class="ps-exploit-header">
-<span class="ps-exploit-name">Firmware 9.60–13.60</span>
+<span class="ps-exploit-name">Firmware 7.00–13.60</span>
 <span class="ps-exploit-badge ready">ETAPAS DISPONÍVEIS</span>
 </div>
-<div class="ps-exploit-range">Firmware 9.60 – 13.60</div>
-<div class="ps-exploit-sub">Siga as etapas exibidas para esta faixa de firmware.</div>
+<div class="ps-exploit-range">Firmware 7.00 – 13.60</div>
+<div class="ps-exploit-sub">Exploit WebKit + aio_multi_wait no kernel (Relapse). Execução direta no navegador.</div>
 </button>
-<button type="button" class="ps-exploit-btn" data-fw="14.00+" onclick="setWizardFw('14.00+')">
+<button type="button" class="ps-exploit-btn" data-fw="3.00 - 6.50" onclick="setWizardFw('3.00 - 6.50')">
 <div class="ps-exploit-header">
-<span class="ps-exploit-name">Firmware 14.00 ou superior</span>
-<span class="ps-exploit-badge wip">SEM ETAPAS</span>
-</div>
-<div class="ps-exploit-range">Firmware 14.00+</div>
-<div class="ps-exploit-sub">Este assistente não tem uma rota para esta versão. Mantenha o console offline.</div>
-</button>
-<button type="button" class="ps-exploit-btn" data-fw="7.00 - 8.20" onclick="setWizardFw('7.00 - 8.20')">
-<div class="ps-exploit-header">
-<span class="ps-exploit-name">Firmware 7.00–8.20</span>
-<span class="ps-exploit-badge wip">VERIFIQUE A ROTA</span>
-</div>
-<div class="ps-exploit-range">Firmware 7.00 – 8.20</div>
-<div class="ps-exploit-sub">Este assistente ainda não inclui todas as etapas para esta faixa.</div>
-</button>
-<button type="button" class="ps-exploit-btn" data-fw="6.00 - 6.50" onclick="setWizardFw('6.00 - 6.50')">
-<div class="ps-exploit-header">
-<span class="ps-exploit-name">Firmware 6.00–6.50</span>
-<span class="ps-exploit-badge wip">AINDA NÃO PRONTO</span>
-</div>
-<div class="ps-exploit-range">Firmware 6.00 – 6.50</div>
-<div class="ps-exploit-sub">Ainda não há instruções passo a passo para esta faixa.</div>
-</button>
-<button type="button" class="ps-exploit-btn" data-fw="5.00 - 5.50" onclick="setWizardFw('5.00 - 5.50')">
-<div class="ps-exploit-header">
-<span class="ps-exploit-name">Firmware 5.00–5.50</span>
+<span class="ps-exploit-name">Firmware 3.00–6.50</span>
 <span class="ps-exploit-badge ready">ETAPAS DISPONÍVEIS</span>
 </div>
-<div class="ps-exploit-range">Firmware 5.00 – 5.50</div>
-<div class="ps-exploit-sub">Siga as etapas exibidas para esta faixa de firmware.</div>
-</button>
-<button type="button" class="ps-exploit-btn" data-fw="3.00 - 4.51" onclick="setWizardFw('3.00 - 4.51')">
-<div class="ps-exploit-header">
-<span class="ps-exploit-name">Firmware 3.00–4.51</span>
-<span class="ps-exploit-badge ready">ETAPAS DISPONÍVEIS</span>
-</div>
-<div class="ps-exploit-range">Firmware 3.00 – 4.51</div>
-<div class="ps-exploit-sub">Siga as etapas exibidas para esta faixa de firmware.</div>
+<div class="ps-exploit-range">Firmware 3.00 – 6.50</div>
+<div class="ps-exploit-sub">Exploits de kernel UMTX e Socket IPv6 UAF. Requer pendrive USB para os payloads.</div>
 </button>
 <button type="button" class="ps-exploit-btn" data-fw="1.00 - 2.50" onclick="setWizardFw('1.00 - 2.50')">
 <div class="ps-exploit-header">
 <span class="ps-exploit-name">Firmware 1.00–2.50</span>
-<span class="ps-exploit-badge wip">VERIFIQUE A ROTA</span>
+<span class="ps-exploit-badge ready">ETAPAS DISPONÍVEIS</span>
 </div>
 <div class="ps-exploit-range">Firmware 1.00 – 2.50</div>
-<div class="ps-exploit-sub">Este assistente ainda não inclui todas as etapas para esta faixa.</div>
+<div class="ps-exploit-sub">Controle total Byepervisor de Hypervisor (Ring -1) e leitura/escrita no kernel.</div>
 </button>
-<button type="button" class="ps-exploit-btn" data-fw="8.21 - 9.59" onclick="setWizardFw('8.21 - 9.59')">
+<button type="button" class="ps-exploit-btn" data-fw="14.00+" onclick="setWizardFw('14.00+')">
 <div class="ps-exploit-header">
-<span class="ps-exploit-name">Verifique a compatibilidade</span>
-<span class="ps-exploit-badge wip">SEM ETAPAS</span>
+<span class="ps-exploit-name">Firmware 14.00 ou superior</span>
+<span class="ps-exploit-badge patched">NÃO EXPLORÁVEL</span>
 </div>
-<div class="ps-exploit-range">Firmware 8.21 – 9.59</div>
-<div class="ps-exploit-sub">Este assistente não tem uma rota verificada para esta faixa.</div>
+<div class="ps-exploit-range">Firmware 14.00+</div>
+<div class="ps-exploit-sub">Corrigido pela Sony. Sem exploit público. Mantenha o console estritamente offline.</div>
 </button>
 <button type="button" class="ps-exploit-btn" data-fw="unlisted" onclick="setWizardFw('unlisted')">
 <div class="ps-exploit-header">
@@ -118,7 +86,7 @@ Selecione o modelo do seu PS5 e a faixa de firmware para ver as instruções ade
 <span class="ps-exploit-badge wip">VERIFIQUE PRIMEIRO</span>
 </div>
 <div class="ps-exploit-range">Outra versão de firmware</div>
-<div class="ps-exploit-sub">Não escolha uma faixa próxima; verifique a compatibilidade primeiro.</div>
+<div class="ps-exploit-sub">Confira a versão do seu console. Todas as versões abaixo de 14.00 são exploráveis.</div>
 </button>
 </div>
 <div class="ps-ip-wrap">

@@ -244,6 +244,11 @@
       color: #c084fc;
       border: 1px solid rgba(168, 85, 247, 0.35);
     }
+    .ps-exploit-badge.patched {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
     .ps-exploit-range {
       font-family: var(--code-font-family);
       font-size: 14px;
@@ -587,27 +592,25 @@
     (function() {
       let currentWizardModel = localStorage.getItem('ps5_wizard_model') || 'fat';
       let storedFw = localStorage.getItem('ps5_wizard_fw');
-      if (!storedFw || storedFw === '13.60' || storedFw === '9.60') {
-        storedFw = '9.60 - 13.60';
+      if (!storedFw || storedFw === '13.60' || storedFw === '9.60' || storedFw === '9.60 - 13.60') {
+        storedFw = '7.00 - 13.60';
       }
       let currentWizardFw = storedFw;
       let currentWizardIp = localStorage.getItem('ps5_wizard_ip') || '192.168.1.150';
 
       function getBracketForFw(val) {
-        if (!val) return 'unlisted';
+        if (!val) return '7.00 - 13.60';
         const str = String(val).trim();
-        if (str === '9.60 - 13.60' || str === '8.21 - 9.59' || str === '7.00 - 8.20' || str === '6.00 - 6.50' || str === '5.00 - 5.50' || str === '3.00 - 4.51' || str === '1.00 - 2.50') {
+        if (str === '7.00 - 13.60' || str === '3.00 - 6.50' || str === '1.00 - 2.50' || str === '14.00+') {
           return str;
         }
+        if (str === '9.60 - 13.60' || str === '8.21 - 9.59' || str === '7.00 - 8.20') return '7.00 - 13.60';
+        if (str === '6.00 - 6.50' || str === '5.00 - 5.50' || str === '3.00 - 4.51') return '3.00 - 6.50';
         const num = parseFloat(str);
         if (isNaN(num)) return 'unlisted';
         if (num >= 1.00 && num <= 2.50) return '1.00 - 2.50';
-        if (num >= 3.00 && num <= 4.51) return '3.00 - 4.51';
-        if (num >= 5.00 && num <= 5.50) return '5.00 - 5.50';
-        if (num >= 6.00 && num <= 6.50) return '6.00 - 6.50';
-        if (num >= 7.00 && num <= 8.20) return '7.00 - 8.20';
-        if (num >= 8.21 && num <= 9.59) return '8.21 - 9.59';
-        if (num >= 9.60 && num <= 13.60) return '9.60 - 13.60';
+        if (num >= 3.00 && num <= 6.50) return '3.00 - 6.50';
+        if (num >= 7.00 && num <= 13.60) return '7.00 - 13.60';
         if (num >= 14.00) return '14.00+';
         return 'unlisted';
       }
@@ -673,9 +676,7 @@
       }
 
       function getProcedureData(procId, lang, bracket, ip, port) {
-        const isDiscRequired = (bracket === '7.00 - 8.20');
         const isPatched = (bracket === '14.00+');
-        const isWip = (bracket === '6.00 - 6.50');
 
         let title = '';
         let badge = '';
@@ -687,81 +688,118 @@
 
         if (isPatched) {
           note = (lang === 'pt') ?
-            '⛔ FIRMWARE CORRIGIDO: O Firmware 14.00+ corrigiu as vulnerabilidades de kernel. Mantenha o console estritamente offline e aguarde novas pesquisas.' :
+            '⛔ FIRMWARE CORRIGIDO / NÃO EXPLORÁVEL: O Firmware 14.00+ corrigiu as vulnerabilidades de kernel. Mantenha o console estritamente offline e aguarde novas pesquisas.' :
             (lang === 'es' ?
-            '⛔ FIRMWARE PARCHEADO: El Firmware 14.00+ ha corregido las vulnerabilidades de kernel. Mantén la consola estrictamente offline y espera nuevas investigaciones.' :
-            '⛔ FIRMWARE PATCHED: Firmware 14.00+ has patched kernel vulnerabilities. Stay strictly offline and await future research disclosures.');
-        } else if (isDiscRequired && (procId === 'relapse' || procId === 'autoloader_cache' || procId === 'public_hosts')) {
+            '⛔ FIRMWARE PARCHEADO / NO EXPLOITABLE: El Firmware 14.00+ ha corregido las vulnerabilidades de kernel. Mantén la consola estrictamente offline y espera nuevas investigaciones.' :
+            '⛔ FIRMWARE PATCHED / NOT EXPLOITABLE: Firmware 14.00+ has patched kernel vulnerabilities. Stay strictly offline and await future research disclosures.');
+        } else if (bracket === '1.00 - 2.50') {
           note = (lang === 'pt') ?
-            '⚠️ AVISO PARA FW 7.00–8.20: O ponto de entrada WebKit não está disponível neste firmware. O exploit de kernel deve ser acionado através de disco Blu-ray BD-JB gravado ou savegame PS2 Mast1c0re.' :
+            '🌟 ROOT DO HYPERVISOR (RING -1): Esta faixa suporta o Byepervisor com controle total de memória do Hypervisor.' :
             (lang === 'es' ?
-            '⚠️ AVISO PARA FW 7.00–8.20: La entrada WebKit no está disponible en este firmware. El exploit de kernel debe ejecutarse a través de disco Blu-ray BD-JB grabado o partida guardada PS2 Mast1c0re.' :
-            '⚠️ ADVISORY FOR FW 7.00–8.20: WebKit entry is unavailable on this firmware. The kernel exploit must be triggered via a burned BD-JB Blu-ray disc or Mast1c0re PS2 savegame.');
-        } else if (isWip) {
+            '🌟 ROOT DE HYPERVISOR (RING -1): Este rango soporta Byepervisor con control total de memoria del Hypervisor.' :
+            '🌟 HYPERVISOR ROOT (RING -1): This range supports Byepervisor with complete bare-metal Hypervisor control.');
+        } else if (bracket === '3.00 - 6.50') {
           note = (lang === 'pt') ?
-            '⏳ EM DESENVOLVIMENTO: Offsets e binários finais do etaHEN para o Firmware 6.00–6.50 estão sendo portados pela comunidade.' :
+            '💡 ERA ESTÁVEL: Exploit de kernel UMTX / IPv6 com carregamento de payloads via pendrive USB exFAT na pasta /payloads/.' :
             (lang === 'es' ?
-            '⏳ EN DESARROLLO: Los offsets y binarios finales de etaHEN para el Firmware 6.00–6.50 se encuentran actualmente en desarrollo por la comunidad.' :
-            '⏳ IN DEVELOPMENT: Offsets and final etaHEN binaries for Firmware 6.00–6.50 are currently being ported by community researchers.');
+            '💡 ERA ESTABLE: Exploit de kernel UMTX / IPv6 con carga de payloads mediante memoria USB exFAT en la carpeta /payloads/.' :
+            '💡 STABLE ERA: UMTX / IPv6 kernel exploit with payload loading via an exFAT USB drive in the /payloads/ folder.');
         }
 
         if (procId === 'relapse') {
-          title = (lang === 'pt') ? '⚡ Etapas recomendadas' : (lang === 'es' ? '⚡ Pasos recomendados' : '⚡ Recommended steps');
-          badge = (lang === 'pt') ? 'PADRÃO' : (lang === 'es' ? 'RECOMENDADO' : 'RECOMMENDED');
-          badgeClass = 'online';
-          desc = (lang === 'pt') ?
-            'Siga as etapas na ordem e confirme cada resultado na tela do console.' :
-            (lang === 'es' ?
-            'Sigue los pasos en orden y confirma cada resultado en la pantalla de la consola.' :
-            'Follow the steps in order and confirm each result on the console screen.');
-
-          steps = (lang === 'pt') ? [
-            'Se o carregador não baixar os arquivos sozinho, obtenha o etaHEN em github.com/LightningMods/etaHEN e o ps5-kstuff em github.com/sleirsgoevy/ps5-kstuff.',
-            'Antes de conectar à rede, desative o download e a instalação automáticos de atualizações, inclusive no Modo de Repouso.',
-            'No PS5, abra Configurações ➔ Rede ➔ Configurações ➔ Configurar conexão à Internet. Escolha sua rede, abra Configurações avançadas, defina DNS como Manual, use 45.56.67.85 como DNS Primário e 0.0.0.0 como Secundário. Salve as alterações.',
-            'Execute o teste de conexão. Uma falha no login da PSN é esperada. Se aparecer um aviso de atualização, pare e não aceite.',
-            'Abra Configurações ➔ Sistema ➔ Guia do Usuário e aguarde as mensagens na tela.',
-            'Só considere concluído quando aparecer a notificação de etaHEN carregado. Confirme que etaHEN Toolbox aparece em Configurações ➔ Sistema.'
-          ] : (lang === 'es') ? [
-            'Si el cargador no descarga los archivos por sí mismo, obtén etaHEN en github.com/LightningMods/etaHEN y ps5-kstuff en github.com/sleirsgoevy/ps5-kstuff.',
-            'Antes de conectarte a la red, desactiva las descargas e instalaciones automáticas de actualizaciones, también en el modo de reposo.',
-            'En la PS5, ve a Ajustes ➔ Red ➔ Ajustes ➔ Configurar conexión a Internet. Elige tu red, abre Ajustes avanzados, configura DNS manual, introduce 45.56.67.85 como DNS primario y 0.0.0.0 como secundario. Guarda los cambios.',
-            'Haz la prueba de conexión. Es normal que falle el inicio de sesión en PSN. Si aparece un aviso de actualización, detente y no lo aceptes.',
-            'Abre Ajustes ➔ Sistema ➔ Guía del usuario y espera los mensajes en pantalla.',
-            'Da el proceso por terminado solo cuando aparezca la notificación de etaHEN cargado. Comprueba que etaHEN Toolbox aparece en Ajustes ➔ Sistema.'
-          ] : [
-            'If the loader does not fetch the files automatically, download etaHEN from github.com/LightningMods/etaHEN and ps5-kstuff from github.com/sleirsgoevy/ps5-kstuff.',
-            'Before connecting to the network, turn off automatic system update downloads and installation, including in Rest Mode.',
-            'On PS5, open Settings ➔ Network ➔ Settings ➔ Set Up Internet Connection. Choose your network, open Advanced Settings, set DNS to Manual, enter 45.56.67.85 as Primary DNS and 0.0.0.0 as Secondary DNS, then save.',
-            'Run the connection test. A PSN sign-in failure is expected. If an update prompt appears, stop and do not accept it.',
-            'Open Settings ➔ System ➔ User\'s Guide and wait for the on-screen messages.',
-            'Count it as complete only after the etaHEN-loaded notification appears. Confirm etaHEN Toolbox is listed under Settings ➔ System.'
-          ];
-
-          if (bracket === '3.00 - 4.51' || bracket === '5.00 - 5.50') {
-            const isIpv6Route = bracket === '3.00 - 4.51';
-            title = (lang === 'pt') ? `⚡ Etapas para firmware ${isIpv6Route ? '3.00–4.51' : '5.00–5.50'}` : (lang === 'es' ? `⚡ Pasos para firmware ${isIpv6Route ? '3.00–4.51' : '5.00–5.50'}` : `⚡ Steps for firmware ${isIpv6Route ? '3.00–4.51' : '5.00–5.50'}`);
+          if (bracket === '1.00 - 2.50') {
+            title = (lang === 'pt') ? '⚡ Etapas para firmware 1.00–2.50' : (lang === 'es' ? '⚡ Pasos para firmware 1.00–2.50' : '⚡ Steps for firmware 1.00–2.50');
+            badge = (lang === 'pt') ? 'PADRÃO' : (lang === 'es' ? 'RECOMENDADO' : 'RECOMMENDED');
+            badgeClass = 'online';
+            desc = (lang === 'pt') ?
+              'Siga as etapas na ordem e confirme cada resultado na tela do console.' :
+              (lang === 'es' ?
+              'Sigue los pasos en orden y confirma cada resultado en la pantalla de la consola.' :
+              'Follow the steps in order and confirm each result on the console screen.');
+            steps = (lang === 'pt') ? [
+              'Baixe os arquivos: obtenha a versão mais recente do etaHEN em github.com/LightningMods/etaHEN, ps5-kstuff em github.com/sleirsgoevy/ps5-kstuff e Byepervisor.',
+              'Prepare um pendrive exFAT com uma pasta "payloads" na raiz. Coloque etaHEN.bin, ps5-kstuff.bin e os binários do Byepervisor nessa pasta e conecte o pendrive ao PS5.',
+              'Antes de conectar à rede, desative os downloads e instalações automáticos de atualizações e o acesso à internet no Modo de Repouso. Consulte o checklist acima.',
+              'Abra Configurações ➔ Rede ➔ Configurações ➔ Configurar conexão à Internet. Escolha sua rede, abra Configurações avançadas, defina DNS como Manual, use 62.210.38.117 como DNS Primário e 0.0.0.0 como Secundário. Salve.',
+              'Abra Configurações ➔ Sistema ➔ Guia do Usuário e execute o exploit Byepervisor / IPv6 para obter controle total do Hypervisor (Ring -1).',
+              'Aguarde a notificação de etaHEN carregado e confirme que etaHEN Toolbox aparece em Configurações ➔ Sistema.'
+            ] : (lang === 'es') ? [
+              'Descarga los archivos: obtén la última versión de etaHEN en github.com/LightningMods/etaHEN, ps5-kstuff en github.com/sleirsgoevy/ps5-kstuff y Byepervisor.',
+              'Prepara una memoria USB exFAT con una carpeta "payloads" en la raíz. Coloca etaHEN.bin, ps5-kstuff.bin y los binarios de Byepervisor dentro y conecta la memoria a la PS5.',
+              'Antes de conectarte a la red, desactiva las descargas e instalaciones automáticas de actualizaciones y el acceso a Internet en modo de reposo. Consulta la lista de comprobación anterior.',
+              'Ve a Ajustes ➔ Red ➔ Ajustes ➔ Configurar conexión a Internet. Elige tu red, abre Ajustes avanzados, configura DNS manual, introduce 62.210.38.117 como DNS primario y 0.0.0.0 como secundario. Guarda.',
+              'Abre Ajustes ➔ Sistema ➔ Guía del usuario y ejecuta el exploit Byepervisor / IPv6 para obtener control total del Hypervisor (Ring -1).',
+              'Espera la notificación de etaHEN cargado y comprueba que etaHEN Toolbox aparece en Ajustes ➔ Sistema.'
+            ] : [
+              'Get the files: download the latest etaHEN release from github.com/LightningMods/etaHEN, ps5-kstuff from github.com/sleirsgoevy/ps5-kstuff, and Byepervisor binaries.',
+              'Prepare an exFAT USB drive with a "payloads" folder at its root. Put etaHEN.bin, ps5-kstuff.bin, and Byepervisor inside, then connect the drive to the PS5.',
+              'Before connecting to the network, turn off automatic update downloads and installation and Rest Mode internet access. See the checklist above.',
+              'Open Settings ➔ Network ➔ Settings ➔ Set Up Internet Connection. Choose your network, open Advanced Settings, set DNS to Manual, enter 62.210.38.117 as Primary DNS and 0.0.0.0 as Secondary DNS, then save.',
+              'Open Settings ➔ System ➔ User\'s Guide and execute Byepervisor / IPv6 exploit to take full control of the Hypervisor (Ring -1).',
+              'Wait for the etaHEN-loaded notification and confirm etaHEN Toolbox appears under Settings ➔ System.'
+            ];
+          } else if (bracket === '3.00 - 6.50') {
+            title = (lang === 'pt') ? '⚡ Etapas para firmware 3.00–6.50' : (lang === 'es' ? '⚡ Pasos para firmware 3.00–6.50' : '⚡ Steps for firmware 3.00–6.50');
+            badge = (lang === 'pt') ? 'PADRÃO' : (lang === 'es' ? 'RECOMENDADO' : 'RECOMMENDED');
+            badgeClass = 'online';
+            desc = (lang === 'pt') ?
+              'Siga as etapas na ordem e confirme cada resultado na tela do console.' :
+              (lang === 'es' ?
+              'Sigue los pasos en orden y confirma cada resultado en la pantalla de la consola.' :
+              'Follow the steps in order and confirm each result on the console screen.');
             steps = (lang === 'pt') ? [
               'Baixe os arquivos: obtenha a versão mais recente do etaHEN em github.com/LightningMods/etaHEN e do ps5-kstuff em github.com/sleirsgoevy/ps5-kstuff.',
               'Prepare um pendrive exFAT com uma pasta "payloads" na raiz. Coloque etaHEN.bin e ps5-kstuff.bin nessa pasta e conecte o pendrive ao PS5.',
               'Antes de conectar à rede, desative os downloads e instalações automáticos de atualizações e o acesso à internet no Modo de Repouso. Consulte o checklist acima.',
               'Abra Configurações ➔ Rede ➔ Configurações ➔ Configurar conexão à Internet. Escolha sua rede, abra Configurações avançadas, defina DNS como Manual, use 62.210.38.117 como DNS Primário e 0.0.0.0 como Secundário. Salve.',
-              `Abra Configurações ➔ Sistema ➔ Guia do Usuário e selecione ${isIpv6Route ? 'IPv6 UAF' : 'UMTX Exploit'}.`,
-              'Aguarde a notificação etaHEN carregado e confirme que etaHEN Toolbox aparece em Configurações ➔ Sistema. Se a notificação não aparecer, pare e não use instruções de outra faixa.'
+              'Abra Configurações ➔ Sistema ➔ Guia do Usuário e selecione o exploit correspondente à sua versão (IPv6 UAF para 3.00–4.51 ou UMTX para 5.00–6.50).',
+              'Aguarde a notificação etaHEN carregado e confirme que etaHEN Toolbox aparece em Configurações ➔ Sistema.'
             ] : (lang === 'es') ? [
               'Descarga los archivos: obtén la última versión de etaHEN en github.com/LightningMods/etaHEN y de ps5-kstuff en github.com/sleirsgoevy/ps5-kstuff.',
               'Prepara una memoria USB exFAT con una carpeta "payloads" en la raíz. Coloca etaHEN.bin y ps5-kstuff.bin dentro y conecta la memoria a la PS5.',
               'Antes de conectarte a la red, desactiva las descargas e instalaciones automáticas de actualizaciones y el acceso a Internet en modo de reposo. Consulta la lista de comprobación anterior.',
               'Ve a Ajustes ➔ Red ➔ Ajustes ➔ Configurar conexión a Internet. Elige tu red, abre Ajustes avanzados, configura DNS manual, introduce 62.210.38.117 como DNS primario y 0.0.0.0 como secundario. Guarda.',
-              `Abre Ajustes ➔ Sistema ➔ Guía del usuario y selecciona ${isIpv6Route ? 'IPv6 UAF' : 'UMTX Exploit'}.`,
-              'Espera la notificación de etaHEN cargado y comprueba que etaHEN Toolbox aparece en Ajustes ➔ Sistema. Si no aparece, detente y no uses instrucciones de otro rango.'
+              'Abre Ajustes ➔ Sistema ➔ Guía del usuario y selecciona el exploit correspondiente a tu versión (IPv6 UAF para 3.00–4.51 o UMTX para 5.00–6.50).',
+              'Espera la notificación de etaHEN cargado y comprueba que etaHEN Toolbox aparece en Ajustes ➔ Sistema.'
             ] : [
               'Get the files: download the latest etaHEN release from github.com/LightningMods/etaHEN and ps5-kstuff from github.com/sleirsgoevy/ps5-kstuff.',
               'Prepare an exFAT USB drive with a "payloads" folder at its root. Put etaHEN.bin and ps5-kstuff.bin in that folder, then connect the drive to the PS5.',
               'Before connecting to the network, turn off automatic update downloads and installation and Rest Mode internet access. See the checklist above.',
               'Open Settings ➔ Network ➔ Settings ➔ Set Up Internet Connection. Choose your network, open Advanced Settings, set DNS to Manual, enter 62.210.38.117 as Primary DNS and 0.0.0.0 as Secondary DNS, then save.',
-              `Open Settings ➔ System ➔ User\'s Guide and select ${isIpv6Route ? 'IPv6 UAF' : 'UMTX Exploit'}.`,
+              'Open Settings ➔ System ➔ User\'s Guide and select the exploit option for your version (IPv6 UAF for 3.00–4.51 or UMTX for 5.00–6.50).',
               'Wait for the etaHEN-loaded notification and confirm etaHEN Toolbox appears under Settings ➔ System. If it does not appear, stop; do not use instructions for another range.'
+            ];
+          } else {
+            title = (lang === 'pt') ? '⚡ Etapas recomendadas' : (lang === 'es' ? '⚡ Pasos recomendados' : '⚡ Recommended steps');
+            badge = (lang === 'pt') ? 'PADRÃO' : (lang === 'es' ? 'RECOMENDADO' : 'RECOMMENDED');
+            badgeClass = 'online';
+            desc = (lang === 'pt') ?
+              'Siga as etapas na ordem e confirme cada resultado na tela do console.' :
+              (lang === 'es' ?
+              'Sigue los pasos en orden y confirma cada resultado en la pantalla de la consola.' :
+              'Follow the steps in order and confirm each result on the console screen.');
+
+            steps = (lang === 'pt') ? [
+              'Se o carregador não baixar os arquivos sozinho, obtenha o etaHEN em github.com/LightningMods/etaHEN e o ps5-kstuff em github.com/sleirsgoevy/ps5-kstuff.',
+              'Antes de conectar à rede, desative o download e a instalação automáticos de atualizações, inclusive no Modo de Repouso.',
+              'No PS5, abra Configurações ➔ Rede ➔ Configurações ➔ Configurar conexão à Internet. Escolha sua rede, abra Configurações avançadas, defina DNS como Manual, use 45.56.67.85 como DNS Primário e 0.0.0.0 como Secundário. Salve as alterações.',
+              'Execute o teste de conexão. Uma falha no login da PSN é esperada. Se aparecer um aviso de atualização, pare e não aceite.',
+              'Abra Configurações ➔ Sistema ➔ Guia do Usuário e aguarde as mensagens na tela (execução do exploit Relapse aio_multi_wait).',
+              'Só considere concluído quando aparecer a notificação de etaHEN carregado. Confirme que etaHEN Toolbox aparece em Configurações ➔ Sistema.'
+            ] : (lang === 'es') ? [
+              'Si el cargador no descarga los archivos por sí mismo, obtén etaHEN en github.com/LightningMods/etaHEN y ps5-kstuff en github.com/sleirsgoevy/ps5-kstuff.',
+              'Antes de conectarte a la red, desactiva las descargas e instalaciones automáticas de actualizaciones, también en el modo de reposo.',
+              'En la PS5, ve a Ajustes ➔ Red ➔ Ajustes ➔ Configurar conexión a Internet. Elige tu red, abre Ajustes avanzados, configura DNS manual, introduce 45.56.67.85 como DNS primario y 0.0.0.0 como secundario. Guarda los cambios.',
+              'Haz la prueba de conexión. Es normal que falle el inicio de sesión en PSN. Si aparece un aviso de actualización, detente y no lo aceptes.',
+              'Abre Ajustes ➔ Sistema ➔ Guía del usuario y espera los mensajes en pantalla (ejecución del exploit Relapse aio_multi_wait).',
+              'Da el proceso por terminado solo cuando aparezca la notificación de etaHEN cargado. Comprueba que etaHEN Toolbox aparece en Ajustes ➔ Sistema.'
+            ] : [
+              'If the loader does not fetch the files automatically, download etaHEN from github.com/LightningMods/etaHEN and ps5-kstuff from github.com/sleirsgoevy/ps5-kstuff.',
+              'Before connecting to the network, turn off automatic system update downloads and installation, including in Rest Mode.',
+              'On PS5, open Settings ➔ Network ➔ Settings ➔ Set Up Internet Connection. Choose your network, open Advanced Settings, set DNS to Manual, enter 45.56.67.85 as Primary DNS and 0.0.0.0 as Secondary DNS, then save.',
+              'Run the connection test. A PSN sign-in failure is expected. If an update prompt appears, stop and do not accept it.',
+              'Open Settings ➔ System ➔ User\'s Guide and wait for the on-screen messages (Relapse aio_multi_wait execution).',
+              'Count it as complete only after the etaHEN-loaded notification appears. Confirm etaHEN Toolbox is listed under Settings ➔ System.'
             ];
           }
         } else if (procId === 'autoloader_cache') {
@@ -1025,81 +1063,49 @@
         const isSlimOrPro = (model === 'slim' || model === 'pro');
 
         if (bracket === '1.00 - 2.50') {
-          statusClass = 'wip';
-          statusBadge = (lang === 'pt') ? 'VERIFIQUE ANTES DE CONTINUAR' : (lang === 'es' ? 'VERIFICA ANTES DE CONTINUAR' : 'VERIFY BEFORE CONTINUING');
-          exploitName = (lang === 'pt') ? 'Etapas completas não disponíveis' : (lang === 'es' ? 'Pasos completos no disponibles' : 'Complete steps not available');
-          exploitVector = (lang === 'pt') ? 'Este assistente não tem todas as etapas para esta faixa.' : (lang === 'es' ? 'Este asistente no incluye todos los pasos para este rango.' : 'This wizard does not include all steps for this range.');
-          dnsIp = 'N/A';
-          payloads = 'N/A';
-          port = 'N/A';
-        } else if (bracket === '3.00 - 4.51') {
           statusClass = 'ready';
-          statusBadge = (lang === 'pt') ? 'ETAPAS DISPONÍVEIS' : (lang === 'es' ? 'PASOS DISPONIBLES' : 'STEPS AVAILABLE');
-          exploitName = (lang === 'pt') ? 'Rota para firmware 3.00–4.51' : (lang === 'es' ? 'Ruta para firmware 3.00–4.51' : 'Steps for firmware 3.00–4.51');
-          exploitVector = (lang === 'pt') ? 'Siga as instruções exibidas para esta faixa.' : (lang === 'es' ? 'Sigue los pasos que aparecen para este rango.' : 'Follow the steps shown for this range.');
+          statusBadge = (lang === 'pt') ? 'ETAPAS DISPONÍVEIS • HYPERVISOR' : (lang === 'es' ? 'PASOS DISPONIBLES • HYPERVISOR' : 'STEPS AVAILABLE • HYPERVISOR');
+          exploitName = (lang === 'pt') ? 'Byepervisor / IPv6 UAF' : (lang === 'es' ? 'Byepervisor / IPv6 UAF' : 'Byepervisor / IPv6 UAF');
+          exploitVector = (lang === 'pt') ? 'Acesso total ao Hypervisor (Ring -1) e Kernel' : (lang === 'es' ? 'Acceso total a Hypervisor (Ring -1) y Kernel' : 'Full Hypervisor (Ring -1) root & kernel read/write');
+          dnsIp = '62.210.38.117';
+          payloads = 'Byepervisor + etaHEN.bin';
+          port = '9021';
+        } else if (bracket === '3.00 - 6.50') {
+          statusClass = 'ready';
+          statusBadge = (lang === 'pt') ? 'ETAPAS DISPONÍVEIS • ALTA ESTABILIDADE' : (lang === 'es' ? 'PASOS DISPONIBLES • ALTA ESTABILIDAD' : 'STEPS AVAILABLE • HIGH STABILITY');
+          exploitName = (lang === 'pt') ? 'UMTX e Socket IPv6 UAF' : (lang === 'es' ? 'UMTX y Socket IPv6 UAF' : 'UMTX & IPv6 Socket UAF');
+          exploitVector = (lang === 'pt') ? 'Vulnerabilidades de kernel FreeBSD libthr e netinet6' : (lang === 'es' ? 'Vulnerabilidades de kernel FreeBSD libthr y netinet6' : 'FreeBSD libthr and netinet6 kernel vulnerabilities');
           dnsIp = '62.210.38.117';
           payloads = 'etaHEN.bin + ps5-kstuff.bin';
           port = '9021';
-        } else if (bracket === '5.00 - 5.50') {
+        } else if (bracket === '7.00 - 13.60') {
           statusClass = 'ready';
-          statusBadge = (lang === 'pt') ? 'ETAPAS DISPONÍVEIS' : (lang === 'es' ? 'PASOS DISPONIBLES' : 'STEPS AVAILABLE');
-          exploitName = (lang === 'pt') ? 'Rota para firmware 5.00–5.50' : (lang === 'es' ? 'Ruta para firmware 5.00–5.50' : 'Steps for firmware 5.00–5.50');
-          exploitVector = (lang === 'pt') ? 'Siga as instruções exibidas para esta faixa.' : (lang === 'es' ? 'Sigue los pasos que aparecen para este rango.' : 'Follow the steps shown for this range.');
-          dnsIp = '62.210.38.117';
-          payloads = 'etaHEN.bin + ps5-kstuff.bin';
-          port = '9021';
-        } else if (bracket === '6.00 - 6.50') {
-          statusClass = 'wip';
-          statusBadge = (lang === 'pt') ? 'INSTRUÇÕES NÃO DISPONÍVEIS' : (lang === 'es' ? 'INSTRUCCIONES NO DISPONIBLES' : 'INSTRUCTIONS NOT AVAILABLE');
-          exploitName = (lang === 'pt') ? 'Rota ainda não pronta' : (lang === 'es' ? 'Ruta aún no disponible' : 'Route not ready yet');
-          exploitVector = (lang === 'pt') ? 'Pare aqui; não use as etapas de outra faixa de firmware.' : (lang === 'es' ? 'Detente aquí; no uses los pasos de otro rango de firmware.' : 'Stop here; do not use steps for another firmware range.');
-          dnsIp = 'N/A';
-          payloads = 'N/A';
-          port = 'N/A';
-        } else if (bracket === '7.00 - 8.20') {
-          statusClass = 'wip';
-          statusBadge = (lang === 'pt') ? 'VERIFIQUE ANTES DE CONTINUAR' : (lang === 'es' ? 'VERIFICA ANTES DE CONTINUAR' : 'VERIFY BEFORE CONTINUING');
-          exploitName = (lang === 'pt') ? 'Etapas completas não disponíveis' : (lang === 'es' ? 'Pasos completos no disponibles' : 'Complete steps not available');
-          exploitVector = (lang === 'pt') ? 'Esta faixa precisa de uma rota própria; não siga as instruções online abaixo.' : (lang === 'es' ? 'Este rango necesita una ruta propia; no sigas las instrucciones en línea de otros rangos.' : 'This range needs its own route; do not follow the online steps for other ranges.');
-          dnsIp = 'N/A';
-          payloads = 'N/A';
-          port = 'N/A';
-        } else if (bracket === '9.60 - 13.60') {
-          statusClass = 'ready';
-          statusBadge = (lang === 'pt') ? 'ETAPAS DISPONÍVEIS' : (lang === 'es' ? 'PASOS DISPONIBLES' : 'STEPS AVAILABLE');
-          exploitName = (lang === 'pt') ? 'Rota para firmware 9.60–13.60' : (lang === 'es' ? 'Ruta para firmware 9.60–13.60' : 'Steps for firmware 9.60–13.60');
-          exploitVector = (lang === 'pt') ? 'Siga as instruções exibidas para esta faixa.' : (lang === 'es' ? 'Sigue los pasos que aparecen para este rango.' : 'Follow the steps shown for this range.');
+          statusBadge = (lang === 'pt') ? 'ETAPAS DISPONÍVEIS • ERA MODERNA' : (lang === 'es' ? 'PASOS DISPONIBLES • ERA MODERNA' : 'STEPS AVAILABLE • MODERN ERA');
+          exploitName = (lang === 'pt') ? 'Relapse Exploit (aio_multi_wait)' : (lang === 'es' ? 'Relapse Exploit (aio_multi_wait)' : 'Relapse Exploit (aio_multi_wait)');
+          exploitVector = (lang === 'pt') ? 'WebKit (JSC) + condição de corrida aio_multi_wait' : (lang === 'es' ? 'WebKit (JSC) + condición de carrera aio_multi_wait' : 'WebKit (JSC) + aio_multi_wait race condition');
           dnsIp = '45.56.67.85';
           payloads = 'etaHEN.bin + ps5-kstuff.bin';
           port = '9021';
         } else if (bracket === '14.00+') {
           statusClass = 'patched';
-          statusBadge = (lang === 'pt') ? 'SEM ROTA NESTE ASSISTENTE' : (lang === 'es' ? 'SIN RUTA EN ESTE ASISTENTE' : 'NO ROUTE IN THIS WIZARD');
-          exploitName = (lang === 'pt') ? 'Não continue com estas etapas' : (lang === 'es' ? 'No continúes con estos pasos' : 'Do not continue with these steps');
-          exploitVector = (lang === 'pt') ? 'Mantenha o console offline e não atualize.' : (lang === 'es' ? 'Mantén la consola sin conexión y no la actualices.' : 'Keep the console offline and do not update it.');
-          dnsIp = 'N/A';
-          payloads = 'N/A';
-          port = 'N/A';
-        } else if (bracket === '8.21 - 9.59') {
-          statusClass = 'wip';
-          statusBadge = (lang === 'pt') ? 'COMPATIBILIDADE NÃO VERIFICADA' : (lang === 'es' ? 'COMPATIBILIDAD NO VERIFICADA' : 'COMPATIBILITY NOT VERIFIED');
-          exploitName = (lang === 'pt') ? 'Não há etapas verificadas' : (lang === 'es' ? 'No hay pasos verificados' : 'No verified steps');
-          exploitVector = (lang === 'pt') ? 'Pare aqui e verifique a compatibilidade atual antes de continuar.' : (lang === 'es' ? 'Detente aquí y verifica la compatibilidad actual antes de continuar.' : 'Stop here and verify current compatibility before continuing.');
+          statusBadge = (lang === 'pt') ? 'FIRMWARE CORRIGIDO • NÃO EXPLORÁVEL' : (lang === 'es' ? 'FIRMWARE PARCHEADO • NO EXPLOITABLE' : 'FIRMWARE PATCHED • NOT EXPLOITABLE');
+          exploitName = (lang === 'pt') ? 'Não explorável no firmware 14.00+' : (lang === 'es' ? 'No exploitable en firmware 14.00+' : 'Not exploitable on firmware 14.00+');
+          exploitVector = (lang === 'pt') ? 'Vulnerabilidades de kernel corrigidas pela Sony na versão 14.00' : (lang === 'es' ? 'Vulnerabilidades de kernel corregidas por Sony en versión 14.00' : 'Kernel vulnerabilities patched by Sony in version 14.00');
           dnsIp = 'N/A';
           payloads = 'N/A';
           port = 'N/A';
         } else {
           statusClass = 'wip';
           statusBadge = (lang === 'pt') ? 'FIRMWARE NÃO LISTADO' : (lang === 'es' ? 'FIRMWARE NO LISTADO' : 'FIRMWARE NOT LISTED');
-          exploitName = (lang === 'pt') ? 'Não há rota verificada' : (lang === 'es' ? 'No hay una ruta verificada' : 'No verified route');
-          exploitVector = (lang === 'pt') ? 'Confirme a versão do sistema e não continue usando outra faixa.' : (lang === 'es' ? 'Confirma la versión del sistema y no continúes usando otro rango.' : 'Check the system software version; do not continue using another range.');
+          exploitName = (lang === 'pt') ? 'Confirme sua versão' : (lang === 'es' ? 'Confirma tu versión' : 'Confirm your version');
+          exploitVector = (lang === 'pt') ? 'Apenas 14.00+ não é explorável; versões abaixo de 14.00 possuem etapas.' : (lang === 'es' ? 'Solo 14.00+ no es exploitable; las versiones menores a 14.00 tienen pasos.' : 'Only 14.00+ is unexploitable; versions below 14.00 have steps.');
           dnsIp = 'N/A';
           payloads = 'N/A';
           port = 'N/A';
         }
 
         let fwSummary = bracket.replace('-', '–');
-        const stopHere = bracket === '1.00 - 2.50' || bracket === '6.00 - 6.50' || bracket === '7.00 - 8.20' || bracket === '8.21 - 9.59' || bracket === '14.00+' || bracket === 'unlisted';
+        const stopHere = (bracket === '14.00+' || bracket === 'unlisted');
 
         let html = `
           <div class="ps-res-top-bar">
@@ -1125,18 +1131,18 @@
 
         if (stopHere) {
           let stopMessage;
-          if (bracket === '1.00 - 2.50') {
-            stopMessage = (lang === 'pt') ? 'Este assistente ainda não tem todas as etapas para esta faixa. Mantenha o console offline e confira a página do projeto no GitHub para a orientação mais recente para este firmware.' : (lang === 'es' ? 'Este asistente aún no incluye todos los pasos para este rango. Mantén la consola sin conexión y consulta la página del proyecto en GitHub para la orientación más reciente sobre este firmware.' : 'This wizard does not include all steps for this range yet. Keep your console offline and check the project GitHub repository for the latest guidance for this firmware.');
-          } else if (bracket === '6.00 - 6.50') {
-            stopMessage = (lang === 'pt') ? 'Ainda não há um guia passo a passo para esta faixa. Pare aqui e não use as instruções de outra versão.' : (lang === 'es' ? 'Aún no hay una guía paso a paso para este rango. Detente aquí y no uses las instrucciones de otra versión.' : 'There is no step-by-step guide for this range yet. Stop here; do not use instructions for another version.');
-          } else if (bracket === '7.00 - 8.20') {
-            stopMessage = (lang === 'pt') ? 'Este assistente ainda não tem todas as etapas para esta faixa. Mantenha o console offline e confira a página do projeto no GitHub para a orientação mais recente para este firmware.' : (lang === 'es' ? 'Este asistente aún no incluye todos los pasos para este rango. Mantén la consola sin conexión y consulta la página del proyecto en GitHub para la orientación más reciente sobre este firmware.' : 'This wizard does not include all steps for this range yet. Keep your console offline and check the project GitHub repository for the latest guidance for this firmware.');
-          } else if (bracket === '8.21 - 9.59') {
-            stopMessage = (lang === 'pt') ? 'Não há uma rota verificada para esta faixa neste assistente. Pare e confirme a compatibilidade antes de continuar.' : (lang === 'es' ? 'Este asistente no tiene una ruta verificada para este rango. Detente y confirma la compatibilidad antes de continuar.' : 'This wizard has no verified route for this range. Stop and confirm compatibility before continuing.');
-          } else if (bracket === '14.00+') {
-            stopMessage = (lang === 'pt') ? 'Este firmware não tem uma rota neste assistente. Mantenha o console offline e não atualize.' : (lang === 'es' ? 'Este firmware no tiene una ruta en este asistente. Mantén la consola sin conexión y no la actualices.' : 'This firmware has no route in this wizard. Keep the console offline and do not update.');
+          if (bracket === '14.00+') {
+            stopMessage = (lang === 'pt') ?
+              '⛔ FIRMWARE NÃO EXPLORÁVEL: O Firmware 14.00 ou superior corrigiu as vulnerabilidades de kernel. Não há exploit público para esta versão. Mantenha o console estritamente offline e NÃO atualize.' :
+              (lang === 'es' ?
+              '⛔ FIRMWARE NO EXPLOITABLE: El Firmware 14.00 o superior ha corregido las vulnerabilidades de kernel. No existe exploit público para esta versión. Mantén la consola estrictamente offline y NO actualices.' :
+              '⛔ FIRMWARE NOT EXPLOITABLE: Firmware 14.00 or higher has patched all kernel vulnerabilities. There is no public exploit available for this version. Keep the console strictly offline and DO NOT update.');
           } else {
-            stopMessage = (lang === 'pt') ? 'A versão informada não corresponde a uma faixa listada. Confira o número em Configurações > Sistema > Software do Sistema > Informações do Console.' : (lang === 'es' ? 'La versión indicada no coincide con un rango de la lista. Comprueba el número en Ajustes > Sistema > Software del sistema > Información de la consola.' : 'The entered version does not match a listed range. Check it under Settings > System > System Software > Console Information.');
+            stopMessage = (lang === 'pt') ?
+              'A versão informada não corresponde a uma faixa listada. Confira sua versão em Configurações ➔ Sistema ➔ Software do Sistema ➔ Informações do Console. Apenas o firmware 14.00 ou superior não é explorável; todas as versões abaixo de 14.00 são suportadas.' :
+              (lang === 'es' ?
+              'La versión indicada no coincide con un rango listado. Comprueba tu versión en Ajustes ➔ Sistema ➔ Software del sistema ➔ Información de la consola. Solo el firmware 14.00 o superior no es vulnerable; todos los firmwares por debajo de 14.00 son compatibles.' :
+              'The entered version does not match a listed range. Check your version under Settings ➔ System ➔ System Software ➔ Console Information. Only firmware 14.00 or higher is not exploitable; all firmwares below 14.00 are supported.');
           }
           html += `<div class="ps-res-hazard-alert">${stopMessage}</div>`;
           resultContainer.innerHTML = html;
