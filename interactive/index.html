@@ -81,7 +81,49 @@
       padding: 30px 45px 80px 45px !important;
       position: relative; z-index: 1;
     }
-    .markdown-section h1 { color: #ffffff !important; font-weight: 800; font-size: 2.2rem; }
+    .ps-main-header,
+    .markdown-section h1.ps-main-header,
+    .markdown-section h1 {
+      color: #ffffff !important;
+      font-weight: 800 !important;
+      font-size: 2.2rem !important;
+      text-align: center !important;
+      line-height: 1.35 !important;
+      border-bottom: none !important;
+      text-decoration: none !important;
+      margin: 1.2rem 0 0.3rem 0 !important;
+      padding-bottom: 0 !important;
+      box-shadow: none !important;
+    }
+    .ps-main-header a,
+    .ps-main-header a:hover,
+    .ps-main-header .anchor,
+    .markdown-section h1 a,
+    .markdown-section h1 a:hover,
+    .markdown-section h1 .anchor {
+      text-decoration: none !important;
+      border-bottom: none !important;
+      color: inherit !important;
+    }
+    .ps-header-author {
+      text-align: center !important;
+      font-size: 13.5px !important;
+      font-weight: 600 !important;
+      color: #94a3b8 !important;
+      letter-spacing: 0.06em;
+      margin: 0 0 1.2rem 0 !important;
+      text-decoration: none !important;
+      border-bottom: none !important;
+    }
+    .ps-header-author a,
+    .ps-header-author a:hover,
+    .ps-header-author em,
+    .ps-header-author span {
+      text-decoration: none !important;
+      border-bottom: none !important;
+      color: #94a3b8 !important;
+      font-style: normal !important;
+    }
     .markdown-section h2 { color: #38bdf8 !important; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px; }
     .markdown-section a { color: #38bdf8 !important; text-decoration: underline; text-underline-offset: 3px; }
     .markdown-section a:hover { color: #7dd3fc !important; }

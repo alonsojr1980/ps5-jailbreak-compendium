@@ -91,6 +91,11 @@ All language files must strictly maintain the same **11-section relevance hierar
   2. **Navigation Parity**: Whenever new files or major documentation sections are introduced or rearranged, update `_sidebar.md`, `_navbar.md`, `i18n/en/_sidebar.md`, `i18n/es/_sidebar.md`, and `i18n/pt/_sidebar.md`.
   3. **Theme & Styling**: Maintain the PlayStation 30th Anniversary dark aesthetic (deep obsidian `#080c14` to midnight slate `#151d2a`, iconic PlayStation symbols △ ◯ ✕ ▢ ambient wallpaper art, luminous white/blue typography, frosted obsidian glass sidebars, and PlayStation blue `#0070d1` accents).
 
+### 6. 🎯 Strict Scope: Never Change What Wasn't Explicitly Asked or Acknowledged
+- **Zero Unprompted Modifications**: Agents must strictly confine all edits, creations, refactorings, and file operations to what the user explicitly requested or acknowledged.
+- **Do Not Overreach**: Never modify unrelated files, documentation sections, scripts, styling, or architecture outside the explicit scope of the current user request.
+- **Preserve Existing Functionality**: Leave all existing working features, files, and comments intact unless explicitly directed to alter or remove them.
+
 ---
 
 ## 🛡️ Technical Terms Policy: Untranslatable Industry Vocabulary

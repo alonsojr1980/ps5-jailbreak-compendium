@@ -84,3 +84,9 @@ This document provides system-level instructions for **Gemini models** and **Ant
    - Always preserve `.nojekyll` (prevents GitHub Pages from filtering out files with leading underscores).
    - Ensure `_sidebar.md`, `_navbar.md`, `i18n/en/_sidebar.md`, `i18n/es/_sidebar.md`, and `i18n/pt/_sidebar.md` remain synchronized whenever guides or sections are updated.
    - Maintain the PlayStation 30th Anniversary dark aesthetic (deep obsidian `#080c14` to midnight slate `#151d2a`, iconic PlayStation symbols △ ◯ ✕ ▢ ambient wallpaper art, luminous white/blue typography, frosted obsidian glass sidebars, and PlayStation blue `#0070d1` accents).
+
+8. **Strict Scope: Never Change What Wasn't Explicitly Asked or Acknowledged**:
+   - **Zero Unprompted Modifications**: Strictly confine all edits, refactors, and additions to what was explicitly requested or acknowledged by the user.
+   - **No Opportunistic Changes**: Never modify unrelated files, sections, scripts, or styles that were not part of the explicit user instruction.
+   - **Preserve Untouched Areas**: Leave existing features, files, comments, and structure intact unless directly instructed to modify them.
+
