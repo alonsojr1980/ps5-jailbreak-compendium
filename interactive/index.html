@@ -592,14 +592,14 @@
     (function() {
       let currentWizardModel = localStorage.getItem('ps5_wizard_model') || 'fat';
       let storedFw = localStorage.getItem('ps5_wizard_fw');
-      if (!storedFw || storedFw === '13.60' || storedFw === '9.60' || storedFw === '9.60 - 13.60') {
+      if (!storedFw || storedFw === '13.60' || storedFw === '9.60' || storedFw === '9.60 - 13.60' || storedFw === 'unlisted') {
         storedFw = '7.00 - 13.60';
       }
       let currentWizardFw = storedFw;
       let currentWizardIp = localStorage.getItem('ps5_wizard_ip') || '192.168.1.150';
 
       function getBracketForFw(val) {
-        if (!val) return '7.00 - 13.60';
+        if (!val || val === 'unlisted') return '7.00 - 13.60';
         const str = String(val).trim();
         if (str === '7.00 - 13.60' || str === '3.00 - 6.50' || str === '1.00 - 2.50' || str === '14.00+') {
           return str;
@@ -607,12 +607,12 @@
         if (str === '9.60 - 13.60' || str === '8.21 - 9.59' || str === '7.00 - 8.20') return '7.00 - 13.60';
         if (str === '6.00 - 6.50' || str === '5.00 - 5.50' || str === '3.00 - 4.51') return '3.00 - 6.50';
         const num = parseFloat(str);
-        if (isNaN(num)) return 'unlisted';
+        if (isNaN(num)) return '7.00 - 13.60';
         if (num >= 1.00 && num <= 2.50) return '1.00 - 2.50';
         if (num >= 3.00 && num <= 6.50) return '3.00 - 6.50';
-        if (num >= 7.00 && num <= 13.60) return '7.00 - 13.60';
+        if (num >= 7.00 && num < 14.00) return '7.00 - 13.60';
         if (num >= 14.00) return '14.00+';
-        return 'unlisted';
+        return '7.00 - 13.60';
       }
 
       window.setWizardModel = function(model) {
@@ -1086,7 +1086,7 @@
           dnsIp = '45.56.67.85';
           payloads = 'etaHEN.bin + ps5-kstuff.bin';
           port = '9021';
-        } else if (bracket === '14.00+') {
+        } else {
           statusClass = 'patched';
           statusBadge = (lang === 'pt') ? 'FIRMWARE CORRIGIDO • NÃO EXPLORÁVEL' : (lang === 'es' ? 'FIRMWARE PARCHEADO • NO EXPLOITABLE' : 'FIRMWARE PATCHED • NOT EXPLOITABLE');
           exploitName = (lang === 'pt') ? 'Não explorável no firmware 14.00+' : (lang === 'es' ? 'No exploitable en firmware 14.00+' : 'Not exploitable on firmware 14.00+');
@@ -1094,18 +1094,10 @@
           dnsIp = 'N/A';
           payloads = 'N/A';
           port = 'N/A';
-        } else {
-          statusClass = 'wip';
-          statusBadge = (lang === 'pt') ? 'FIRMWARE NÃO LISTADO' : (lang === 'es' ? 'FIRMWARE NO LISTADO' : 'FIRMWARE NOT LISTED');
-          exploitName = (lang === 'pt') ? 'Confirme sua versão' : (lang === 'es' ? 'Confirma tu versión' : 'Confirm your version');
-          exploitVector = (lang === 'pt') ? 'Apenas 14.00+ não é explorável; versões abaixo de 14.00 possuem etapas.' : (lang === 'es' ? 'Solo 14.00+ no es exploitable; las versiones menores a 14.00 tienen pasos.' : 'Only 14.00+ is unexploitable; versions below 14.00 have steps.');
-          dnsIp = 'N/A';
-          payloads = 'N/A';
-          port = 'N/A';
         }
 
         let fwSummary = bracket.replace('-', '–');
-        const stopHere = (bracket === '14.00+' || bracket === 'unlisted');
+        const stopHere = (bracket === '14.00+');
 
         let html = `
           <div class="ps-res-top-bar">
@@ -1130,20 +1122,12 @@
         }
 
         if (stopHere) {
-          let stopMessage;
-          if (bracket === '14.00+') {
-            stopMessage = (lang === 'pt') ?
-              '⛔ FIRMWARE NÃO EXPLORÁVEL: O Firmware 14.00 ou superior corrigiu as vulnerabilidades de kernel. Não há exploit público para esta versão. Mantenha o console estritamente offline e NÃO atualize.' :
-              (lang === 'es' ?
-              '⛔ FIRMWARE NO EXPLOITABLE: El Firmware 14.00 o superior ha corregido las vulnerabilidades de kernel. No existe exploit público para esta versión. Mantén la consola estrictamente offline y NO actualices.' :
-              '⛔ FIRMWARE NOT EXPLOITABLE: Firmware 14.00 or higher has patched all kernel vulnerabilities. There is no public exploit available for this version. Keep the console strictly offline and DO NOT update.');
-          } else {
-            stopMessage = (lang === 'pt') ?
-              'A versão informada não corresponde a uma faixa listada. Confira sua versão em Configurações ➔ Sistema ➔ Software do Sistema ➔ Informações do Console. Apenas o firmware 14.00 ou superior não é explorável; todas as versões abaixo de 14.00 são suportadas.' :
-              (lang === 'es' ?
-              'La versión indicada no coincide con un rango listado. Comprueba tu versión en Ajustes ➔ Sistema ➔ Software del sistema ➔ Información de la consola. Solo el firmware 14.00 o superior no es vulnerable; todos los firmwares por debajo de 14.00 son compatibles.' :
-              'The entered version does not match a listed range. Check your version under Settings ➔ System ➔ System Software ➔ Console Information. Only firmware 14.00 or higher is not exploitable; all firmwares below 14.00 are supported.');
-          }
+          const stopMessage = (lang === 'pt') ?
+            '⛔ FIRMWARE NÃO EXPLORÁVEL: O Firmware 14.00 ou superior corrigiu as vulnerabilidades de kernel. Não há exploit público para esta versão. Mantenha o console estritamente offline e NÃO atualize.' :
+            (lang === 'es' ?
+            '⛔ FIRMWARE NO EXPLOITABLE: El Firmware 14.00 o superior ha corregido las vulnerabilidades de kernel. No existe exploit público para esta versión. Mantén la consola estrictamente offline y NO actualices.' :
+            '⛔ FIRMWARE NOT EXPLOITABLE: Firmware 14.00 or higher has patched all kernel vulnerabilities. There is no public exploit available for this version. Keep the console strictly offline and DO NOT update.');
+
           html += `<div class="ps-res-hazard-alert">${stopMessage}</div>`;
           resultContainer.innerHTML = html;
           return;

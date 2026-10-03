@@ -80,14 +80,6 @@ Selecione o modelo do seu PS5 e a faixa de firmware para ver as instruções ade
 <div class="ps-exploit-range">Firmware 14.00+</div>
 <div class="ps-exploit-sub">Corrigido pela Sony. Sem exploit público. Mantenha o console estritamente offline.</div>
 </button>
-<button type="button" class="ps-exploit-btn" data-fw="unlisted" onclick="setWizardFw('unlisted')">
-<div class="ps-exploit-header">
-<span class="ps-exploit-name">Meu firmware não está na lista</span>
-<span class="ps-exploit-badge wip">VERIFIQUE PRIMEIRO</span>
-</div>
-<div class="ps-exploit-range">Outra versão de firmware</div>
-<div class="ps-exploit-sub">Confira a versão do seu console. Todas as versões abaixo de 14.00 são exploráveis.</div>
-</button>
 </div>
 <div class="ps-ip-wrap">
 <label for="customIpInput" class="ps-ip-label">
