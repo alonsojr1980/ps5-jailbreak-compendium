@@ -1721,6 +1721,89 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    .ps-proc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin: 14px 0 16px 0;
+    }
+    .ps-proc-card {
+      background: rgba(14, 20, 32, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+    .ps-proc-card:hover {
+      background: rgba(18, 28, 48, 0.85);
+      border-color: rgba(0, 112, 209, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 112, 209, 0.15);
+    }
+    .ps-proc-card.active {
+      background: linear-gradient(135deg, rgba(0, 112, 209, 0.22) 0%, rgba(10, 20, 35, 0.9) 100%) !important;
+      border-color: #0070d1 !important;
+      box-shadow: 0 0 0 1px #0070d1, 0 8px 20px rgba(0, 112, 209, 0.25) !important;
+    }
+    .ps-proc-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      gap: 6px;
+    }
+    .ps-proc-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ps-proc-badge {
+      font-family: var(--code-font-family);
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .ps-proc-badge.online {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+    .ps-proc-badge.cache {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+    .ps-proc-badge.local {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+    }
+    .ps-proc-desc {
+      font-size: 12.5px;
+      color: #94a3b8;
+      line-height: 1.45;
+      margin-bottom: 6px;
+    }
+    .ps-proc-detail-box {
+      margin-top: 14px;
+      padding: 16px 18px;
+      background: rgba(10, 16, 26, 0.7);
+      border: 1px solid rgba(0, 112, 209, 0.25);
+      border-radius: 10px;
+      animation: psTabFadeIn 0.25s ease;
+    }
+
     .ps-res-code-box {
       background: #060910;
       border: 1px solid var(--border-subtle);
@@ -2256,34 +2339,39 @@
         updateWizardUI();
       };
 
-      let currentWizardTab = 'no-pc';
+      let currentWizardTab = 'full-online';
       try {
-        const savedTab = localStorage.getItem('ps5_wizard_tab');
-        if (savedTab === 'with-pc' || savedTab === 'no-pc') currentWizardTab = savedTab;
+        const savedTab = localStorage.getItem('ps5_wizard_main_tab');
+        if (savedTab === 'full-online' || savedTab === 'local') currentWizardTab = savedTab;
+      } catch(e) {}
+
+      let currentOnlineProc = 'relapse';
+      try {
+        const savedProc = localStorage.getItem('ps5_wizard_online_proc');
+        if (savedProc) currentOnlineProc = savedProc;
+      } catch(e) {}
+
+      let currentLocalProc = 'esp32';
+      try {
+        const savedProc = localStorage.getItem('ps5_wizard_local_proc');
+        if (savedProc) currentLocalProc = savedProc;
       } catch(e) {}
 
       window.switchWizardTab = function(tab) {
         currentWizardTab = tab;
-        try { localStorage.setItem('ps5_wizard_tab', tab); } catch(e) {}
-        const tabBtns = document.querySelectorAll('.ps-res-tab-btn');
-        tabBtns.forEach(function(b) {
-          if (b.getAttribute('data-tab') === tab) {
-            b.classList.add('active');
-          } else {
-            b.classList.remove('active');
-          }
-        });
-        const paneNoPc = document.getElementById('psTabPaneNoPc');
-        const paneWithPc = document.getElementById('psTabPaneWithPc');
-        if (paneNoPc && paneWithPc) {
-          if (tab === 'no-pc') {
-            paneNoPc.style.display = 'block';
-            paneWithPc.style.display = 'none';
-          } else {
-            paneNoPc.style.display = 'none';
-            paneWithPc.style.display = 'block';
-          }
+        try { localStorage.setItem('ps5_wizard_main_tab', tab); } catch(e) {}
+        updateWizardUI();
+      };
+
+      window.selectProcedure = function(tab, procId) {
+        if (tab === 'full-online') {
+          currentOnlineProc = procId;
+          try { localStorage.setItem('ps5_wizard_online_proc', procId); } catch(e) {}
+        } else {
+          currentLocalProc = procId;
+          try { localStorage.setItem('ps5_wizard_local_proc', procId); } catch(e) {}
         }
+        updateWizardUI();
       };
 
       function getLanguage() {
@@ -2293,8 +2381,290 @@
         return 'en';
       }
 
+      function getProcedureData(procId, lang, bracket, ip, port) {
+        const isDiscRequired = (bracket === '7.00 - 8.20');
+        const isPatched = (bracket === '14.00+');
+        const isWip = (bracket === '6.00 - 6.50');
+
+        let title = '';
+        let badge = '';
+        let badgeClass = 'online';
+        let desc = '';
+        let steps = [];
+        let note = '';
+        let codeSnippet = '';
+
+        if (isPatched) {
+          note = (lang === 'pt') ?
+            '⛔ FIRMWARE CORRIGIDO: O Firmware 14.00+ corrigiu as vulnerabilidades de kernel. Mantenha o console estritamente offline e aguarde novas pesquisas.' :
+            (lang === 'es' ?
+            '⛔ FIRMWARE PARCHEADO: El Firmware 14.00+ ha corregido las vulnerabilidades de kernel. Mantén la consola estrictamente offline y espera nuevas investigaciones.' :
+            '⛔ FIRMWARE PATCHED: Firmware 14.00+ has patched kernel vulnerabilities. Stay strictly offline and await future research disclosures.');
+        } else if (isDiscRequired && (procId === 'relapse' || procId === 'autoloader_cache' || procId === 'public_hosts')) {
+          note = (lang === 'pt') ?
+            '⚠️ AVISO PARA FW 7.00–8.20: O ponto de entrada WebKit não está disponível neste firmware. O exploit de kernel deve ser acionado através de disco Blu-ray BD-JB gravado ou savegame PS2 Mast1c0re.' :
+            (lang === 'es' ?
+            '⚠️ AVISO PARA FW 7.00–8.20: La entrada WebKit no está disponible en este firmware. El exploit de kernel debe ejecutarse a través de disco Blu-ray BD-JB grabado o partida guardada PS2 Mast1c0re.' :
+            '⚠️ ADVISORY FOR FW 7.00–8.20: WebKit entry is unavailable on this firmware. The kernel exploit must be triggered via a burned BD-JB Blu-ray disc or Mast1c0re PS2 savegame.');
+        } else if (isWip) {
+          note = (lang === 'pt') ?
+            '⏳ EM DESENVOLVIMENTO: Offsets e binários finais do etaHEN para o Firmware 6.00–6.50 estão sendo portados pela comunidade.' :
+            (lang === 'es' ?
+            '⏳ EN DESARROLLO: Los offsets y binarios finales de etaHEN para el Firmware 6.00–6.50 se encuentran actualmente en desarrollo por la comunidad.' :
+            '⏳ IN DEVELOPMENT: Offsets and final etaHEN binaries for Firmware 6.00–6.50 are currently being ported by community researchers.');
+        }
+
+        if (procId === 'relapse') {
+          title = '⚡ Relapse-Exploit';
+          badge = 'AUTO-PAYLOAD';
+          badgeClass = 'online';
+          desc = (lang === 'pt') ?
+            'Host web público automatizado. Executa WebKit + aio_multi_wait e dispara automaticamente o etaHEN e ps5-kstuff sem injeção manual.' :
+            (lang === 'es' ?
+            'Host web público automatizado. Ejecuta WebKit + aio_multi_wait y carga automáticamente etaHEN y ps5-kstuff sin inyección manual.' :
+            'Automated public web host. Runs WebKit + aio_multi_wait and automatically launches etaHEN & ps5-kstuff without manual injection.');
+
+          steps = (lang === 'pt') ? [
+            'Blindagem: Desative todas as opções de atualização automática e downloads em Modo de Repouso nas configurações.',
+            'Rede & DNS: Acesse Configurações ➔ Rede ➔ Avançado. Defina o DNS Primário para 45.56.67.85 e Secundário para 0.0.0.0.',
+            'Trigger: Abra Configurações ➔ Sistema ➔ Guia do Usuário. O host do Relapse carregará automaticamente.',
+            'Execução Automatizada: O exploit WebKit e o gatilho aio_multi_wait de Kernel executam. O carregador integrado descobre e injeta automaticamente o etaHEN e ps5-kstuff na memória.',
+            'Confirmação: Aguarde a mensagem "[+] Kernel RW Obtained!" e a notificação "etaHEN Loaded Successfully!". Verifique as Debug Settings no console.'
+          ] : (lang === 'es') ? [
+            'Blindaje: Desactiva todas las opciones de actualización automática y descargas en Modo de Reposo en los ajustes.',
+            'Red y DNS: Ve a Ajustes ➔ Red ➔ Configuración Avanzada. Configura el DNS Primario en 45.56.67.85 y Secundario en 0.0.0.0.',
+            'Trigger: Abre Ajustes ➔ Sistema ➔ Guía del usuario. El host de Relapse cargará automáticamente.',
+            'Ejecución Automatizada: El exploit WebKit y el trigger aio_multi_wait de Kernel se ejecutan. El cargador integrado detecta y carga automáticamente etaHEN y ps5-kstuff en memoria.',
+            'Confirmación: Espera a "[+] Kernel RW Obtained!" y a la notificación "etaHEN Loaded Successfully!". Comprueba Debug Settings en los ajustes de PS5.'
+          ] : [
+            'Hardening: Turn off all auto-update options in Settings ➔ System Software and Rest Mode.',
+            'Network & DNS: Go to Settings ➔ Network ➔ Set Up Internet Connection ➔ Advanced. Set Primary DNS to 45.56.67.85 (Secondary 0.0.0.0).',
+            'Trigger: Open Settings ➔ System ➔ User\'s Guide. The Relapse host will load automatically.',
+            'Automated Execution: The WebKit and aio_multi_wait kernel exploit run. The built-in loader automatically discovers and injects etaHEN and ps5-kstuff into memory.',
+            'Confirmation: Wait for "[+] Kernel RW Obtained!" followed by the on-screen notification "etaHEN Loaded Successfully!". Verify Debug Settings in PS5 Settings.'
+          ];
+        } else if (procId === 'autoloader_cache') {
+          title = '💾 ps5-webkit-autoloader';
+          badge = 'CACHE & OFFLINE';
+          badgeClass = 'cache';
+          desc = (lang === 'pt') ?
+            'Primeiro acesso online para gravar Application Cache; após isso, inicia 100% offline do cache do navegador ou autoloader USB.' :
+            (lang === 'es' ?
+            'Primer acceso online para guardar Application Cache; tras ello, inicia 100% offline del caché del navegador o autoloader USB.' :
+            'First visit online to install Application Cache / ServiceWorker; subsequently boots 100% offline from browser cache or USB autoloader.');
+
+          steps = (lang === 'pt') ? [
+            'Primeiro Acesso Online: Conecte o PS5 à internet com DNS Primário 45.56.67.85 ou 62.210.38.117.',
+            'Instalação do Cache: Abra o Guia do Usuário para carregar o ps5-webkit-autoloader ou idlesauce.github.io/ps5-jb/. Aguarde a indicação de cache 100% instalado.',
+            'Corte a Internet: Desconecte o Wi-Fi ou desligue o acesso à internet para proteger seu firmware.',
+            'Configuração USB: Formate um pendrive em FAT32/exFAT, crie a pasta "/payloads/" e copie o "etaHEN.bin". Conecte no PS5.',
+            'Disparo Offline: Abra o Guia do Usuário sem internet: o exploit em cache executa instantaneamente e o elfldr carrega os payloads do pendrive USB.',
+            'Confirmação: Notificação na tela confirma etaHEN ativo com 0 bytes trafegados na internet.'
+          ] : (lang === 'es') ? [
+            'Primer Aceso Online: Conecta la PS5 a internet con DNS Primario 45.56.67.85 o 62.210.38.117.',
+            'Instalación del Caché: Abre la Guía del usuario para cargar ps5-webkit-autoloader o idlesauce.github.io/ps5-jb/. Espera a que indique caché instalado al 100%.',
+            'Desconecta Internet: Desconecta el Wi-Fi o apaga la salida a internet para proteger tu firmware.',
+            'Configuración USB: Formatea un pendrive en FAT32/exFAT, crea la carpeta "/payloads/" y copia "etaHEN.bin". Conéctalo a la PS5.',
+            'Disparo Offline: Abre la Guía del usuario sin conexión: el exploit en caché se ejecuta al instante y elfldr carga los payloads desde el pendrive USB.',
+            'Confirmación: Notificación en pantalla confirma etaHEN activo con 0 bytes transferidos por internet.'
+          ] : [
+            'First-Time Online Visit: Connect PS5 to internet with Primary DNS 45.56.67.85 or 62.210.38.117.',
+            'Install Cache: Open User\'s Guide to load ps5-webkit-autoloader or idlesauce.github.io/ps5-jb/. Wait until the screen displays "Application Cache Installed (100%)".',
+            'Cut Internet Access: Disconnect Wi-Fi or turn off internet to guarantee firmware safety.',
+            'USB Payloads Setup: Format a USB drive as FAT32/exFAT, create a folder named "/payloads/", and place "etaHEN.bin" inside. Plug into PS5.',
+            'Offline Trigger: Open User\'s Guide anytime without internet: cached exploit runs instantly from local storage, and elfldr automatically loads payloads from the USB drive.',
+            'Confirmation: Notification confirms etaHEN is active and homebrew unlocked with 0 bytes transmitted over the internet.'
+          ];
+        } else if (procId === 'public_hosts') {
+          title = '🚀 Public Web Hosts';
+          badge = 'WEB BUTTONS';
+          badgeClass = 'online';
+          desc = (lang === 'pt') ?
+            'Hosts comunitários de alta disponibilidade (EchoStretch / Idlesauce) com botões na tela para carregar payloads (etaHEN, kstuff, ftps5).' :
+            (lang === 'es' ?
+            'Hosts comunitarios de alta disponibilidad (EchoStretch / Idlesauce) con botones en pantalla para cargar payloads (etaHEN, kstuff, ftps5).' :
+            'High-availability community web hosts (EchoStretch / Idlesauce) featuring on-screen payload selector buttons (etaHEN, kstuff, ftps5).');
+
+          steps = (lang === 'pt') ? [
+            'Blindagem: Desative downloads e atualizações automáticas nas Configurações.',
+            'Rede & DNS: Configure o DNS Primário para 62.210.38.117 (EchoStretch) ou 45.56.67.85 (Relapse).',
+            'Trigger: Abra Configurações ➔ Sistema ➔ Guia do Usuário no PS5.',
+            'Seleção de Payload: No menu exibido na tela, clique no botão do payload desejado (ex: etaHEN, ps5-kstuff ou FTPS5).',
+            'Execução em Memória: O navegador executa o exploit de kernel e carrega o payload diretamente na memória.',
+            'Confirmação: Notificação na tela confirma payload carregado com sucesso.'
+          ] : (lang === 'es') ? [
+            'Blindaje: Desactiva descargas y actualizaciones automáticas en Ajustes.',
+            'Red y DNS: Configura el DNS Primario en 62.210.38.117 (EchoStretch) o 45.56.67.85 (Relapse).',
+            'Trigger: Abre Ajustes ➔ Sistema ➔ Guía del usuario en la PS5.',
+            'Selección de Payload: En el menú mostrado en pantalla, pulsa el botón del payload deseado (ej: etaHEN, ps5-kstuff o FTPS5).',
+            'Ejecución en Memoria: El navegador ejecuta el exploit de kernel y transfiere el payload directamente a la memoria.',
+            'Confirmación: Notificación en pantalla confirma payload cargado con éxito.'
+          ] : [
+            'Hardening: Turn off all auto-update and Rest Mode download features in Settings.',
+            'Network DNS: Configure Primary DNS to 62.210.38.117 (EchoStretch) or 45.56.67.85 (Relapse).',
+            'Trigger: Open Settings ➔ System ➔ User\'s Guide on PS5.',
+            'Payload Selection: On the displayed exploit menu, click the button for your desired payload (e.g. etaHEN, ps5-kstuff, or FTPS5).',
+            'In-Memory Execution: The browser executes the kernel exploit and transfers the payload directly into memory.',
+            'Confirmation: Notification confirms payload loaded successfully.'
+          ];
+        } else if (procId === 'esp32') {
+          title = '🔌 ESP32 / S2 / S3 (esphost)';
+          badge = 'USB DONGLE';
+          badgeClass = 'local';
+          desc = (lang === 'pt') ?
+            'Microcontrolador USB dedicado conectado ao PS5. Emula ponto de acesso Wi-Fi próprio hospedando exploit e binloader sem internet.' :
+            (lang === 'es' ?
+            'Microcontrolador USB dedicado conectado a la PS5. Emula punto de acceso Wi-Fi propio alojando exploit y binloader sin internet.' :
+            'Dedicated USB microcontroller plugged directly into PS5. Emulates standalone Wi-Fi AP hosting exploit & binloader with zero internet exposure.');
+
+          steps = (lang === 'pt') ? [
+            'Gravação de Firmware: Grave o "esphost" ou firmware de exploit PS5 na sua placa ESP32 usando o Web ESP Flasher no Chrome/Edge.',
+            'Alimentação: Conecte o ESP32 diretamente em uma porta USB do PS5 para ligá-lo.',
+            'Conexão Wi-Fi: No PS5, acesse Configurações ➔ Rede ➔ Configurar Conexão. Escolha Wi-Fi e conecte ao SSID do ESP32 (ex: "PS5_ESP32", senha "12345678" ou aberta).',
+            'Trigger: Abra Configurações ➔ Sistema ➔ Guia do Usuário no PS5. A página do exploit armazenada na memória flash do ESP32 abrirá instantaneamente.',
+            'Execução Standalone: Selecione o exploit/payload no menu. O ESP32 fornece todos os binários localmente sem nenhum acesso à internet.',
+            'Confirmação: Notificação na tela confirma etaHEN ativo e Debug Settings habilitadas.'
+          ] : (lang === 'es') ? [
+            'Grabación de Firmware: Graba "esphost" o firmware de exploit PS5 en tu placa ESP32 usando Web ESP Flasher en Chrome/Edge.',
+            'Alimentación: Conecta el ESP32 directamente a un puerto USB de la PS5 para alimentarlo.',
+            'Conexión Wi-Fi: En PS5, ve a Ajustes ➔ Red ➔ Configurar Conexión. Elige Wi-Fi y conecta al SSID del ESP32 (ej: "PS5_ESP32", contraseña "12345678" o abierta).',
+            'Trigger: Abre Ajustes ➔ Sistema ➔ Guía del usuario en PS5. La web del exploit guardada en la memoria flash del ESP32 cargará al instante.',
+            'Ejecución Standalone: Selecciona el exploit/payload en el menú. El ESP32 entrega todos los binarios localmente sin contacto con internet.',
+            'Confirmación: Notificación en pantalla confirma etaHEN activo y Debug Settings habilitadas.'
+          ] : [
+            'Firmware Flashing: Flash "esphost" or "PS5-Exploit-Host-ESP32" to your ESP32 board via Web ESP Flasher in Google Chrome/Edge.',
+            'Powering: Plug the ESP32 directly into a rear or front USB port on the PS5 for power.',
+            'Wi-Fi Pairing: On PS5, navigate to Settings ➔ Network ➔ Set Up Internet Connection. Select Wi-Fi and connect to the ESP32 SSID (e.g. "PS5_ESP32", password "12345678" or open).',
+            'Trigger: Open Settings ➔ System ➔ User\'s Guide on PS5. The exploit page hosted on the ESP32 internal flash memory opens instantly.',
+            'Standalone Execution: Select your exploit/payload from the menu. The ESP32 serves all binaries locally with 0% internet exposure.',
+            'Confirmation: Notification confirms etaHEN loaded and Debug Settings active.'
+          ];
+        } else if (procId === 'esp8266') {
+          title = '📟 ESP8266 Board';
+          badge = 'CAPTIVE PORTAL';
+          badgeClass = 'local';
+          desc = (lang === 'pt') ?
+            'Placa Wi-Fi econômica com captive portal DNS que abre automaticamente o menu do exploit ao conectar.' :
+            (lang === 'es' ?
+            'Placa Wi-Fi económica con captive portal DNS que abre automáticamente el menú del exploit al conectar.' :
+            'Low-cost Wi-Fi dev board with DNS captive portal automatically serving the PS5 exploit menu upon connecting.');
+
+          steps = (lang === 'pt') ? [
+            'Gravação de Firmware: Grave o firmware do servidor web PS5 no ESP8266 usando NodeMCU PyFlasher ou esptool.',
+            'Alimentação: Conecte o ESP8266 em qualquer porta USB 5V ou no próprio PS5.',
+            'Conexão Wi-Fi: No PS5, conecte à rede Wi-Fi gerada pelo ESP8266.',
+            'Captive Portal Trigger: Abra o Guia do Usuário (ou Teste de Conexão). O captive portal intercepta a requisição e abre o exploit local imediatamente.',
+            'Execução: O exploit executa e os payloads são carregados localmente do microcontrolador.',
+            'Confirmação: Debug Settings desbloqueadas offline.'
+          ] : (lang === 'es') ? [
+            'Grabación de Firmware: Graba el firmware del servidor web PS5 en el ESP8266 con NodeMCU PyFlasher o esptool.',
+            'Alimentación: Conecta el ESP8266 a cualquier puerto USB 5V o a la propia PS5.',
+            'Conexión Wi-Fi: En PS5, conecta a la red Wi-Fi emitida por el ESP8266.',
+            'Captive Portal Trigger: Abre la Guía del usuario (o Prueba de Conexión). El captive portal intercepta la petición y abre el exploit local de inmediato.',
+            'Ejecución: El exploit se ejecuta y los payloads se cargan localmente desde el microcontrolador.',
+            'Confirmación: Debug Settings desbloqueadas offline.'
+          ] : [
+            'Firmware Flashing: Flash ESP8266 with PS5 web server firmware using NodeMCU PyFlasher or esptool.',
+            'Powering: Plug ESP8266 into any 5V USB charger or PS5 USB port.',
+            'Wi-Fi Connection: On PS5, connect to the ESP8266 Wi-Fi network.',
+            'Captive Portal Trigger: Open User\'s Guide (or Network Test). The captive portal DNS intercepts the request and instantly launches the exploit index.',
+            'Execution: Exploit runs and payloads load locally from the microcontroller.',
+            'Confirmation: Debug Settings unlocked offline.'
+          ];
+        } else if (procId === 'raspberry_pi') {
+          title = '🍓 Raspberry Pi';
+          badge = 'ETHERNET / AP';
+          badgeClass = 'local';
+          desc = (lang === 'pt') ?
+            'Microcomputador Linux dedicado conectado diretamente via cabo de rede ou AP isolado rodando dnsmasq e servidor HTTP local.' :
+            (lang === 'es' ?
+            'Microordenador Linux dedicado conectado directamente por cable de red o AP aislado ejecutando dnsmasq y servidor HTTP local.' :
+            'Dedicated Linux micro-computer connected directly via Ethernet cable or isolated Wi-Fi AP running dnsmasq and local HTTP servers.');
+
+          steps = (lang === 'pt') ? [
+            'Configuração do Servidor: Instale o "dnsmasq" no Raspberry Pi para redirecionar "manuals.playstation.net" para o IP do Pi, e execute Nginx ou servidor Python hospedando os arquivos do exploit.',
+            'Conexão Direta por Cabo: Conecte o Raspberry Pi diretamente à porta Ethernet do PS5 com um cabo de rede (ou conecte o PS5 ao Hotspot Wi-Fi do Pi).',
+            'Configuração de Rede no PS5: No PS5, acesse Configurar Conexão ➔ Cabo de Rede ➔ Personalizada. Deixe IP Automático e defina o DNS Primário para o IP do Raspberry Pi.',
+            'Trigger Instantâneo: Abra Configurações ➔ Sistema ➔ Guia do Usuário no PS5. A transferência Gigabit local carrega o exploit em milissegundos com zero perda de pacotes.',
+            'Confirmação: Exploit executa com estabilidade máxima e o etaHEN é carregado.'
+          ] : (lang === 'es') ? [
+            'Configuración del Servidor: Instala "dnsmasq" en Raspberry Pi para redirigir "manuals.playstation.net" a la IP de la Pi, y ejecuta Nginx o servidor Python con los archivos del exploit.',
+            'Conexión Directa por Cable: Conecta la Raspberry Pi directamente al puerto Ethernet de la PS5 con un cable de red (o conecta la PS5 al punto de acceso Wi-Fi de la Pi).',
+            'Configuración de Red en PS5: En PS5, ve a Configurar Conexión ➔ Cable de Red ➔ Personalizada. Deja IP en Automático y configura el DNS Primario con la IP de la Raspberry Pi.',
+            'Trigger Instantáneo: Abre Ajustes ➔ Sistema ➔ Guía del usuario en PS5. La transferencia Gigabit local entrega el exploit en milisegundos sin pérdida de paquetes.',
+            'Confirmación: El exploit se ejecuta con máxima estabilidad y se carga etaHEN.'
+          ] : [
+            'Server Setup: Install "dnsmasq" on Raspberry Pi to redirect "manuals.playstation.net" to the Pi IP, and run Nginx or Python server hosting the exploit files.',
+            'Direct Cable Connection: Connect the Raspberry Pi directly to the PS5 Ethernet LAN port with a network cable (or connect PS5 to the Pi Wi-Fi Hotspot).',
+            'PS5 Network Configuration: On PS5, select Set Up Internet Connection ➔ LAN Cable ➔ Custom. Set IP to Automatic and set Primary DNS to the Raspberry Pi IP address.',
+            'Instant Trigger: Open Settings ➔ System ➔ User\'s Guide on PS5. Gigabit local transfer serves the exploit in milliseconds with zero packet loss.',
+            'Confirmation: Exploit executes with maximum stability and etaHEN is loaded.'
+          ];
+        } else if (procId === 'local_pc') {
+          title = '💻 Local PC / Smartphone';
+          badge = 'SELF-HOST';
+          badgeClass = 'local';
+          desc = (lang === 'pt') ?
+            'Execute servidor HTTP Python na rede local do roteador e envie payloads via socket TCP (Porta 9021) com Netcat ou celular.' :
+            (lang === 'es' ?
+            'Ejecuta servidor HTTP Python en la red local del router y envía payloads vía socket TCP (Puerto 9021) con Netcat o móvil.' :
+            'Run Python HTTP server on local router LAN and deliver payloads over TCP socket (Port 9021) via Netcat or mobile app.');
+
+          steps = (lang === 'pt') ? [
+            'Clonar Repositório: No computador ou celular, clone o repositório do exploit ("git clone https://github.com/ntfargo/Relapse-Exploit.git").',
+            'Iniciar Servidor Local: Execute "python -m http.server 8080" na pasta do repositório.',
+            'Conectar PS5: Abra o navegador do PS5 ou redirecione o Guia do Usuário para o IP do seu PC (ex: "http://' + ip + ':8080").',
+            'Aguardar Porta 9021: Aguarde a mensagem "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
+            'Injetar Payload: Utilize os comandos de terminal abaixo ou app cliente TCP no celular para enviar "etaHEN.bin" para ' + ip + ':' + port + '.',
+            'Confirmação: Notificação confirma etaHEN ativo e Debug Settings liberadas.'
+          ] : (lang === 'es') ? [
+            'Clonar Repositorio: En tu ordenador o móvil, clona el repositorio del exploit ("git clone https://github.com/ntfargo/Relapse-Exploit.git").',
+            'Iniciar Servidor Local: Ejecuta "python -m http.server 8080" en la carpeta del repositorio.',
+            'Conectar PS5: Abre el navegador de PS5 o redirige la Guía del usuario a la IP de tu PC (ej: "http://' + ip + ':8080").',
+            'Esperar Puerto 9021: Espera el mensaje "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
+            'Inyectar Payload: Usa los comandos de terminal inferiores o app cliente TCP en móvil para enviar "etaHEN.bin" a ' + ip + ':' + port + '.',
+            'Confirmación: Notificación confirma etaHEN activo y Debug Settings habilitadas.'
+          ] : [
+            'Clone Repository: On your computer or mobile terminal, clone the exploit repository (e.g. "git clone https://github.com/ntfargo/Relapse-Exploit.git").',
+            'Launch Local Server: Run "python -m http.server 8080" in the repository folder.',
+            'Connect PS5: Open the PS5 browser or redirect User\'s Guide to your PC IP address (e.g. "http://' + ip + ':8080").',
+            'Await Port 9021: Let the exploit run until you see "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
+            'Inject Payload: Use the terminal commands below or a smartphone TCP client app to send "etaHEN.bin" to ' + ip + ':' + port + '.',
+            'Confirmation: Notification confirms etaHEN active and Debug Settings unlocked.'
+          ];
+
+          const cmdTitle = (lang === 'pt') ? 'COMANDOS DE INJEÇÃO (TERMINAL):' : (lang === 'es' ? 'COMANDOS DE INYECCIÓN (TERMINAL):' : 'TERMINAL PAYLOAD INJECTION SNIPPET:');
+          const mobileTip = (lang === 'pt') ?
+            'No Celular (Android / iOS): Conecte ao mesmo Wi-Fi e use qualquer app cliente TCP/Netcat para enviar <code>etaHEN.bin</code> para ' + ip + ':' + port :
+            (lang === 'es' ?
+            'En Teléfono (Android / iOS): Conecta a la misma red Wi-Fi y usa cualquier app cliente TCP/Netcat para enviar <code>etaHEN.bin</code> a ' + ip + ':' + port :
+            'Mobile (Android / iOS): Connect to same Wi-Fi and use any TCP/Netcat client app to send <code>etaHEN.bin</code> to ' + ip + ':' + port);
+
+          codeSnippet = `
+            <div class="ps-res-actions-title" style="margin-top:16px;"><span>💻</span> 📦 ${cmdTitle}</div>
+            <div class="ps-res-code-box">
+              <span style="color:#94a3b8;"># Linux / macOS / WSL:</span><br>
+              nc -w 3 ${ip} ${port} &lt; etaHEN.bin<br><br>
+              <span style="color:#94a3b8;"># Windows PowerShell:</span><br>
+              $c = New-Object Net.Sockets.TcpClient('${ip}', ${port}); $s = $c.GetStream(); $b = [IO.File]::ReadAllBytes('etaHEN.bin'); $s.Write($b, 0, $b.Length); $s.Close(); $c.Close(); Write-Host '[SUCCESS] etaHEN Sent!'<br><br>
+              <span style="color:#94a3b8;"># Smartphone (Android / iOS):</span><br>
+              <span style="color:#cbd5e1;">${mobileTip}</span>
+            </div>
+          `;
+        }
+
+        return {
+          title: title,
+          badge: badge,
+          badgeClass: badgeClass,
+          desc: desc,
+          steps: steps,
+          note: note,
+          codeSnippet: codeSnippet
+        };
+      }
+
       function updateWizardUI() {
-        // Update model buttons
         const modelBtns = document.querySelectorAll('.ps-model-btn');
         modelBtns.forEach(function(btn) {
           if (btn.getAttribute('data-model') === currentWizardModel) {
@@ -2315,7 +2685,6 @@
           }
         });
 
-        // Render result card
         const resultContainer = document.getElementById('psWizardResult');
         if (!resultContainer) return;
 
@@ -2331,10 +2700,7 @@
         let dnsIp = '45.56.67.85';
         let payloads = 'etaHEN.bin + ps5-kstuff.bin';
         let port = '9021';
-        let stepsNoPc = [];
-        let stepsWithPc = [];
 
-        // Detachable drive check
         const isSlimOrPro = (model === 'slim' || model === 'pro');
 
         if (bracket === '1.00 - 2.50') {
@@ -2345,58 +2711,6 @@
           dnsIp = '62.210.38.117';
           payloads = 'Byepervisor + etaHEN';
           port = '9021';
-          if (lang === 'pt') {
-            stepsNoPc = [
-              'Blindagem: Desative downloads e atualizações automáticas nas Configurações.',
-              'Autoloader USB: Em um pendrive FAT32/exFAT, crie a pasta "/payloads/" e copie "Byepervisor.elf" e "etaHEN.bin". Conecte no PS5.',
-              'Rede & DNS: Configure o DNS Primário para 62.210.38.117 (Secundário 0.0.0.0).',
-              'Trigger: Abra Configurações ➔ Sistema ➔ Guia do Usuário ou insira o disco Blu-ray BD-JB.',
-              'Execução Standalone: O exploit executa e o autoloader carrega o Byepervisor e etaHEN diretamente do pendrive USB sem computador.',
-              'Confirmação: Notificação na tela confirma controle total de Hypervisor (Ring -1 Root).'
-            ];
-            stepsWithPc = [
-              'Pareamento de Rede: Conecte o PS5 e seu computador ou celular na mesma rede local.',
-              'Rede & DNS: Configure o DNS Primário do PS5 para 62.210.38.117. Anote o IP do console (${ip}).',
-              'Trigger: Abra o Guia do Usuário ou insira o disco BD-JB no PS5.',
-              'Aguardar Porta: Aguarde a confirmação de que o elfldr está escutando na porta 9021.',
-              'Injeção via PC/Celular: Envie Byepervisor e etaHEN para ${ip}:9021 usando os comandos ou app móvel abaixo.',
-              'Confirmação: Notificação na tela confirma Root de Hypervisor ativo e Debug Settings liberadas.'
-            ];
-          } else if (lang === 'es') {
-            stepsNoPc = [
-              'Blindaje: Desactiva descargas y actualizaciones automáticas en Ajustes.',
-              'Autoloader USB: En un pendrive FAT32/exFAT, crea la carpeta "/payloads/" y copia "Byepervisor.elf" y "etaHEN.bin". Conéctalo a la PS5.',
-              'Red y DNS: Configura el DNS Primario en 62.210.38.117 (Secundario 0.0.0.0).',
-              'Trigger: Abre Ajustes ➔ Sistema ➔ Guía del usuario o inserta el disco BD-JB.',
-              'Ejecución Standalone: El exploit se ejecuta y el autoloader carga Byepervisor y etaHEN directamente desde el pendrive USB sin ordenador.',
-              'Confirmación: Notificación en pantalla confirma control total de Hypervisor (Ring -1 Root).'
-            ];
-            stepsWithPc = [
-              'Emparejamiento de Red: Conecta la PS5 y tu ordenador o teléfono a la misma red local.',
-              'Red y DNS: Configura el DNS Primario en 62.210.38.117. Anota la IP de la consola (${ip}).',
-              'Trigger: Abre la Guía del usuario o inserta el disco BD-JB en la consola.',
-              'Esperar Puerto: Espera la confirmación de que elfldr está escuchando en el puerto 9021.',
-              'Inyección vía PC/Teléfono: Envía Byepervisor y etaHEN a ${ip}:9021 usando los comandos o app móvil inferior.',
-              'Confirmación: Notificación en pantalla confirma Root de Hypervisor activo y Debug Settings habilitadas.'
-            ];
-          } else {
-            stepsNoPc = [
-              'Hardening: Disable all automatic downloads and Rest Mode internet options in System Settings.',
-              'USB Autoloader: Format a USB drive as FAT32/exFAT, create a "/payloads/" folder, and place "Byepervisor.elf" and "etaHEN.bin" inside. Plug into PS5.',
-              'Network & DNS: Set Primary DNS to 62.210.38.117 (Secondary 0.0.0.0).',
-              'Trigger: Open Settings ➔ System ➔ User\'s Guide or insert BD-JB Blu-ray disc.',
-              'Standalone Execution: The exploit chain executes and the USB autoloader injects Byepervisor and etaHEN automatically with zero PC required.',
-              'Confirmation: On-screen notification confirms Ring -1 Hypervisor Root achieved.'
-            ];
-            stepsWithPc = [
-              'Network Pairing: Connect your PS5 and PC/Phone to the same local Wi-Fi or LAN.',
-              'Network & DNS: Configure PS5 Primary DNS to 62.210.38.117. Note console IP (${ip}).',
-              'Trigger: Open User\'s Guide or insert BD-JB disc on PS5.',
-              'Await Port: Wait until the screen displays elfldr listening on port 9021.',
-              'Inject from PC/Phone: Transmit Byepervisor and etaHEN payloads to ${ip}:9021 using the terminal commands or mobile app below.',
-              'Confirmation: Pop-up notification confirms Hypervisor Root active and Debug Settings unlocked.'
-            ];
-          }
         } else if (bracket === '3.00 - 4.51') {
           statusClass = 'ready';
           statusBadge = (lang === 'pt') ? 'ESTABILIDADE MÁXIMA • ERA DE OURO' : (lang === 'es' ? 'MÁXIMA ESTABILIDAD • ERA DORADA' : 'PEAK STABILITY • GOLDEN ERA');
@@ -2405,58 +2719,6 @@
           dnsIp = '62.210.38.117';
           payloads = 'etaHEN.bin + ps5-kstuff.bin';
           port = '9021';
-          if (lang === 'pt') {
-            stepsNoPc = [
-              'Blindagem: Desative atualizações e downloads automáticos nas configurações.',
-              'Autoloader USB: Formate um pendrive em FAT32/exFAT, crie a pasta "/payloads/" e copie o "etaHEN.bin" para dentro. Conecte no PS5.',
-              'Rede & DNS: Configure o DNS Primário para 62.210.38.117 (Secundário 0.0.0.0).',
-              'Trigger: Abra o Guia do Usuário e selecione IPv6 UAF ou UMTX Exploit.',
-              'Execução Standalone: O exploit obtém Kernel RW e o elfldr carrega automaticamente o etaHEN do pendrive USB sem computador.',
-              'Confirmação: Notificação na tela confirma etaHEN ativo e Debug Settings habilitadas.'
-            ];
-            stepsWithPc = [
-              'Pareamento de Rede: Conecte o PS5 e seu PC ou Celular na mesma rede local.',
-              'Rede & DNS: Defina DNS Primário para 62.210.38.117 (Secundário 0.0.0.0). Note o IP do PS5 (${ip}).',
-              'Trigger: Abra o Guia do Usuário e selecione IPv6 UAF ou UMTX.',
-              'Aguardar Porta: Aguarde a notificação de que o elfldr está escutando na porta 9021.',
-              'Injeção via PC/Celular: Envie o etaHEN.bin para ${ip}:9021 via comando Netcat/PowerShell no PC ou app cliente TCP no celular.',
-              'Confirmação: Mensagem confirma etaHEN carregado e Homebrew liberado.'
-            ];
-          } else if (lang === 'es') {
-            stepsNoPc = [
-              'Blindaje: Desactiva descargas y actualizaciones automáticas en Ajustes.',
-              'Autoloader USB: Formatea un pendrive en FAT32/exFAT, crea la carpeta "/payloads/" y copia "etaHEN.bin" dentro. Conéctalo a la PS5.',
-              'Red y DNS: Configura el DNS Primario en 62.210.38.117 (Secundario 0.0.0.0).',
-              'Trigger: Abre la Guía del usuario y selecciona IPv6 UAF o UMTX Exploit.',
-              'Ejecución Standalone: El exploit obtiene Kernel RW y elfldr carga automáticamente etaHEN desde el pendrive USB sin ordenador.',
-              'Confirmación: Notificación en pantalla confirma etaHEN activo y Debug Settings habilitadas.'
-            ];
-            stepsWithPc = [
-              'Emparejamiento de Red: Conecta la PS5 y tu PC o Teléfono a la misma red local.',
-              'Red y DNS: Configura DNS Primario en 62.210.38.117 (Secundario 0.0.0.0). Anota la IP de PS5 (${ip}).',
-              'Trigger: Abre la Guía del usuario y selecciona IPv6 UAF o UMTX.',
-              'Esperar Puerto: Espera la notificación de que elfldr está escuchando en el puerto 9021.',
-              'Inyección vía PC/Teléfono: Envía etaHEN.bin a ${ip}:9021 mediante comando Netcat/PowerShell en PC o app TCP en teléfono.',
-              'Confirmación: Notificación confirma etaHEN cargado y Homebrew disponible.'
-            ];
-          } else {
-            stepsNoPc = [
-              'Hardening: Turn off all auto-update and Rest Mode internet options in console settings.',
-              'USB Autoloader: Format a USB drive as FAT32/exFAT, create a folder named "/payloads/", and place "etaHEN.bin" inside. Plug into PS5.',
-              'Network & DNS: Set Primary DNS to 62.210.38.117 (Secondary 0.0.0.0).',
-              'Trigger: Open Settings ➔ System ➔ User\'s Guide and select IPv6 UAF or UMTX Exploit.',
-              'Standalone Execution: Exploit gains Kernel RW and elfldr immediately loads etaHEN from the USB drive with zero PC required.',
-              'Confirmation: Pop-up notification confirms etaHEN loaded and Debug Settings unlocked.'
-            ];
-            stepsWithPc = [
-              'Network Pairing: Connect PS5 and PC/Phone to the same local Wi-Fi or LAN.',
-              'Network & DNS: Set Primary DNS to 62.210.38.117 (Secondary 0.0.0.0). Note PS5 IP (${ip}).',
-              'Trigger: Open User\'s Guide and choose IPv6 UAF or UMTX.',
-              'Await Port: Wait for message indicating elfldr is listening on port 9021.',
-              'Inject from PC/Phone: Send etaHEN.bin to ${ip}:9021 using the Netcat/PowerShell snippet below or a smartphone TCP client app.',
-              'Confirmation: Notification confirms etaHEN is active and homebrew ready.'
-            ];
-          }
         } else if (bracket === '5.00 - 5.50') {
           statusClass = 'ready';
           statusBadge = (lang === 'pt') ? 'ALTAMENTE ESTÁVEL • UMTX' : (lang === 'es' ? 'ALTA ESTABILIDAD • UMTX' : 'HIGH STABILITY • UMTX');
@@ -2465,58 +2727,6 @@
           dnsIp = '62.210.38.117';
           payloads = 'etaHEN.bin + ps5-kstuff.bin';
           port = '9021';
-          if (lang === 'pt') {
-            stepsNoPc = [
-              'Blindagem: Desative atualizações automáticas nas configurações.',
-              'Autoloader USB: Conecte um pendrive FAT32/exFAT com a pasta "/payloads/" contendo "etaHEN.bin" e "ps5-kstuff.bin".',
-              'Rede & DNS: Configure o DNS Primário para 62.210.38.117.',
-              'Trigger: Acesse o Guia do Usuário e clique em UMTX Exploit.',
-              'Execução Standalone: O kernel UAF executa e o carregador carrega o etaHEN direto do pendrive USB sem auxílio de computador.',
-              'Confirmação: Notificação na tela confirma etaHEN ativo.'
-            ];
-            stepsWithPc = [
-              'Pareamento de Rede: Conecte o PS5 e seu computador/celular no mesmo Wi-Fi ou rede cabeada.',
-              'Rede & DNS: Configure o DNS Primário para 62.210.38.117. Verifique o IP do PS5 (${ip}).',
-              'Trigger: Acesse o Guia do Usuário e clique em UMTX Exploit.',
-              'Aguardar Porta: Aguarde a confirmação de que o elfldr está escutando na porta 9021.',
-              'Injeção via PC/Celular: Envie etaHEN.bin para ${ip}:9021 usando Netcat ou script PowerShell abaixo.',
-              'Confirmação: Notificação na tela confirma etaHEN carregado com sucesso.'
-            ];
-          } else if (lang === 'es') {
-            stepsNoPc = [
-              'Blindaje: Desactiva actualizaciones automáticas en Ajustes.',
-              'Autoloader USB: Conecta un pendrive FAT32/exFAT con la carpeta "/payloads/" que contenga "etaHEN.bin" y "ps5-kstuff.bin".',
-              'Red y DNS: Configura el DNS Primario en 62.210.38.117.',
-              'Trigger: Entra en la Guía del usuario y selecciona UMTX Exploit.',
-              'Ejecución Standalone: El kernel UAF se ejecuta y el cargador transfiere etaHEN directamente desde el pendrive USB sin ordenador.',
-              'Confirmación: Notificación en pantalla confirma etaHEN activo.'
-            ];
-            stepsWithPc = [
-              'Emparejamiento de Red: Conecta la PS5 y tu ordenador/teléfono a la misma red Wi-Fi o cableada.',
-              'Red y DNS: Configura el DNS Primario en 62.210.38.117. Anota la IP de la PS5 (${ip}).',
-              'Trigger: Entra en la Guía del usuario y pulsa en UMTX Exploit.',
-              'Esperar Puerto: Espera la confirmación de que elfldr está escuchando en el puerto 9021.',
-              'Inyección vía PC/Teléfono: Envía etaHEN.bin a ${ip}:9021 usando Netcat o script PowerShell inferior.',
-              'Confirmación: Notificación en pantalla confirma etaHEN cargado con éxito.'
-            ];
-          } else {
-            stepsNoPc = [
-              'Hardening: Disable all automatic downloads and Rest Mode internet options in console settings.',
-              'USB Autoloader: Insert a FAT32/exFAT USB drive with "/payloads/etaHEN.bin" and "ps5-kstuff.bin" into PS5.',
-              'Network & DNS: Set Primary DNS to 62.210.38.117.',
-              'Trigger: Open Settings ➔ System ➔ User\'s Guide and select UMTX Exploit.',
-              'Standalone Execution: Kernel UAF triggers and elfldr loads etaHEN from the USB drive automatically with no PC needed.',
-              'Confirmation: Notification confirms etaHEN loaded and active.'
-            ];
-            stepsWithPc = [
-              'Network Pairing: Connect PS5 and your PC or Phone to the same local Wi-Fi or LAN.',
-              'Network & DNS: Set Primary DNS to 62.210.38.117. Verify console IP (${ip}).',
-              'Trigger: Open User\'s Guide and launch UMTX Exploit.',
-              'Await Port: Wait for confirmation that elfldr is listening on port 9021.',
-              'Inject from PC/Phone: Send etaHEN.bin to ${ip}:9021 via Netcat/PowerShell or mobile TCP app.',
-              'Confirmation: Pop-up notification confirms etaHEN loaded successfully.'
-            ];
-          }
         } else if (bracket === '6.00 - 6.50') {
           statusClass = 'wip';
           statusBadge = (lang === 'pt') ? 'EM DESENVOLVIMENTO • UMTX2 / MAST1C0RE' : (lang === 'es' ? 'EN DESARROLLO • UMTX2 / MAST1C0RE' : 'IN DEVELOPMENT • UMTX2 / MAST1C0RE');
@@ -2525,46 +2735,6 @@
           dnsIp = '62.210.38.117';
           payloads = 'elfldr + etaHEN (WIP)';
           port = '9021';
-          if (lang === 'pt') {
-            stepsNoPc = [
-              'Blindagem: Desative atualizações e downloads automáticos nas configurações.',
-              'Preparação USB: Prepare previamente um pendrive com a pasta "/payloads/".',
-              'Trigger: Execute o Mast1c0re via savegame PS2 ou exploit WebKit UMTX2.',
-              'Status: Aguarde a disponibilização pública dos offsets finais de kstuff para carregamento direto via USB.'
-            ];
-            stepsWithPc = [
-              'Pareamento de Rede: Conecte o PS5 e seu computador na mesma rede local.',
-              'Trigger: Execute o Mast1c0re ou gatilho UMTX2.',
-              'Porta: Quando o elfldr abrir a porta 9021, payloads poderão ser injetados via rede.',
-              'Status: Aguarde a conclusão dos binários etaHEN para este firmware.'
-            ];
-          } else if (lang === 'es') {
-            stepsNoPc = [
-              'Blindaje: Desactiva descargas y actualizaciones automáticas en Ajustes.',
-              'Preparación USB: Prepara con antelación un pendrive con la carpeta "/payloads/".',
-              'Trigger: Ejecuta Mast1c0re vía savegame PS2 o exploit WebKit UMTX2.',
-              'Estado: Espera la publicación de los offsets finales de kstuff para carga directa por USB.'
-            ];
-            stepsWithPc = [
-              'Emparejamiento de Red: Conecta la PS5 y tu ordenador a la misma red local.',
-              'Trigger: Ejecuta Mast1c0re o trigger UMTX2.',
-              'Puerto: Cuando elfldr abra el puerto 9021, los payloads podrán inyectarse por red.',
-              'Estado: Espera la finalización de los binarios etaHEN para este firmware.'
-            ];
-          } else {
-            stepsNoPc = [
-              'Hardening: Disable all automatic downloads and Rest Mode internet.',
-              'USB Preparation: Prepare a FAT32/exFAT USB drive with a "/payloads/" folder.',
-              'Trigger: Execute Mast1c0re via PS2 savegame or launch WebKit UMTX2 trigger.',
-              'Status: Await finalized public kstuff offsets for complete standalone USB loading.'
-            ];
-            stepsWithPc = [
-              'Network Pairing: Connect PS5 and PC/Phone to the same local network.',
-              'Trigger: Run Mast1c0re or UMTX2 WebKit trigger.',
-              'Port: When elfldr opens port 9021, payloads can be injected over network.',
-              'Status: Await finalized etaHEN binaries for this firmware bracket.'
-            ];
-          }
         } else if (bracket === '7.00 - 8.20') {
           statusClass = 'ready';
           statusBadge = (lang === 'pt') ? 'VETOR BD-JB / MAST1C0RE' : (lang === 'es' ? 'VECTOR BD-JB / MAST1C0RE' : 'BD-JB / MAST1C0RE VECTOR');
@@ -2573,58 +2743,6 @@
           dnsIp = '62.210.38.117';
           payloads = 'elfldr + etaHEN.bin';
           port = '9021';
-          if (lang === 'pt') {
-            stepsNoPc = [
-              'Blindagem: Desative downloads e atualizações automáticas nas Configurações.',
-              'Autoloader USB: Crie a pasta "/payloads/" em um pendrive FAT32/exFAT, copie "etaHEN.bin" e conecte no PS5.',
-              'Ponto de Entrada: Insira o disco Blu-ray BD-JB já gravado ou carregue o savegame PS2 Mast1c0re.',
-              'Trigger de Kernel: Selecione a opção do exploit aio_multi_wait no menu do disco BD-JB / Mast1c0re.',
-              'Execução Standalone: O elfldr carrega o etaHEN automaticamente do pendrive USB sem precisar de rede ou computador.',
-              'Confirmação: Notificação na tela confirma etaHEN ativo e Debug Settings habilitadas.'
-            ];
-            stepsWithPc = [
-              'Configuração de Rede: Conecte o PS5 e o PC/Celular na mesma rede local.',
-              'Ponto de Entrada: Insira o disco Blu-ray BD-JB ou carregue o savegame PS2 Mast1c0re no PS5.',
-              'Trigger de Kernel: Execute o gatilho de kernel aio_multi_wait no menu do disco.',
-              'Aguardar Porta: Aguarde a mensagem "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
-              'Injeção via PC/Celular: Envie etaHEN.bin para ${ip}:9021 usando Netcat ou PowerShell abaixo.',
-              'Confirmação: Notificação na tela confirma etaHEN carregado e Debug Settings liberadas.'
-            ];
-          } else if (lang === 'es') {
-            stepsNoPc = [
-              'Blindaje: Desactiva descargas y actualizaciones automáticas en Ajustes.',
-              'Autoloader USB: Crea la carpeta "/payloads/" en un pendrive FAT32/exFAT, copia "etaHEN.bin" y conéctalo a la PS5.',
-              'Punto de Entrada: Inserta el disco Blu-ray BD-JB grabado o carga la partida guardada PS2 Mast1c0re.',
-              'Trigger de Kernel: Selecciona la opción del exploit aio_multi_wait en el menú de BD-JB / Mast1c0re.',
-              'Ejecución Standalone: elfldr carga automáticamente etaHEN desde el pendrive USB sin requerir red ni ordenador.',
-              'Confirmación: Notificación en pantalla confirma etaHEN activo y Debug Settings habilitadas.'
-            ];
-            stepsWithPc = [
-              'Configuración de Red: Conecta la PS5 y tu PC/Teléfono a la misma red local.',
-              'Punto de Entrada: Inserta el disco Blu-ray BD-JB o carga la partida guardada PS2 Mast1c0re en la PS5.',
-              'Trigger de Kernel: Ejecuta el disparador de kernel aio_multi_wait desde el menú del disco.',
-              'Esperar Puerto: Espera al mensaje "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
-              'Inyección vía PC/Teléfono: Envía etaHEN.bin a ${ip}:9021 usando Netcat o PowerShell inferior.',
-              'Confirmación: Notificación en pantalla confirma etaHEN cargado y Debug Settings habilitadas.'
-            ];
-          } else {
-            stepsNoPc = [
-              'Hardening: Turn off all auto-update and background internet downloads in System Settings.',
-              'USB Autoloader: Create a "/payloads/" directory on a FAT32/exFAT USB drive, place "etaHEN.bin" inside, and connect to PS5.',
-              'Entry Point: Insert your burned BD-JB Blu-ray disc or load Mast1c0re PS2 savegame on console.',
-              'Kernel Exploit: Execute the aio_multi_wait kernel exploit trigger from the BD-JB / Mast1c0re disc interface.',
-              'Standalone Execution: elfldr detects and executes etaHEN directly from the USB drive with zero PC required.',
-              'Confirmation: Pop-up notification confirms etaHEN active and Debug Settings unlocked.'
-            ];
-            stepsWithPc = [
-              'Network Setup: Ensure PS5 and PC/Phone are connected to the same local Wi-Fi or router network.',
-              'Entry Point: Insert BD-JB Blu-ray disc or load Mast1c0re PS2 savegame on PS5.',
-              'Kernel Exploit: Execute aio_multi_wait kernel trigger from the BD-JB menu.',
-              'Await Port: Wait for message "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
-              'Inject from PC/Phone: Transmit etaHEN.bin to ${ip}:9021 using netcat, PowerShell, or mobile TCP app.',
-              'Confirmation: Notification confirms etaHEN loaded and Debug Settings available.'
-            ];
-          }
         } else if (bracket === '9.60 - 13.60') {
           statusClass = 'ready';
           statusBadge = (lang === 'pt') ? 'ERA MODERNA • TOTALMENTE EXPLORÁVEL' : (lang === 'es' ? 'ERA MODERNA • TOTALMENTE VULNERABLE' : 'MODERN ERA • FULLY EXPLOITABLE');
@@ -2633,58 +2751,6 @@
           dnsIp = '45.56.67.85';
           payloads = 'etaHEN.bin + ps5-kstuff.bin';
           port = '9021';
-          if (lang === 'pt') {
-            stepsNoPc = [
-              'Blindagem: Desative downloads e atualizações automáticas nas configurações.',
-              'Rede & DNS: Configure o DNS Primário para 45.56.67.85 e Secundário para 0.0.0.0.',
-              'Autoloader USB: Formate um pendrive em FAT32/exFAT, crie a pasta "/payloads/" e copie "etaHEN.bin" e "ps5-kstuff.bin". Conecte no PS5.',
-              'Trigger: Abra Configurações ➔ Sistema ➔ Guia do Usuário para acionar o exploit Relapse.',
-              'Execução Standalone: O exploit executa e o elfldr carrega os payloads automaticamente do pendrive USB sem precisar de computador.',
-              'Confirmação: Aguarde a notificação "etaHEN Loaded Successfully!". As Debug Settings estarão ativas nas configurações do PS5.'
-            ];
-            stepsWithPc = [
-              'Pareamento de Rede: Conecte o PS5 e seu PC ou Celular na mesma rede local Wi-Fi ou cabo de rede.',
-              'Rede & DNS: Configure o DNS Primário do PS5 para 45.56.67.85 e Secundário para 0.0.0.0. Verifique o IP do PS5 (${ip}).',
-              'Trigger: Abra o Guia do Usuário no PS5 para acionar o exploit Relapse.',
-              'Aguardar Porta: Aguarde a mensagem na tela "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
-              'Injeção via PC/Celular: Execute o comando netcat ou script PowerShell abaixo no seu PC, ou envie etaHEN.bin via aplicativo no celular para ${ip}:9021.',
-              'Confirmação: Notificação na tela confirma etaHEN carregado e Homebrew liberado.'
-            ];
-          } else if (lang === 'es') {
-            stepsNoPc = [
-              'Blindaje: Desactiva descargas e instalaciones automáticas en Ajustes.',
-              'Red y DNS: Configura el DNS Primario en 45.56.67.85 y Secundario en 0.0.0.0.',
-              'Autoloader USB: Formatea un pendrive en FAT32/exFAT, crea la carpeta "/payloads/" y copia "etaHEN.bin" y "ps5-kstuff.bin". Conéctalo a la PS5.',
-              'Trigger: Abre Ajustes ➔ Sistema ➔ Guía del usuario para ejecutar el exploit Relapse.',
-              'Ejecución Standalone: El exploit se ejecuta y elfldr carga los payloads automáticamente desde el pendrive USB sin ordenador.',
-              'Confirmación: Espera a la notificación "etaHEN Loaded Successfully!". Debug Settings estará disponible en los ajustes de PS5.'
-            ];
-            stepsWithPc = [
-              'Emparejamiento de Red: Conecta la PS5 y tu PC o Teléfono a la misma red local Wi-Fi o cable de red.',
-              'Red y DNS: Configura el DNS Primario en 45.56.67.85 y Secundario en 0.0.0.0. Anota la IP de la PS5 (${ip}).',
-              'Trigger: Abre la Guía del usuario en la PS5 para ejecutar el exploit Relapse.',
-              'Esperar Puerto: Espera el mensaje en pantalla "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
-              'Inyección vía PC/Teléfono: Ejecuta el comando netcat o script PowerShell inferior en tu PC, o envía etaHEN.bin mediante app móvil a ${ip}:9021.',
-              'Confirmación: Notificación en pantalla confirma etaHEN cargado y Homebrew desbloqueado.'
-            ];
-          } else {
-            stepsNoPc = [
-              'Hardening: Turn off all auto-update and background internet downloads in System Settings.',
-              'Network & DNS: Configure Primary DNS to 45.56.67.85 and Secondary to 0.0.0.0.',
-              'USB Autoloader: Format a USB drive as FAT32/exFAT, create a folder named "/payloads/", and place "etaHEN.bin" and "ps5-kstuff.bin" inside. Plug into PS5.',
-              'Trigger: Open Settings ➔ System ➔ User\'s Guide to execute Relapse Exploit.',
-              'Standalone Execution: The WebKit and kernel exploit run. Once Kernel RW is gained, elfldr automatically loads payloads from the USB drive with no PC required.',
-              'Confirmation: Pop-up notification confirms "etaHEN Loaded Successfully!". Debug Settings are active in console settings.'
-            ];
-            stepsWithPc = [
-              'Network Pairing: Connect your PS5 and your PC or Smartphone to the same local Wi-Fi or LAN.',
-              'Network & DNS: Set Primary DNS to 45.56.67.85 and Secondary to 0.0.0.0. Verify console IP (${ip}).',
-              'Trigger: Open User\'s Guide on PS5 to launch Relapse Exploit.',
-              'Await Port: Wait on screen until you see "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
-              'Inject from PC/Phone: Run the terminal netcat command or PowerShell script below, or use a mobile TCP sender app to transmit etaHEN.bin to ${ip}:9021.',
-              'Confirmation: Pop-up confirms "etaHEN Loaded Successfully!". Homebrew & Debug Settings unlocked.'
-            ];
-          }
         } else {
           statusClass = 'patched';
           statusBadge = (lang === 'pt') ? 'CORRIGIDO / NÃO SUPORTADO' : (lang === 'es' ? 'PARCHEADO / NO COMPATIBLE' : 'PATCHED / UNSUPPORTED');
@@ -2693,39 +2759,10 @@
           dnsIp = 'N/A (Keep Offline)';
           payloads = 'None';
           port = 'N/A';
-          if (lang === 'pt') {
-            stepsNoPc = [
-              'Mantenha o console ESTRITAMENTE OFFLINE. Não atualize para novas versões!',
-              'Aguarde a divulgação de novas vulnerabilidades pela comunidade de segurança.'
-            ];
-            stepsWithPc = [
-              'Mantenha o console ESTRITAMENTE OFFLINE. Não atualize para novas versões!',
-              'Aguarde a divulgação de novas vulnerabilidades pela comunidade de segurança.'
-            ];
-          } else if (lang === 'es') {
-            stepsNoPc = [
-              'Mantén la consola ESTRICTAMENTE OFFLINE. ¡No actualices a versiones superiores!',
-              'Espera la publicación de nuevas vulnerabilidades por la comunidad de seguridad.'
-            ];
-            stepsWithPc = [
-              'Mantén la consola ESTRICTAMENTE OFFLINE. ¡No actualices a versiones superiores!',
-              'Espera la publicación de nuevas vulnerabilidades por la comunidad de seguridad.'
-            ];
-          } else {
-            stepsNoPc = [
-              'Keep console STRICTLY OFFLINE. Do not update to any newer firmware!',
-              'Wait for future research disclosures by security researchers.'
-            ];
-            stepsWithPc = [
-              'Keep console STRICTLY OFFLINE. Do not update to any newer firmware!',
-              'Wait for future research disclosures by security researchers.'
-            ];
-          }
         }
 
         let fwSummary = bracket.replace('-', '–');
 
-        // Build HTML
         let html = `
           <div class="ps-res-top-bar">
             <div>
@@ -2740,7 +2777,6 @@
           </div>
         `;
 
-        // Add Hazard Alert for Slim/Pro
         if (isSlimOrPro) {
           const alertText = (lang === 'pt') ?
             `<strong>⚠️ ALERTA CRÍTICO DE PAREAMENTO DO LEITOR:</strong> Seu modelo possui leitor removível. O pareamento exige um <strong>Handshake</strong> com a Sony que <strong>FORÇA A ATUALIZAÇÃO IRREVERSÍVEL</strong> se conectar à PSN! <strong>NUNCA ATUALIZE</strong> para parear o leitor. Jogos digitais, homebrew e SSD M.2 funcionam 100% sem o leitor físico.` :
@@ -2751,7 +2787,6 @@
           html += `<div class="ps-res-hazard-alert">${alertText}</div>`;
         }
 
-        // Details Grid
         html += `
           <div class="ps-res-grid">
             <div class="ps-res-card">
@@ -2772,71 +2807,103 @@
           </div>
         `;
 
-        // Execution Checklist Tabs
-        const actionTitle = (lang === 'pt') ? '⚡ PASSO A PASSO PERSONALIZADO:' : (lang === 'es' ? '⚡ PLAN DE ACCIÓN PERSONALIZADO:' : '⚡ TAILORED EXECUTION CHECKLIST:');
-        const tabNoPcTitle = (lang === 'pt') ? 'SEM PC' : (lang === 'es' ? 'SIN PC' : 'WITHOUT PC');
-        const tabNoPcBadge = 'STANDALONE / USB';
-        const tabWithPcTitle = (lang === 'pt') ? 'COM PC/CELULAR' : (lang === 'es' ? 'CON PC/TELÉFONO' : 'WITH PC/PHONE');
-        const tabWithPcBadge = (lang === 'pt') ? 'INJEÇÃO DE REDE' : (lang === 'es' ? 'INYECCIÓN DE RED' : 'NETWORK INJECTION');
+        const actionTitle = (lang === 'pt') ? '⚡ PROCEDIMENTOS DE EXECUÇÃO PERSONALIZADOS:' : (lang === 'es' ? '⚡ PROCEDIMIENTOS DE EJECUCIÓN PERSONALIZADOS:' : '⚡ TAILORED EXECUTION PROCEDURES:');
+        const tabOnlineTitle = (lang === 'pt') ? 'ONLINE COMPLETO' : (lang === 'es' ? 'ONLINE COMPLETO' : 'FULL ONLINE');
+        const tabOnlineBadge = (lang === 'pt') ? 'INTERNET E CACHE' : (lang === 'es' ? 'INTERNET Y CACHÉ' : 'INTERNET & CACHE');
+        const tabLocalTitle = (lang === 'pt') ? 'LOCAL' : (lang === 'es' ? 'LOCAL' : 'LOCAL');
+        const tabLocalBadge = (lang === 'pt') ? 'OFFLINE E HARDWARE' : (lang === 'es' ? 'OFFLINE Y HARDWARE' : 'OFFLINE & HARDWARE');
 
         html += `<div class="ps-res-actions-title"><span>🎮</span> ${actionTitle}</div>`;
 
         html += `
           <div class="ps-res-tabs">
-            <button type="button" class="ps-res-tab-btn ${currentWizardTab === 'no-pc' ? 'active' : ''}" data-tab="no-pc" onclick="switchWizardTab('no-pc')">
-              <span>🕹️</span>
-              <span>${tabNoPcTitle}</span>
-              <span class="ps-res-tab-badge">${tabNoPcBadge}</span>
+            <button type="button" class="ps-res-tab-btn ${currentWizardTab === 'full-online' ? 'active' : ''}" data-tab="full-online" onclick="switchWizardTab('full-online')">
+              <span>🌐</span>
+              <span>${tabOnlineTitle}</span>
+              <span class="ps-res-tab-badge">${tabOnlineBadge}</span>
             </button>
-            <button type="button" class="ps-res-tab-btn ${currentWizardTab === 'with-pc' ? 'active' : ''}" data-tab="with-pc" onclick="switchWizardTab('with-pc')">
-              <span>💻</span>
-              <span>${tabWithPcTitle}</span>
-              <span class="ps-res-tab-badge">${tabWithPcBadge}</span>
+            <button type="button" class="ps-res-tab-btn ${currentWizardTab === 'local' ? 'active' : ''}" data-tab="local" onclick="switchWizardTab('local')">
+              <span>🏠</span>
+              <span>${tabLocalTitle}</span>
+              <span class="ps-res-tab-badge">${tabLocalBadge}</span>
             </button>
           </div>
         `;
 
-        html += `
-          <div id="psTabPaneNoPc" class="ps-tab-pane" style="${currentWizardTab === 'no-pc' ? '' : 'display:none;'}">
-            <ul class="ps-res-checklist">
-              ${stepsNoPc.map(function(stepText, idx) {
-                return `<li><span class="step-num">${idx + 1}</span><span>${stepText}</span></li>`;
-              }).join('')}
-            </ul>
-          </div>
-        `;
-
-        const cmdTitle = (lang === 'pt') ? 'COMANDOS DE INJEÇÃO (TERMINAL):' : (lang === 'es' ? 'COMANDOS DE INYECCIÓN (TERMINAL):' : 'TERMINAL PAYLOAD INJECTION SNIPPET:');
-        const mobileTip = (lang === 'pt') ?
-          `No Celular (Android / iOS): Conecte ao mesmo Wi-Fi e use qualquer aplicativo cliente TCP/Netcat para enviar <code>etaHEN.bin</code> para ${ip}:${port}` :
-          (lang === 'es' ?
-          `En Teléfono (Android / iOS): Conecta a la misma red Wi-Fi y usa cualquier app cliente TCP/Netcat para enviar <code>etaHEN.bin</code> a ${ip}:${port}` :
-          `Mobile (Android / iOS): Connect to same Wi-Fi and use any TCP/Netcat client app to send <code>etaHEN.bin</code> to ${ip}:${port}`);
+        // PANE 1: FULL ONLINE
+        const onlineProcIds = ['relapse', 'autoloader_cache', 'public_hosts'];
+        const activeOnlineData = getProcedureData(currentOnlineProc, lang, bracket, ip, port);
 
         html += `
-          <div id="psTabPaneWithPc" class="ps-tab-pane" style="${currentWizardTab === 'with-pc' ? '' : 'display:none;'}">
-            <ul class="ps-res-checklist">
-              ${stepsWithPc.map(function(stepText, idx) {
-                return `<li><span class="step-num">${idx + 1}</span><span>${stepText}</span></li>`;
+          <div id="psTabPaneOnline" class="ps-tab-pane" style="${currentWizardTab === 'full-online' ? '' : 'display:none;'}">
+            <div class="ps-proc-grid">
+              ${onlineProcIds.map(function(id) {
+                const data = getProcedureData(id, lang, bracket, ip, port);
+                const isActive = (id === currentOnlineProc);
+                return `
+                  <div class="ps-proc-card ${isActive ? 'active' : ''}" onclick="selectProcedure('full-online', '${id}')">
+                    <div class="ps-proc-header">
+                      <div class="ps-proc-title">${data.title}</div>
+                      <span class="ps-proc-badge ${data.badgeClass}">${data.badge}</span>
+                    </div>
+                    <div class="ps-proc-desc">${data.desc}</div>
+                  </div>
+                `;
               }).join('')}
-            </ul>
-        `;
-
-        if (bracket !== '14.00+') {
-          html += `
-            <div class="ps-res-actions-title" style="margin-top:16px;"><span>💻</span> 📦 ${cmdTitle}</div>
-            <div class="ps-res-code-box">
-              <span style="color:#94a3b8;"># Linux / macOS / WSL:</span><br>
-              nc -w 3 ${ip} ${port} &lt; etaHEN.bin<br><br>
-              <span style="color:#94a3b8;"># Windows PowerShell:</span><br>
-              $c = New-Object Net.Sockets.TcpClient('${ip}', ${port}); $s = $c.GetStream(); $b = [IO.File]::ReadAllBytes('etaHEN.bin'); $s.Write($b, 0, $b.Length); $s.Close(); $c.Close(); Write-Host '[SUCCESS] etaHEN Sent!'<br><br>
-              <span style="color:#94a3b8;"># Smartphone (Android / iOS):</span><br>
-              <span style="color:#cbd5e1;">${mobileTip}</span>
             </div>
-          `;
-        }
 
-        html += `</div>`;
+            <div class="ps-proc-detail-box">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+                <h4 style="margin:0;color:#ffffff;font-size:16px;">${activeOnlineData.title} &bull; ${(lang === 'pt') ? 'Passo a Passo' : ((lang === 'es') ? 'Paso a Paso' : 'Step-by-Step')}</h4>
+                <span class="ps-proc-badge ${activeOnlineData.badgeClass}">${activeOnlineData.badge}</span>
+              </div>
+              ${activeOnlineData.note ? `<div class="ps-res-hazard-alert" style="margin:0 0 14px 0;">${activeOnlineData.note}</div>` : ''}
+              <ul class="ps-res-checklist" style="margin:0;">
+                ${activeOnlineData.steps.map(function(s, idx) {
+                  return `<li><span class="step-num">${idx + 1}</span><span>${s}</span></li>`;
+                }).join('')}
+              </ul>
+            </div>
+          </div>
+        `;
+
+        // PANE 2: LOCAL
+        const localProcIds = ['esp32', 'esp8266', 'raspberry_pi', 'local_pc'];
+        const activeLocalData = getProcedureData(currentLocalProc, lang, bracket, ip, port);
+
+        html += `
+          <div id="psTabPaneLocal" class="ps-tab-pane" style="${currentWizardTab === 'local' ? '' : 'display:none;'}">
+            <div class="ps-proc-grid">
+              ${localProcIds.map(function(id) {
+                const data = getProcedureData(id, lang, bracket, ip, port);
+                const isActive = (id === currentLocalProc);
+                return `
+                  <div class="ps-proc-card ${isActive ? 'active' : ''}" onclick="selectProcedure('local', '${id}')">
+                    <div class="ps-proc-header">
+                      <div class="ps-proc-title">${data.title}</div>
+                      <span class="ps-proc-badge ${data.badgeClass}">${data.badge}</span>
+                    </div>
+                    <div class="ps-proc-desc">${data.desc}</div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+
+            <div class="ps-proc-detail-box">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+                <h4 style="margin:0;color:#ffffff;font-size:16px;">${activeLocalData.title} &bull; ${(lang === 'pt') ? 'Passo a Passo' : ((lang === 'es') ? 'Paso a Paso' : 'Step-by-Step')}</h4>
+                <span class="ps-proc-badge ${activeLocalData.badgeClass}">${activeLocalData.badge}</span>
+              </div>
+              ${activeLocalData.note ? `<div class="ps-res-hazard-alert" style="margin:0 0 14px 0;">${activeLocalData.note}</div>` : ''}
+              <ul class="ps-res-checklist" style="margin:0;">
+                ${activeLocalData.steps.map(function(s, idx) {
+                  return `<li><span class="step-num">${idx + 1}</span><span>${s}</span></li>`;
+                }).join('')}
+              </ul>
+              ${activeLocalData.codeSnippet || ''}
+            </div>
+          </div>
+        `;
 
         resultContainer.innerHTML = html;
       }
