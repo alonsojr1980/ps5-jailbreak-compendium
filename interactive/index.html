@@ -187,6 +187,94 @@
       filter: none;
     }
 
+    /* Collapsed previous step: surrender focus & compact down */
+    .ps-wizard-step.ps-step-collapsed {
+      opacity: 0.55;
+      margin-bottom: 12px;
+      transition: all 0.25s ease;
+    }
+    .ps-wizard-step.ps-step-collapsed:hover {
+      opacity: 0.9;
+    }
+    .ps-wizard-step.ps-step-collapsed .ps-wizard-field {
+      display: none !important;
+    }
+    .ps-wizard-step.ps-step-collapsed .ps-wizard-bookmark {
+      background: rgba(14, 20, 32, 0.85);
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: none;
+    }
+    .ps-wizard-step.ps-step-collapsed .ps-bm-num {
+      color: #38bdf8;
+    }
+    .ps-wizard-step.ps-step-collapsed .ps-bm-text {
+      color: #64748b;
+    }
+    .ps-step-collapsed-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 16px;
+      background: rgba(14, 20, 32, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .ps-step-collapsed-summary:hover {
+      background: rgba(18, 28, 48, 0.85);
+      border-color: rgba(0, 112, 209, 0.4);
+    }
+    .ps-collapsed-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .ps-collapsed-check {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      font-weight: 800;
+      font-size: 11px;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .ps-collapsed-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+    .ps-collapsed-sub {
+      font-size: 12.5px;
+      color: #94a3b8;
+    }
+    .ps-edit-step-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #94a3b8;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+      font-family: var(--code-font-family);
+    }
+    .ps-edit-step-btn:hover {
+      background: rgba(0, 112, 209, 0.25);
+      border-color: #0070d1;
+      color: #ffffff;
+    }
+
     /* Dim unselected options once a choice is made */
     .ps-model-buttons.has-selection .ps-model-btn:not(.active),
     .ps-exploit-grid.has-selection .ps-exploit-btn:not(.active) {
@@ -953,15 +1041,32 @@
         return '7.00 - 13.60';
       }
 
+      let editingStep1 = false;
+      let editingStep2 = false;
+
+      window.editWizardStep = function(stepNum) {
+        if (stepNum === 1) {
+          editingStep1 = true;
+        } else if (stepNum === 2) {
+          editingStep2 = true;
+        }
+        updateWizardUI();
+        setTimeout(function() {
+          const el = document.getElementById('wizardStep' + stepNum);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 60);
+      };
+
       window.setWizardModel = function(model) {
         const isFirst = !currentWizardModel;
         currentWizardModel = model;
+        editingStep1 = false;
         try { localStorage.setItem('ps5_wizard_model_v2', model); } catch(e) {}
         if (document.activeElement && typeof document.activeElement.blur === 'function') {
           document.activeElement.blur();
         }
         updateWizardUI();
-        if (isFirst) {
+        if (isFirst || !currentWizardFw) {
           setTimeout(function() {
             const step2 = document.getElementById('wizardStep2');
             if (step2) {
@@ -974,24 +1079,25 @@
       window.setWizardFw = function(fw) {
         const isFirst = !currentWizardFw;
         currentWizardFw = fw;
+        editingStep2 = false;
         try { localStorage.setItem('ps5_wizard_fw_v2', fw); } catch(e) {}
         if (document.activeElement && typeof document.activeElement.blur === 'function') {
           document.activeElement.blur();
         }
         updateWizardUI();
-        if (isFirst) {
-          setTimeout(function() {
-            const resultCard = document.getElementById('psWizardResult');
-            if (resultCard) {
-              resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-          }, 120);
-        }
+        setTimeout(function() {
+          const resultCard = document.getElementById('psWizardResult');
+          if (resultCard) {
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 120);
       };
 
       window.resetWizard = function() {
         currentWizardModel = null;
         currentWizardFw = null;
+        editingStep1 = false;
+        editingStep2 = false;
         try {
           localStorage.removeItem('ps5_wizard_model_v2');
           localStorage.removeItem('ps5_wizard_fw_v2');
@@ -1009,9 +1115,13 @@
 
       window.jumpToStep = function(stepNum) {
         if (stepNum === 1) {
+          editingStep1 = true;
+          updateWizardUI();
           const s1 = document.getElementById('wizardStep1');
           if (s1) s1.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else if (stepNum === 2 && currentWizardModel) {
+          editingStep2 = true;
+          updateWizardUI();
           const s2 = document.getElementById('wizardStep2');
           if (s2) s2.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else if (stepNum === 3 && currentWizardFw) {
@@ -1565,26 +1675,104 @@
 
         const step1 = document.getElementById('wizardStep1');
         if (step1) {
-          if (currentWizardModel) {
-            step1.classList.add('ps-step-completed');
-          } else {
-            step1.classList.remove('ps-step-completed');
+          const shouldCollapse1 = (currentWizardModel !== null && !editingStep1);
+          step1.classList.toggle('ps-step-completed', !!currentWizardModel);
+          step1.classList.toggle('ps-step-collapsed', shouldCollapse1);
+
+          let summary1 = step1.querySelector('.ps-step-collapsed-summary');
+          if (shouldCollapse1) {
+            const mInfo = {
+              fat: { name: 'PS5 Fat', sub: 'CFI-1000 / 1100 / 1200' },
+              slim: {
+                name: 'PS5 Slim',
+                sub: (lang === 'pt') ? 'CFI-2000 (Leitor Removível)' : ((lang === 'es') ? 'CFI-2000 (Lector Extraíble)' : 'CFI-2000 (Detachable Drive)')
+              },
+              pro: {
+                name: 'PS5 Pro',
+                sub: (lang === 'pt') ? 'CFI-7000 (Leitor Removível)' : ((lang === 'es') ? 'CFI-7000 (Lector Extraíble)' : 'CFI-7000 (Detachable Drive)')
+              }
+            }[currentWizardModel] || { name: currentWizardModel, sub: '' };
+
+            const changeBtnTxt = (lang === 'pt') ? 'Alterar' : ((lang === 'es') ? 'Cambiar' : 'Change');
+
+            if (!summary1) {
+              summary1 = document.createElement('div');
+              summary1.className = 'ps-step-collapsed-summary';
+              summary1.onclick = function() { window.editWizardStep(1); };
+              step1.appendChild(summary1);
+            }
+            summary1.innerHTML = `
+              <div class="ps-collapsed-info">
+                <span class="ps-collapsed-check">✓</span>
+                <span class="ps-collapsed-label">${mInfo.name}</span>
+                <span class="ps-collapsed-sub">${mInfo.sub}</span>
+              </div>
+              <button type="button" class="ps-edit-step-btn" onclick="event.stopPropagation();window.editWizardStep(1)">
+                <span>✏️</span> <span>${changeBtnTxt}</span>
+              </button>
+            `;
+          } else if (summary1) {
+            summary1.remove();
           }
         }
 
-        // 2. Step 2 visibility & dimming
+        // 2. Step 2 visibility & Step 2 collapsed state
         const step2 = document.getElementById('wizardStep2');
         if (step2) {
           if (!currentWizardModel) {
             step2.classList.add('ps-step-hidden');
-            step2.classList.remove('ps-step-revealed', 'ps-step-completed');
+            step2.classList.remove('ps-step-revealed', 'ps-step-completed', 'ps-step-collapsed');
+            const summary2 = step2.querySelector('.ps-step-collapsed-summary');
+            if (summary2) summary2.remove();
           } else {
             step2.classList.remove('ps-step-hidden');
             step2.classList.add('ps-step-revealed');
-            if (currentWizardFw) {
-              step2.classList.add('ps-step-completed');
-            } else {
-              step2.classList.remove('ps-step-completed');
+            const shouldCollapse2 = (currentWizardFw !== null && !editingStep2);
+            step2.classList.toggle('ps-step-completed', !!currentWizardFw);
+            step2.classList.toggle('ps-step-collapsed', shouldCollapse2);
+
+            let summary2 = step2.querySelector('.ps-step-collapsed-summary');
+            if (shouldCollapse2) {
+              const activeBracket = getBracketForFw(currentWizardFw);
+              const fInfo = {
+                '7.00 - 13.60': {
+                  name: 'Firmware 7.00–13.60',
+                  sub: (lang === 'pt') ? 'Exploit WebKit + aio_multi_wait (Relapse)' : ((lang === 'es') ? 'Exploit WebKit + aio_multi_wait (Relapse)' : 'WebKit + aio_multi_wait (Relapse)')
+                },
+                '3.00 - 6.50': {
+                  name: 'Firmware 3.00–6.50',
+                  sub: 'UMTX & IPv6 Socket UAF'
+                },
+                '1.00 - 2.50': {
+                  name: 'Firmware 1.00–2.50',
+                  sub: 'Byepervisor Hypervisor (Ring -1)'
+                },
+                '14.00+': {
+                  name: 'Firmware 14.00+',
+                  sub: (lang === 'pt') ? 'Corrigido pela Sony (Não Explorável)' : ((lang === 'es') ? 'Parcheado por Sony (No Exploitable)' : 'Patched by Sony (Not Exploitable)')
+                }
+              }[activeBracket] || { name: 'Firmware ' + currentWizardFw, sub: '' };
+
+              const changeBtnTxt = (lang === 'pt') ? 'Alterar' : ((lang === 'es') ? 'Cambiar' : 'Change');
+
+              if (!summary2) {
+                summary2 = document.createElement('div');
+                summary2.className = 'ps-step-collapsed-summary';
+                summary2.onclick = function() { window.editWizardStep(2); };
+                step2.appendChild(summary2);
+              }
+              summary2.innerHTML = `
+                <div class="ps-collapsed-info">
+                  <span class="ps-collapsed-check">✓</span>
+                  <span class="ps-collapsed-label">${fInfo.name}</span>
+                  <span class="ps-collapsed-sub">${fInfo.sub}</span>
+                </div>
+                <button type="button" class="ps-edit-step-btn" onclick="event.stopPropagation();window.editWizardStep(2)">
+                  <span>✏️</span> <span>${changeBtnTxt}</span>
+                </button>
+              `;
+            } else if (summary2) {
+              summary2.remove();
             }
           }
         }
