@@ -2,7 +2,7 @@
 
 <a href="https://alonsojr1980.github.io/ps5-jailbreak-compendium/interactive/"><img src="assets/banner.png" alt="PS5 JAILBREAK COMPENDIUM" width="100%" /></a>
 
-# ⚡ [Interactive PS5 Jailbreak & Exploit Wizard](https://alonsojr1980.github.io/ps5-jailbreak-compendium/interactive/) ⚡
+# [Interactive PS5 ⚡ Jailbreak & Exploit Wizard ⚡](https://alonsojr1980.github.io/ps5-jailbreak-compendium/interactive/)
 ### *by ALONSOJR1980*
 
 [![Launch Interactive Site](https://img.shields.io/badge/🎮%20LAUNCH%20INTERACTIVE%20SITE-ENTER%20HERE-0070d1?style=for-the-badge&logo=playstation&logoColor=white)](https://alonsojr1980.github.io/ps5-jailbreak-compendium/interactive/)

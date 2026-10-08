@@ -1,4 +1,4 @@
-<h1 align="center" class="ps-main-header">⚡ Interactive PS5<br>Jailbreak & Exploit Wizard ⚡</h1>
+<h1 align="center" class="ps-main-header">Interactive PS5<br>⚡ Jailbreak & Exploit Wizard ⚡</h1>
 <p align="center" class="ps-header-author">by ALONSOJR1980</p>
 
 <div align="center">
