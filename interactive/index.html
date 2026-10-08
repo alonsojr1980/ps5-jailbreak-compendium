@@ -511,6 +511,11 @@
       color: #c084fc;
       border: 1px solid rgba(168, 85, 247, 0.35);
     }
+    .ps-proc-badge.special {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+    }
     .ps-proc-desc {
       font-size: 12.5px;
       color: #94a3b8;
@@ -985,6 +990,71 @@
             'In-Memory Execution: The browser executes the kernel exploit and transfers the payload directly into memory.',
             'Confirmation: Notification confirms payload loaded successfully.'
           ];
+        } else if (procId === 'y2jb') {
+          title = '📺 YouTube App (Y2JB)';
+          badge = (lang === 'pt') ? 'APP NO DASHBOARD' : (lang === 'es' ? 'APP EN DASHBOARD' : 'DASHBOARD APP');
+          badgeClass = 'special';
+          desc = (lang === 'pt') ?
+            'Execute o jailbreak diretamente pelo ícone do YouTube na tela inicial, carregando payloads e etaHEN automaticamente.' :
+            (lang === 'es' ?
+            'Ejecuta el jailbreak directamente desde el icono de YouTube en la pantalla de inicio, cargando payloads y etaHEN automáticamente.' :
+            'Launch the jailbreak directly from the YouTube app icon on your home screen, autoloading payloads and etaHEN.');
+
+          if (bracket === '1.00 - 2.50') {
+            note = (lang === 'pt') ?
+              '⚠️ O Y2JB requer firmware 4.03 ou superior. No firmware 1.00–2.50, utilize o exploit Byepervisor pelo Guia do Usuário.' :
+              (lang === 'es' ?
+              '⚠️ Y2JB requiere firmware 4.03 o superior. En firmware 1.00–2.50, utiliza el exploit Byepervisor desde la Guía del usuario.' :
+              '⚠️ Y2JB requires firmware 4.03 or higher. On firmware 1.00–2.50, use the Byepervisor exploit via the User\'s Guide.');
+          } else if (bracket === '3.00 - 6.50') {
+            note = (lang === 'pt') ?
+              '💡 O Y2JB requer firmware 4.03 ou superior. Se seu console estiver entre 4.03 e 6.50, utilize o backup Y2JB_backup_1.6(4.03). Se estiver abaixo de 4.03, utilize UMTX pelo Guia do Usuário.' :
+              (lang === 'es' ?
+              '💡 Y2JB requiere firmware 4.03 o superior. Si tu consola está entre 4.03 y 6.50, utiliza el backup Y2JB_backup_1.6(4.03). Si es inferior a 4.03, usa UMTX desde la Guía del usuario.' :
+              '💡 Y2JB requires firmware 4.03 or higher. If your console is between 4.03 and 6.50, use the Y2JB_backup_1.6(4.03) backup. If below 4.03, use UMTX via the User\'s Guide.');
+          }
+
+          const backupVersionInfo = (lang === 'pt') ?
+            'Escolha o backup correto do Gezine: use "Y2JB_backup_1.6(4.03)" para firmwares 4.03–12.40 (YouTube v01.000.003) ou "Y2JB_backup_1.6(12.20)" para firmwares 12.60–13.60 (YouTube v01.000.030 / v01.009.253).' :
+            (lang === 'es' ?
+            'Elige el backup correcto de Gezine: usa "Y2JB_backup_1.6(4.03)" para firmwares 4.03–12.40 (YouTube v01.000.003) o "Y2JB_backup_1.6(12.20)" para firmwares 12.60–13.60 (YouTube v01.000.030 / v01.009.253).' :
+            'Select the correct Gezine backup package: use "Y2JB_backup_1.6(4.03)" for firmwares 4.03–12.40 (YouTube v01.000.003), or "Y2JB_backup_1.6(12.20)" for firmwares 12.60–13.60 (YouTube v01.000.030 / v01.009.253).');
+
+          steps = (lang === 'pt') ? [
+            'Verificação de Firmware & Backup: ' + backupVersionInfo,
+            'Bloqueio de Rede (DNS): Nas Configurações de Rede do PS5, defina o DNS Primário como 127.0.0.2 e deixe o Secundário em branco. Isso impede atualizações acidentais do app e do sistema.',
+            'Instalação do Y2JB: Se o console não estiver desbloqueado, restaure o backup via USB (atenção: apaga dados existentes). Se já tiver acesso FTP, envie "download0.dat" para /user/download/PPSA01650/.',
+            'Conta Falsa Ativada: Utilize uma conta offline ativada (abra o etaHEN Toolbox ➔ menu Remote Play para ativar a conta offline; contas PSN reais não funcionam no Y2JB).',
+            'Configuração do Pendrive USB: Crie uma pasta "ps5_autoloader" na raiz do pendrive exFAT. Coloque "autoload.txt" com os nomes "etaHEN.bin" e "ps5-kstuff.bin" (ou use o Payload Manager embutido). Conecte ao PS5.',
+            'Disparo pelo Dashboard: Inicie o aplicativo YouTube na tela inicial. O autoloader executa o exploit de kernel, injeta o etaHEN e desbloqueia o menu Configurações de Depuração (Debug Settings).'
+          ] : (lang === 'es') ? [
+            'Comprobación de Firmware y Backup: ' + backupVersionInfo,
+            'Bloqueo de Red (DNS): En Ajustes de Red de la PS5, configura el DNS Primario en 127.0.0.2 y deja el Secundario en blanco. Esto bloquea actualizaciones automáticas de la app y del sistema.',
+            'Instalación de Y2JB: Si la consola no está liberada, restaura el backup por USB (atención: borra datos existentes). Si ya dispones de FTP, transfiere "download0.dat" a /user/download/PPSA01650/.',
+            'Cuenta Activada Offline: Usa una cuenta offline activada (abre etaHEN Toolbox ➔ menú Remote Play para activar la cuenta offline; cuentas de PSN reales no funcionan con Y2JB).',
+            'Preparación del USB: Crea la carpeta "ps5_autoloader" en la raíz de una memoria USB exFAT. Añade "autoload.txt" con los nombres "etaHEN.bin" y "ps5-kstuff.bin" (o usa Payload Manager integrado). Conéctala a la PS5.',
+            'Disparo desde el Dashboard: Abre la app de YouTube en la pantalla de inicio. El autoloader ejecuta el exploit de kernel, inyecta etaHEN y habilita los Ajustes de Depuración (Debug Settings).'
+          ] : [
+            'Firmware & Backup Selection: ' + backupVersionInfo,
+            'Network DNS Protection: In PS5 Network Settings, set Primary DNS to 127.0.0.2 and leave Secondary DNS blank. This blocks PSN to prevent unwanted app or firmware updates.',
+            'Install Y2JB: For unexploited consoles, restore the backup via USB (caution: erases console data). If you already have FTP access, transfer "download0.dat" to /user/download/PPSA01650/.',
+            'Fake Account Activation: Ensure you are logged into an offline fake-activated account (activate via etaHEN Toolbox ➔ Remote Play menu; real PSN accounts cannot run Y2JB).',
+            'USB Autoloader Setup: Create a "ps5_autoloader" folder on an exFAT USB drive. Place "autoload.txt" listing "etaHEN.bin" and "ps5-kstuff.bin" (or use built-in Payload Manager). Plug into PS5.',
+            'Launch from Dashboard: Open the YouTube app from your PS5 home screen. The autoloader executes the kernel exploit, injects etaHEN, and unlocks Debug Settings.'
+          ];
+
+          const sampleTxtTitle = (lang === 'pt') ? 'EXEMPLO DE CONFIGURAÇÃO (autoload.txt):' : (lang === 'es' ? 'EJEMPLO DE CONFIGURACIÓN (autoload.txt):' : 'SAMPLE CONFIGURATION (autoload.txt):');
+          const sampleDesc = (lang === 'pt') ? 'Arquivo dentro da pasta /ps5_autoloader/ no pendrive USB:' : (lang === 'es' ? 'Archivo dentro de la carpeta /ps5_autoloader/ en la memoria USB:' : 'File inside /ps5_autoloader/ folder on your USB drive:');
+
+          codeSnippet = `
+            <div class="ps-res-actions-title" style="margin-top:16px;"><span>📁</span> ${sampleTxtTitle}</div>
+            <div class="ps-res-code-box">
+              <span style="color:#94a3b8;"># ${sampleDesc}</span><br>
+              etaHEN.bin<br>
+              !1000<br>
+              ps5-kstuff.bin
+            </div>
+          `;
         } else if (procId === 'esp32') {
           title = '🔌 ESP32 / S2 / S3 (esphost)';
           badge = 'USB DONGLE';
@@ -1359,7 +1429,7 @@
           `;
         }
 
-        html += renderPane('psTabPaneOnline', 'full-online', ['relapse', 'autoloader_cache', 'public_hosts'], currentOnlineProc);
+        html += renderPane('psTabPaneOnline', 'full-online', ['relapse', 'autoloader_cache', 'public_hosts', 'y2jb'], currentOnlineProc);
         html += renderPane('psTabPaneLocal', 'local', ['esp32', 'esp8266', 'raspberry_pi', 'local_pc'], currentLocalProc);
         html += '</div>';
         resultContainer.innerHTML = html;
