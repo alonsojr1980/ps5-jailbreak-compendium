@@ -64,7 +64,6 @@ Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones ade
 <span class="ps-exploit-name">Firmware 7.00–13.60</span>
 <span class="ps-exploit-badge ready">PASOS DISPONIBLES</span>
 </div>
-<div class="ps-exploit-range">Firmware 7.00 – 13.60</div>
 <div class="ps-exploit-sub">Exploit WebKit + aio_multi_wait en kernel (Relapse). Configuración directa en navegador.</div>
 </button>
 <button type="button" class="ps-exploit-btn" data-fw="3.00 - 6.50" onclick="setWizardFw('3.00 - 6.50')">
@@ -72,7 +71,6 @@ Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones ade
 <span class="ps-exploit-name">Firmware 3.00–6.50</span>
 <span class="ps-exploit-badge ready">PASOS DISPONIBLES</span>
 </div>
-<div class="ps-exploit-range">Firmware 3.00 – 6.50</div>
 <div class="ps-exploit-sub">Exploits de kernel UMTX y Socket IPv6 UAF. Requiere memoria USB para los payloads.</div>
 </button>
 <button type="button" class="ps-exploit-btn" data-fw="1.00 - 2.50" onclick="setWizardFw('1.00 - 2.50')">
@@ -80,7 +78,6 @@ Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones ade
 <span class="ps-exploit-name">Firmware 1.00–2.50</span>
 <span class="ps-exploit-badge ready">PASOS DISPONIBLES</span>
 </div>
-<div class="ps-exploit-range">Firmware 1.00 – 2.50</div>
 <div class="ps-exploit-sub">Acceso total Byepervisor a Hypervisor (Ring -1) y lectura/escritura de kernel.</div>
 </button>
 <button type="button" class="ps-exploit-btn" data-fw="14.00+" onclick="setWizardFw('14.00+')">
@@ -88,7 +85,6 @@ Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones ade
 <span class="ps-exploit-name">Firmware 14.00 o superior</span>
 <span class="ps-exploit-badge patched">NO EXPLOITABLE</span>
 </div>
-<div class="ps-exploit-range">Firmware 14.00+</div>
 <div class="ps-exploit-sub">Parcheado por Sony. Sin exploit público. Mantén la consola estrictamente offline.</div>
 </button>
 </div>
@@ -97,7 +93,8 @@ Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones ade
 <span class="ps-ip-title">Dirección IP de la Consola (opcional):</span>
 <span class="ps-ip-desc">Se usa para completar los comandos si eliges el método con ordenador o teléfono.</span>
 </label>
-<input type="text" id="customIpInput" class="ps-input" value="192.168.1.150" placeholder="192.168.1.xxx" oninput="onCustomIpInput(this.value)">
+<input type="text" id="customIpInput" class="ps-input" inputmode="decimal" autocomplete="off" aria-describedby="customIpError" value="192.168.1.150" placeholder="192.168.1.xxx" oninput="onCustomIpInput(this.value)">
+<span id="customIpError" class="ps-ip-error" role="alert">Introduce una dirección IP válida, por ejemplo 192.168.1.150.</span>
 </div>
 </div>
 </div>

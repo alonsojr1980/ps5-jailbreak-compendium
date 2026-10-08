@@ -569,6 +569,44 @@
     }
     .ps-done-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+    /* Readability: raise tiny muted text */
+    .ps-ip-desc { font-size: 12.5px !important; }
+    .ps-model-btn .model-sub { font-size: 13px !important; }
+    .ps-exploit-sub, .ps-proc-desc, .ps-res-card-sub { font-size: 13.5px !important; }
+    .ps-res-summary-text { font-weight: 700; color: #ffffff; font-size: 15px; }
+    .ps-res-ip { font-family: var(--code-font-family); font-size: 13px; color: #94a3b8; }
+    .ps-res-ip span { color: #38bdf8; font-weight: 700; }
+
+    /* Selected state is not color-only: checkmark on active cards */
+    .ps-model-btn, .ps-exploit-btn, .ps-proc-card { position: relative; }
+    .ps-model-btn.active::after, .ps-exploit-btn.active::after, .ps-proc-card.active::after {
+      content: '✓'; position: absolute; right: 10px; bottom: 8px;
+      width: 20px; height: 20px; border-radius: 50%; background: #0070d1; color: #fff;
+      font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;
+    }
+
+    /* IP validation */
+    .ps-input[aria-invalid="true"] { border-color: #ef4444 !important; }
+    .ps-ip-error { display: none; color: #fca5a5; font-size: 12.5px; }
+    .ps-ip-error.show { display: block; }
+
+    /* Progress bar + actions */
+    .ps-progress-row { display: flex; align-items: center; gap: 12px; margin: 0 0 12px 0; flex-wrap: wrap; }
+    .ps-progress-bar { flex: 1; min-width: 120px; height: 8px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; }
+    .ps-progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, #0070d1, #34d399); transition: width 0.3s ease; }
+    .ps-step-progress { margin: 0 !important; }
+    .ps-link-btn, .ps-copy-btn {
+      background: rgba(14, 20, 32, 0.8); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1;
+      border-radius: 7px; font-family: var(--code-font-family); font-size: 12px; font-weight: 700;
+      padding: 5px 12px; cursor: pointer; transition: all 0.2s ease;
+    }
+    .ps-link-btn:hover, .ps-copy-btn:hover { border-color: #0070d1; color: #fff; }
+    .ps-link-btn:focus-visible, .ps-copy-btn:focus-visible { outline: 2px solid #38bdf8; outline-offset: 2px; }
+    .ps-code-wrap { position: relative; }
+    .ps-code-wrap .ps-copy-btn { position: absolute; top: 18px; right: 8px; }
+    .ps-res-code-box { word-break: break-all; padding-right: 90px; }
+    .ps-res-checklist li:focus-visible { outline: 2px solid #38bdf8; outline-offset: 1px; }
+
     /* Responsive */
     @media screen and (max-width: 768px) {
       .markdown-section { padding: 16px 16px 60px 16px !important; }
@@ -697,8 +735,19 @@
         updateWizardUI();
       };
 
+      function isValidIp(v) {
+        return /^((25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(25[0-5]|2[0-4]\d|1?\d?\d)$/.test(v);
+      }
+
       window.onCustomIpInput = function(val) {
-        currentWizardIp = val.trim() || '192.168.1.150';
+        const clean = val.trim();
+        const input = document.getElementById('customIpInput');
+        const err = document.getElementById('customIpError');
+        const valid = (clean === '') || isValidIp(clean);
+        if (input) input.setAttribute('aria-invalid', valid ? 'false' : 'true');
+        if (err) err.classList.toggle('show', !valid);
+        if (!valid) return; // keep last good IP; never inject unvalidated text
+        currentWizardIp = clean || '192.168.1.150';
         try { localStorage.setItem('ps5_wizard_ip', currentWizardIp); } catch(e) {}
         updateWizardUI();
       };
@@ -1101,6 +1150,7 @@
           } else {
             btn.classList.remove('active');
           }
+          btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
         });
 
         const activeBracket = getBracketForFw(currentWizardFw);
@@ -1112,6 +1162,7 @@
           } else {
             btn.classList.remove('active');
           }
+          btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
         });
 
         const resultContainer = document.getElementById('psWizardResult');
@@ -1177,7 +1228,7 @@
                 PS5 ${model.toUpperCase()} &bull; Firmware ${fwSummary}
               </div>
             </div>
-            ${stopHere ? '' : `<div style="font-family:var(--code-font-family);font-size:13px;color:#94a3b8;">${lang === 'pt' ? 'IP DO CONSOLE' : (lang === 'es' ? 'IP DE LA CONSOLA' : 'CONSOLE IP')}: <span style="color:#38bdf8;font-weight:700;">${ip}</span></div>`}
+            ${stopHere ? '' : `<div class="ps-res-ip">${lang === 'pt' ? 'IP DO CONSOLE' : (lang === 'es' ? 'IP DE LA CONSOLA' : 'CONSOLE IP')}: <span>${ip}</span></div>`}
           </div>
         `;
 
@@ -1240,13 +1291,13 @@
         `;
 
         html += `
-          <div class="ps-res-tabs">
-            <button type="button" class="ps-res-tab-btn ${currentWizardTab === 'full-online' ? 'active' : ''}" data-tab="full-online" onclick="switchWizardTab('full-online')">
+          <div class="ps-res-tabs" role="tablist">
+            <button type="button" role="tab" aria-selected="${currentWizardTab === 'full-online'}" class="ps-res-tab-btn ${currentWizardTab === 'full-online' ? 'active' : ''}" data-tab="full-online" onclick="switchWizardTab('full-online')">
               <span>🌐</span>
               <span>${tabOnlineTitle}</span>
               <span class="ps-res-tab-badge">${tabOnlineBadge}</span>
             </button>
-            <button type="button" class="ps-res-tab-btn ${currentWizardTab === 'local' ? 'active' : ''}" data-tab="local" onclick="switchWizardTab('local')">
+            <button type="button" role="tab" aria-selected="${currentWizardTab === 'local'}" class="ps-res-tab-btn ${currentWizardTab === 'local' ? 'active' : ''}" data-tab="local" onclick="switchWizardTab('local')">
               <span>🏠</span>
               <span>${tabLocalTitle}</span>
               <span class="ps-res-tab-badge">${tabLocalBadge}</span>
@@ -1254,84 +1305,63 @@
           </div>
         `;
 
-        // PANE 1: FULL ONLINE
-        const onlineProcIds = ['relapse', 'autoloader_cache', 'public_hosts'];
-        const activeOnlineData = getProcedureData(currentOnlineProc, lang, bracket, ip, port);
+        const stepWord = (lang === 'pt') ? 'Passo a Passo' : ((lang === 'es') ? 'Paso a Paso' : 'Step-by-Step');
+        const resetLabel = (lang === 'pt') ? 'Reiniciar' : ((lang === 'es') ? 'Reiniciar' : 'Reset');
+        const copyLabel = (lang === 'pt') ? 'Copiar' : ((lang === 'es') ? 'Copiar' : 'Copy');
 
-        html += `
-          <div id="psTabPaneOnline" class="ps-tab-pane" style="${currentWizardTab === 'full-online' ? '' : 'display:none;'}">
-            <div class="ps-proc-grid">
-              ${onlineProcIds.map(function(id) {
-                const data = getProcedureData(id, lang, bracket, ip, port);
-                const isActive = (id === currentOnlineProc);
-                return `
-                  <div class="ps-proc-card ${isActive ? 'active' : ''}" role="button" tabindex="0" onclick="selectProcedure('full-online', '${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectProcedure('full-online', '${id}')}">
-                    <div class="ps-proc-header">
-                      <div class="ps-proc-title">${data.title}</div>
-                      <span class="ps-proc-badge ${data.badgeClass}">${data.badge}</span>
+        function renderPane(paneId, tabKey, procIds, activeId) {
+          const activeData = getProcedureData(activeId, lang, bracket, ip, port);
+          const stateKey = [tabKey, activeId, bracket].join('|');
+          const doneSet = getDoneSet(stateKey);
+          const total = activeData.steps.length;
+          const doneCount = activeData.steps.filter(function(_, i) { return doneSet.indexOf(i) !== -1; }).length;
+          const pct = total ? Math.round(doneCount / total * 100) : 0;
+          const visible = (currentWizardTab === tabKey);
+          return `
+            <div id="${paneId}" class="ps-tab-pane" role="tabpanel" ${visible ? '' : 'hidden'}>
+              <div class="ps-proc-grid">
+                ${procIds.map(function(id) {
+                  const data = getProcedureData(id, lang, bracket, ip, port);
+                  const isActive = (id === activeId);
+                  return `
+                    <div class="ps-proc-card ${isActive ? 'active' : ''}" role="button" aria-pressed="${isActive}" tabindex="0" onclick="selectProcedure('${tabKey}', '${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectProcedure('${tabKey}', '${id}')}">
+                      <div class="ps-proc-header">
+                        <div class="ps-proc-title">${data.title}</div>
+                        <span class="ps-proc-badge ${data.badgeClass}">${data.badge}</span>
+                      </div>
+                      <div class="ps-proc-desc">${data.desc}</div>
                     </div>
-                    <div class="ps-proc-desc">${data.desc}</div>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-
-            <div class="ps-proc-detail-box">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
-                <h4 style="margin:0;color:#ffffff;font-size:16px;">${activeOnlineData.title} &bull; ${(lang === 'pt') ? 'Passo a Passo' : ((lang === 'es') ? 'Paso a Paso' : 'Step-by-Step')}</h4>
-                <span class="ps-proc-badge ${activeOnlineData.badgeClass}">${activeOnlineData.badge}</span>
-              </div>
-              ${activeOnlineData.note ? `<div class="ps-res-hazard-alert" style="margin:0 0 14px 0;">${activeOnlineData.note}</div>` : ''}
-              ${activeOnlineData.steps.length ? `<div class="ps-step-progress">0 / ${activeOnlineData.steps.length}</div>` : ''}
-              <ul class="ps-res-checklist" style="margin:0;">
-                ${activeOnlineData.steps.map(function(s, idx) {
-                  return `<li onclick="toggleStep(this)"><span class="step-num" data-n="${idx + 1}">${idx + 1}</span><span>${s}</span></li>`;
+                  `;
                 }).join('')}
-              </ul>
-            </div>
-          </div>
-        `;
-
-        // PANE 2: LOCAL
-        const localProcIds = ['esp32', 'esp8266', 'raspberry_pi', 'local_pc'];
-        const activeLocalData = getProcedureData(currentLocalProc, lang, bracket, ip, port);
-
-        html += `
-          <div id="psTabPaneLocal" class="ps-tab-pane" style="${currentWizardTab === 'local' ? '' : 'display:none;'}">
-            <div class="ps-proc-grid">
-              ${localProcIds.map(function(id) {
-                const data = getProcedureData(id, lang, bracket, ip, port);
-                const isActive = (id === currentLocalProc);
-                return `
-                  <div class="ps-proc-card ${isActive ? 'active' : ''}" role="button" tabindex="0" onclick="selectProcedure('local', '${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectProcedure('local', '${id}')}">
-                    <div class="ps-proc-header">
-                      <div class="ps-proc-title">${data.title}</div>
-                      <span class="ps-proc-badge ${data.badgeClass}">${data.badge}</span>
-                    </div>
-                    <div class="ps-proc-desc">${data.desc}</div>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-
-            <div class="ps-proc-detail-box">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
-                <h4 style="margin:0;color:#ffffff;font-size:16px;">${activeLocalData.title} &bull; ${(lang === 'pt') ? 'Passo a Passo' : ((lang === 'es') ? 'Paso a Paso' : 'Step-by-Step')}</h4>
-                <span class="ps-proc-badge ${activeLocalData.badgeClass}">${activeLocalData.badge}</span>
               </div>
-              ${activeLocalData.note ? `<div class="ps-res-hazard-alert" style="margin:0 0 14px 0;">${activeLocalData.note}</div>` : ''}
-              ${activeLocalData.steps.length ? `<div class="ps-step-progress">0 / ${activeLocalData.steps.length}</div>` : ''}
-              <ul class="ps-res-checklist" style="margin:0;">
-                ${activeLocalData.steps.map(function(s, idx) {
-                  return `<li onclick="toggleStep(this)"><span class="step-num" data-n="${idx + 1}">${idx + 1}</span><span>${s}</span></li>`;
-                }).join('')}
-              </ul>
-              ${activeLocalData.codeSnippet || ''}
-            </div>
-          </div>
-          </div>
-        `;
 
+              <div class="ps-proc-detail-box">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+                  <h4 style="margin:0;color:#ffffff;font-size:16px;">${activeData.title} &bull; ${stepWord}</h4>
+                  <span class="ps-proc-badge ${activeData.badgeClass}">${activeData.badge}</span>
+                </div>
+                ${activeData.note ? `<div class="ps-res-hazard-alert" style="margin:0 0 14px 0;">${activeData.note}</div>` : ''}
+                ${total ? `
+                  <div class="ps-progress-row" data-key="${stateKey}">
+                    <span class="ps-step-progress" aria-live="polite">${doneCount} / ${total}</span>
+                    <div class="ps-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${doneCount}"><div class="ps-progress-fill" style="width:${pct}%"></div></div>
+                    <button type="button" class="ps-link-btn" onclick="resetSteps(this)">${resetLabel}</button>
+                  </div>` : ''}
+                <ul class="ps-res-checklist" style="margin:0;" data-key="${stateKey}">
+                  ${activeData.steps.map(function(s, idx) {
+                    const isDone = doneSet.indexOf(idx) !== -1;
+                    return `<li class="${isDone ? 'done' : ''}" role="checkbox" aria-checked="${isDone}" tabindex="0" data-idx="${idx}" onclick="toggleStep(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleStep(this)}"><span class="step-num" data-n="${idx + 1}">${isDone ? '✓' : idx + 1}</span><span>${s}</span></li>`;
+                  }).join('')}
+                </ul>
+                ${activeData.codeSnippet ? `<div class="ps-code-wrap">${activeData.codeSnippet}<button type="button" class="ps-copy-btn" data-copy-label="${copyLabel}" onclick="copyCode(this)">${copyLabel}</button></div>` : ''}
+              </div>
+            </div>
+          `;
+        }
+
+        html += renderPane('psTabPaneOnline', 'full-online', ['relapse', 'autoloader_cache', 'public_hosts'], currentOnlineProc);
+        html += renderPane('psTabPaneLocal', 'local', ['esp32', 'esp8266', 'raspberry_pi', 'local_pc'], currentLocalProc);
+        html += '</div>';
         resultContainer.innerHTML = html;
       }
 
@@ -1363,20 +1393,72 @@
         setTimeout(function() { toast.classList.remove('show'); }, 3000);
       }
 
-      window.toggleStep = function(el) {
-        el.classList.toggle('done');
-        const num = el.querySelector('.step-num');
-        if (num) {
-          num.textContent = el.classList.contains('done') ? '✓' : (num.getAttribute('data-n') || '');
-        }
-        const list = el.parentElement;
+      function getAllDone() {
+        try { return JSON.parse(localStorage.getItem('ps5_wizard_done') || '{}') || {}; } catch (e) { return {}; }
+      }
+      function getDoneSet(key) {
+        const all = getAllDone();
+        return Array.isArray(all[key]) ? all[key] : [];
+      }
+      function saveDoneSet(key, arr) {
+        const all = getAllDone();
+        if (arr.length) all[key] = arr; else delete all[key];
+        try { localStorage.setItem('ps5_wizard_done', JSON.stringify(all)); } catch (e) {}
+      }
+
+      function refreshProgress(list) {
+        const detail = list.parentElement;
         const total = list.querySelectorAll('li').length;
         const done = list.querySelectorAll('li.done').length;
-        const counter = list.parentElement.querySelector('.ps-step-progress');
+        const counter = detail.querySelector('.ps-step-progress');
+        const fill = detail.querySelector('.ps-progress-fill');
+        const bar = detail.querySelector('.ps-progress-bar');
         if (counter) counter.textContent = done + ' / ' + total;
-        if (total > 0 && done === total) {
+        if (fill) fill.style.width = (total ? Math.round(done / total * 100) : 0) + '%';
+        if (bar) bar.setAttribute('aria-valuenow', done);
+        return { total: total, done: done };
+      }
+
+      window.toggleStep = function(el) {
+        el.classList.toggle('done');
+        const isDone = el.classList.contains('done');
+        el.setAttribute('aria-checked', isDone ? 'true' : 'false');
+        const num = el.querySelector('.step-num');
+        if (num) num.textContent = isDone ? '✓' : (num.getAttribute('data-n') || '');
+        const list = el.parentElement;
+        const set = [];
+        list.querySelectorAll('li.done').forEach(function(li) { set.push(parseInt(li.getAttribute('data-idx'), 10)); });
+        saveDoneSet(list.getAttribute('data-key'), set);
+        const p = refreshProgress(list);
+        if (isDone && p.total > 0 && p.done === p.total) {
           playChime();
           showDoneToast();
+        }
+      };
+
+      window.resetSteps = function(btn) {
+        const detail = btn.closest('.ps-proc-detail-box');
+        const list = detail.querySelector('.ps-res-checklist');
+        list.querySelectorAll('li').forEach(function(li) {
+          li.classList.remove('done');
+          li.setAttribute('aria-checked', 'false');
+          const n = li.querySelector('.step-num');
+          if (n) n.textContent = n.getAttribute('data-n');
+        });
+        saveDoneSet(list.getAttribute('data-key'), []);
+        refreshProgress(list);
+      };
+
+      window.copyCode = function(btn) {
+        const box = btn.parentElement.querySelector('.ps-res-code-box');
+        if (!box) return;
+        const text = box.innerText.replace(/\n{3,}/g, '\n\n').trim();
+        const label = btn.getAttribute('data-copy-label');
+        const lang = getLanguage();
+        const ok = (lang === 'pt') ? 'Copiado!' : (lang === 'es' ? '¡Copiado!' : 'Copied!');
+        function done() { btn.textContent = ok; setTimeout(function() { btn.textContent = label; }, 1500); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function() {});
         }
       };
 
