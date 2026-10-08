@@ -21,6 +21,7 @@ Select your PS5 model and firmware range to get instructions for your console. F
 <div class="ps-wizard-badge">⚡ INTERACTIVE FIRMWARE WIZARD</div>
 <h2 class="ps-wizard-title">Step-by-Step PS5 Setup</h2>
 <p class="ps-wizard-subtitle">Choose your console model and firmware range to see the matching steps.</p>
+<div class="ps-stepper-bar" id="psWizardStepper"></div>
 </div>
 <div class="ps-wizard-controls">
 <!-- Step 1: Model Selection -->
@@ -32,7 +33,7 @@ Select your PS5 model and firmware range to get instructions for your console. F
 <div class="ps-wizard-field">
 <label class="ps-wizard-label">1. SELECT YOUR HARDWARE MODEL:</label>
 <div class="ps-model-buttons">
-<button type="button" class="ps-model-btn active" data-model="fat" onclick="setWizardModel('fat')">
+<button type="button" class="ps-model-btn" data-model="fat" onclick="setWizardModel('fat')">
 <span class="model-icon">🕹️</span>
 <span class="model-name">PS5 Fat</span>
 <span class="model-sub">CFI-1000 / 1100 / 1200</span>
@@ -51,7 +52,7 @@ Select your PS5 model and firmware range to get instructions for your console. F
 </div>
 </div>
 <!-- Step 2: Firmware Selection -->
-<div class="ps-wizard-step" id="wizardStep2">
+<div class="ps-wizard-step ps-step-hidden" id="wizardStep2">
 <div class="ps-wizard-bookmark" aria-hidden="true">
 <span class="ps-bm-num">02</span>
 <span class="ps-bm-text">FIRMWARE</span>
@@ -59,7 +60,7 @@ Select your PS5 model and firmware range to get instructions for your console. F
 <div class="ps-wizard-field">
 <label class="ps-wizard-label">2. CHOOSE YOUR FIRMWARE RANGE:</label>
 <div class="ps-exploit-grid">
-<button type="button" class="ps-exploit-btn active" data-fw="7.00 - 13.60" onclick="setWizardFw('7.00 - 13.60')">
+<button type="button" class="ps-exploit-btn" data-fw="7.00 - 13.60" onclick="setWizardFw('7.00 - 13.60')">
 <div class="ps-exploit-header">
 <span class="ps-exploit-name">Firmware 7.00–13.60</span>
 <span class="ps-exploit-badge ready">STEPS AVAILABLE</span>

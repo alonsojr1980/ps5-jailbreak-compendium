@@ -21,6 +21,7 @@ Selecione o modelo do seu PS5 e a faixa de firmware para ver as instruções ade
 <div class="ps-wizard-badge">⚡ ASSISTENTE INTERATIVO DE FIRMWARE</div>
 <h2 class="ps-wizard-title">Configuração do PS5 passo a passo</h2>
 <p class="ps-wizard-subtitle">Escolha o modelo do console e a faixa de firmware para ver as etapas correspondentes.</p>
+<div class="ps-stepper-bar" id="psWizardStepper"></div>
 </div>
 <div class="ps-wizard-controls">
 <!-- Etapa 1: Seleção de Modelo -->
@@ -32,7 +33,7 @@ Selecione o modelo do seu PS5 e a faixa de firmware para ver as instruções ade
 <div class="ps-wizard-field">
 <label class="ps-wizard-label">1. ESCOLHA O MODELO DO CONSOLE:</label>
 <div class="ps-model-buttons">
-<button type="button" class="ps-model-btn active" data-model="fat" onclick="setWizardModel('fat')">
+<button type="button" class="ps-model-btn" data-model="fat" onclick="setWizardModel('fat')">
 <span class="model-icon">🕹️</span>
 <span class="model-name">PS5 Fat</span>
 <span class="model-sub">CFI-1000 / 1100 / 1200</span>
@@ -51,7 +52,7 @@ Selecione o modelo do seu PS5 e a faixa de firmware para ver as instruções ade
 </div>
 </div>
 <!-- Etapa 2: Seleção de Firmware -->
-<div class="ps-wizard-step" id="wizardStep2">
+<div class="ps-wizard-step ps-step-hidden" id="wizardStep2">
 <div class="ps-wizard-bookmark" aria-hidden="true">
 <span class="ps-bm-num">02</span>
 <span class="ps-bm-text">FIRMWARE</span>
@@ -59,7 +60,7 @@ Selecione o modelo do seu PS5 e a faixa de firmware para ver as instruções ade
 <div class="ps-wizard-field">
 <label class="ps-wizard-label">2. ESCOLHA A FAIXA DO FIRMWARE:</label>
 <div class="ps-exploit-grid">
-<button type="button" class="ps-exploit-btn active" data-fw="7.00 - 13.60" onclick="setWizardFw('7.00 - 13.60')">
+<button type="button" class="ps-exploit-btn" data-fw="7.00 - 13.60" onclick="setWizardFw('7.00 - 13.60')">
 <div class="ps-exploit-header">
 <span class="ps-exploit-name">Firmware 7.00–13.60</span>
 <span class="ps-exploit-badge ready">ETAPAS DISPONÍVEIS</span>

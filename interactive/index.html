@@ -155,9 +155,36 @@
     .ps-wizard-step {
       position: relative;
       margin-bottom: 24px;
+      transition: opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease;
     }
     .ps-wizard-step:last-child {
       margin-bottom: 0;
+    }
+    .ps-wizard-step.ps-step-hidden {
+      display: none !important;
+    }
+    .ps-wizard-step.ps-step-revealed {
+      animation: psStepReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes psStepReveal {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* Dim previous steps to eliminate confusion */
+    .ps-wizard-step.ps-step-completed {
+      opacity: 0.45;
+      filter: saturate(60%);
+    }
+    .ps-wizard-step.ps-step-completed:hover,
+    .ps-wizard-step.ps-step-completed:focus-within {
+      opacity: 1;
+      filter: saturate(100%);
     }
     .ps-wizard-bookmark {
       position: absolute;
@@ -211,6 +238,110 @@
     }
     .ps-wizard-title { font-size: 22px !important; font-weight: 800 !important; color: #ffffff !important; margin: 4px 0 6px 0 !important; }
     .ps-wizard-subtitle { font-size: 14.5px; color: #94a3b8; margin: 0; }
+    /* Stepper Bar */
+    .ps-stepper-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 16px 0 24px 0;
+      padding: 10px 14px;
+      background: rgba(10, 16, 28, 0.75);
+      border: 1px solid rgba(0, 112, 209, 0.3);
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+    .ps-stepper-steps {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .ps-stepper-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+      background: rgba(14, 20, 32, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.25s ease;
+      cursor: default;
+      user-select: none;
+    }
+    .ps-stepper-item.clickable {
+      cursor: pointer;
+    }
+    .ps-stepper-item.clickable:hover {
+      border-color: rgba(0, 112, 209, 0.6);
+      background: rgba(0, 112, 209, 0.15);
+      color: #e2e8f0;
+      transform: translateY(-1px);
+    }
+    .ps-stepper-item.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(0, 112, 209, 0.3) 0%, rgba(13, 20, 32, 0.95) 100%);
+      border-color: #0070d1;
+      box-shadow: 0 0 12px rgba(0, 112, 209, 0.35);
+    }
+    .ps-stepper-item.completed {
+      color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.4);
+      background: rgba(14, 28, 48, 0.7);
+    }
+    .ps-stepper-circle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      font-family: var(--code-font-family);
+      font-size: 11px;
+      font-weight: 900;
+      color: inherit;
+    }
+    .ps-stepper-item.active .ps-stepper-circle {
+      background: #0070d1;
+      color: #ffffff;
+      box-shadow: 0 0 8px #0070d1;
+    }
+    .ps-stepper-item.completed .ps-stepper-circle {
+      background: rgba(56, 189, 248, 0.25);
+      color: #38bdf8;
+      border: 1px solid #38bdf8;
+    }
+    .ps-stepper-sep {
+      color: #475569;
+      font-size: 12px;
+      user-select: none;
+    }
+    .ps-stepper-reset-btn {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: var(--code-font-family);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .ps-stepper-reset-btn:hover {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #ef4444;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
     .ps-wizard-controls { display: flex; flex-direction: column; gap: 20px; margin-bottom: 26px; }
     .ps-wizard-label { font-family: var(--code-font-family); font-size: 13px; font-weight: 800; color: #7dd3fc; margin-bottom: 10px; display: block; }
     .ps-model-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
@@ -706,6 +837,11 @@
       }
       .ps-model-buttons, .ps-exploit-grid, .ps-proc-grid, .ps-res-grid { grid-template-columns: 1fr; }
       .ps-res-top-bar { flex-direction: column; align-items: flex-start; }
+      .ps-stepper-bar { padding: 8px 10px; gap: 8px; }
+      .ps-stepper-steps { gap: 6px; }
+      .ps-stepper-item { font-size: 11.5px; padding: 4px 8px; gap: 6px; }
+      .ps-stepper-circle { width: 18px; height: 18px; font-size: 10px; }
+      .ps-stepper-reset-btn { font-size: 11px; padding: 4px 8px; }
     }
 
     /* Reduced motion */
@@ -772,12 +908,9 @@
   <!-- Interactive Wizard Script -->
   <script>
     (function() {
-      let currentWizardModel = localStorage.getItem('ps5_wizard_model') || 'fat';
-      let storedFw = localStorage.getItem('ps5_wizard_fw');
-      if (!storedFw || storedFw === '13.60' || storedFw === '9.60' || storedFw === '9.60 - 13.60' || storedFw === 'unlisted') {
-        storedFw = '7.00 - 13.60';
-      }
-      let currentWizardFw = storedFw;
+      // Model & Firmware State (starts null on initial visit to support Progressive Disclosure)
+      let currentWizardModel = localStorage.getItem('ps5_wizard_model_v2') || null;
+      let currentWizardFw = localStorage.getItem('ps5_wizard_fw_v2') || null;
       let currentWizardIp = localStorage.getItem('ps5_wizard_ip') || '192.168.1.150';
 
       function getBracketForFw(val) {
@@ -798,15 +931,64 @@
       }
 
       window.setWizardModel = function(model) {
+        const isFirst = !currentWizardModel;
         currentWizardModel = model;
-        try { localStorage.setItem('ps5_wizard_model', model); } catch(e) {}
+        try { localStorage.setItem('ps5_wizard_model_v2', model); } catch(e) {}
         updateWizardUI();
+        if (isFirst) {
+          setTimeout(function() {
+            const step2 = document.getElementById('wizardStep2');
+            if (step2) {
+              step2.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          }, 120);
+        }
       };
 
       window.setWizardFw = function(fw) {
+        const isFirst = !currentWizardFw;
         currentWizardFw = fw;
-        try { localStorage.setItem('ps5_wizard_fw', fw); } catch(e) {}
+        try { localStorage.setItem('ps5_wizard_fw_v2', fw); } catch(e) {}
         updateWizardUI();
+        if (isFirst) {
+          setTimeout(function() {
+            const resultCard = document.getElementById('psWizardResult');
+            if (resultCard) {
+              resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 120);
+        }
+      };
+
+      window.resetWizard = function() {
+        currentWizardModel = null;
+        currentWizardFw = null;
+        try {
+          localStorage.removeItem('ps5_wizard_model_v2');
+          localStorage.removeItem('ps5_wizard_fw_v2');
+          localStorage.removeItem('ps5_wizard_model');
+          localStorage.removeItem('ps5_wizard_fw');
+        } catch(e) {}
+        updateWizardUI();
+        setTimeout(function() {
+          const step1 = document.getElementById('wizardStep1');
+          if (step1) {
+            step1.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 80);
+      };
+
+      window.jumpToStep = function(stepNum) {
+        if (stepNum === 1) {
+          const s1 = document.getElementById('wizardStep1');
+          if (s1) s1.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (stepNum === 2 && currentWizardModel) {
+          const s2 = document.getElementById('wizardStep2');
+          if (s2) s2.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (stepNum === 3 && currentWizardFw) {
+          const s3 = document.getElementById('psWizardResult');
+          if (s3) s3.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       };
 
       function isValidIp(v) {
@@ -1338,32 +1520,144 @@
       }
 
       function updateWizardUI() {
+        const lang = getLanguage();
+
+        // 1. Model buttons & Step 1 dimming
         const modelBtns = document.querySelectorAll('.ps-model-btn');
         modelBtns.forEach(function(btn) {
-          if (btn.getAttribute('data-model') === currentWizardModel) {
-            btn.classList.add('active');
-          } else {
-            btn.classList.remove('active');
-          }
-          btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
+          const isSelected = (currentWizardModel !== null && btn.getAttribute('data-model') === currentWizardModel);
+          btn.classList.toggle('active', isSelected);
+          btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
         });
 
-        const activeBracket = getBracketForFw(currentWizardFw);
+        const step1 = document.getElementById('wizardStep1');
+        if (step1) {
+          if (currentWizardModel) {
+            step1.classList.add('ps-step-completed');
+          } else {
+            step1.classList.remove('ps-step-completed');
+          }
+        }
 
+        // 2. Step 2 visibility & dimming
+        const step2 = document.getElementById('wizardStep2');
+        if (step2) {
+          if (!currentWizardModel) {
+            step2.classList.add('ps-step-hidden');
+            step2.classList.remove('ps-step-revealed', 'ps-step-completed');
+          } else {
+            step2.classList.remove('ps-step-hidden');
+            step2.classList.add('ps-step-revealed');
+            if (currentWizardFw) {
+              step2.classList.add('ps-step-completed');
+            } else {
+              step2.classList.remove('ps-step-completed');
+            }
+          }
+        }
+
+        // 3. Firmware buttons
+        const activeBracket = currentWizardFw ? getBracketForFw(currentWizardFw) : null;
         const exploitBtns = document.querySelectorAll('.ps-exploit-btn');
         exploitBtns.forEach(function(btn) {
-          if (btn.getAttribute('data-fw') === activeBracket) {
-            btn.classList.add('active');
-          } else {
-            btn.classList.remove('active');
-          }
-          btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
+          const isSelected = (activeBracket !== null && btn.getAttribute('data-fw') === activeBracket);
+          btn.classList.toggle('active', isSelected);
+          btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
         });
 
+        // 4. Stepper Bar
+        let stepperContainer = document.getElementById('psWizardStepper');
+        if (!stepperContainer) {
+          const wizardControls = document.querySelector('.ps-wizard-controls');
+          if (wizardControls) {
+            stepperContainer = document.createElement('div');
+            stepperContainer.id = 'psWizardStepper';
+            stepperContainer.className = 'ps-stepper-bar';
+            wizardControls.parentNode.insertBefore(stepperContainer, wizardControls);
+          }
+        }
+        if (stepperContainer) {
+          const i18n = {
+            en: {
+              s1: '1. Model',
+              s2: '2. Firmware',
+              s3: '3. Guide',
+              reset: 'Start Over',
+              modelNames: { fat: 'Fat', slim: 'Slim', pro: 'Pro' }
+            },
+            es: {
+              s1: '1. Modelo',
+              s2: '2. Firmware',
+              s3: '3. Guía',
+              reset: 'Reiniciar',
+              modelNames: { fat: 'Fat', slim: 'Slim', pro: 'Pro' }
+            },
+            pt: {
+              s1: '1. Modelo',
+              s2: '2. Firmware',
+              s3: '3. Guia',
+              reset: 'Reiniciar',
+              modelNames: { fat: 'Fat', slim: 'Slim', pro: 'Pro' }
+            }
+          }[lang] || {
+            s1: '1. Model',
+            s2: '2. Firmware',
+            s3: '3. Guide',
+            reset: 'Start Over',
+            modelNames: { fat: 'Fat', slim: 'Slim', pro: 'Pro' }
+          };
+
+          const s1Status = currentWizardModel ? 'completed clickable' : 'active';
+          const s2Status = !currentWizardModel ? 'locked' : (currentWizardFw ? 'completed clickable' : 'active');
+          const s3Status = !currentWizardFw ? 'locked' : 'active';
+
+          const s1Text = currentWizardModel ? `${i18n.s1} (${i18n.modelNames[currentWizardModel] || currentWizardModel})` : i18n.s1;
+          let s2Text = i18n.s2;
+          if (currentWizardFw) {
+            s2Text += ` (${currentWizardFw === '14.00+' ? '14.00+' : currentWizardFw.replace(' - ', '–')})`;
+          }
+
+          stepperContainer.innerHTML = `
+            <div class="ps-stepper-steps">
+              <div class="ps-stepper-item ${s1Status}" onclick="jumpToStep(1)" role="button" tabindex="0">
+                <span class="ps-stepper-circle">${currentWizardModel ? '✓' : '1'}</span>
+                <span class="ps-stepper-title">${s1Text}</span>
+              </div>
+              <span class="ps-stepper-sep">➔</span>
+              <div class="ps-stepper-item ${s2Status}" onclick="jumpToStep(2)" role="button" tabindex="0">
+                <span class="ps-stepper-circle">${currentWizardFw ? '✓' : '2'}</span>
+                <span class="ps-stepper-title">${s2Text}</span>
+              </div>
+              <span class="ps-stepper-sep">➔</span>
+              <div class="ps-stepper-item ${s3Status}" onclick="jumpToStep(3)" role="button" tabindex="0">
+                <span class="ps-stepper-circle">3</span>
+                <span class="ps-stepper-title">${i18n.s3}</span>
+              </div>
+            </div>
+            ${(currentWizardModel || currentWizardFw) ? `
+              <button type="button" class="ps-stepper-reset-btn" onclick="resetWizard()">
+                <span>🔄</span> <span>${i18n.reset}</span>
+              </button>
+            ` : ''}
+          `;
+        }
+
+        // 5. Result Container (Step 3)
         const resultContainer = document.getElementById('psWizardResult');
         if (!resultContainer) return;
 
-        const lang = getLanguage();
+        if (!currentWizardModel || !currentWizardFw) {
+          resultContainer.style.display = 'none';
+          resultContainer.classList.add('ps-step-hidden');
+          resultContainer.classList.remove('ps-step-revealed');
+          resultContainer.innerHTML = '';
+          return;
+        }
+
+        resultContainer.style.display = 'block';
+        resultContainer.classList.remove('ps-step-hidden');
+        resultContainer.classList.add('ps-step-revealed');
+
         const model = currentWizardModel;
         const ip = currentWizardIp || '192.168.1.150';
         const bracket = activeBracket;

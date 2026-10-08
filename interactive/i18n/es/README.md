@@ -21,6 +21,7 @@ Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones ade
 <div class="ps-wizard-badge">⚡ ASISTENTE INTERACTIVO DE FIRMWARE</div>
 <h2 class="ps-wizard-title">Configuración de PS5 paso a paso</h2>
 <p class="ps-wizard-subtitle">Elige el modelo de tu consola y el rango de firmware para ver los pasos correspondientes.</p>
+<div class="ps-stepper-bar" id="psWizardStepper"></div>
 </div>
 <div class="ps-wizard-controls">
 <!-- Paso 1: Selección de Modelo -->
@@ -32,7 +33,7 @@ Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones ade
 <div class="ps-wizard-field">
 <label class="ps-wizard-label">1. SELECCIONA EL MODELO DE CONSOLA:</label>
 <div class="ps-model-buttons">
-<button type="button" class="ps-model-btn active" data-model="fat" onclick="setWizardModel('fat')">
+<button type="button" class="ps-model-btn" data-model="fat" onclick="setWizardModel('fat')">
 <span class="model-icon">🕹️</span>
 <span class="model-name">PS5 Fat</span>
 <span class="model-sub">CFI-1000 / 1100 / 1200</span>
@@ -51,7 +52,7 @@ Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones ade
 </div>
 </div>
 <!-- Paso 2: Selección de Firmware -->
-<div class="ps-wizard-step" id="wizardStep2">
+<div class="ps-wizard-step ps-step-hidden" id="wizardStep2">
 <div class="ps-wizard-bookmark" aria-hidden="true">
 <span class="ps-bm-num">02</span>
 <span class="ps-bm-text">FIRMWARE</span>
@@ -59,7 +60,7 @@ Selecciona el modelo de tu PS5 y el rango de firmware para ver instrucciones ade
 <div class="ps-wizard-field">
 <label class="ps-wizard-label">2. ELIGE EL RANGO DE FIRMWARE:</label>
 <div class="ps-exploit-grid">
-<button type="button" class="ps-exploit-btn active" data-fw="7.00 - 13.60" onclick="setWizardFw('7.00 - 13.60')">
+<button type="button" class="ps-exploit-btn" data-fw="7.00 - 13.60" onclick="setWizardFw('7.00 - 13.60')">
 <div class="ps-exploit-header">
 <span class="ps-exploit-name">Firmware 7.00–13.60</span>
 <span class="ps-exploit-badge ready">PASOS DISPONIBLES</span>
