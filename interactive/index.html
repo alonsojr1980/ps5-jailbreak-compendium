@@ -530,6 +530,75 @@
       border-radius: 10px;
       animation: psTabFadeIn 0.25s ease;
     }
+    .ps-downloads-wrap {
+      margin: 14px 0 16px 0;
+      padding: 14px 16px;
+      background: rgba(14, 20, 32, 0.75);
+      border: 1px solid rgba(0, 112, 209, 0.25);
+      border-radius: 10px;
+    }
+    .ps-downloads-title {
+      font-family: var(--code-font-family);
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #7dd3fc;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .ps-downloads-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+    .ps-download-btn {
+      background: rgba(18, 26, 40, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #e2e8f0 !important;
+      text-decoration: none !important;
+      transition: all 0.2s ease;
+    }
+    .ps-download-btn:hover {
+      background: rgba(0, 112, 209, 0.2);
+      border-color: #0070d1;
+      color: #ffffff !important;
+      transform: translateY(-1px);
+    }
+    .ps-download-btn .dl-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .ps-download-btn .dl-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+      min-width: 0;
+    }
+    .ps-download-btn .dl-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ps-download-btn .dl-host {
+      font-family: var(--code-font-family);
+      font-size: 11px;
+      color: #38bdf8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     .ps-res-code-box {
       background: #060910; border: 1px solid var(--border-subtle); border-radius: 8px;
       padding: 12px 16px; margin: 10px 0 16px 0; font-family: var(--code-font-family);
@@ -809,6 +878,7 @@
         let steps = [];
         let note = '';
         let codeSnippet = '';
+        let downloads = [];
 
         if (isPatched) {
           note = (lang === 'pt') ?
@@ -840,22 +910,27 @@
               (lang === 'es' ?
               'Sigue los pasos en orden y confirma cada resultado en la pantalla de la consola.' :
               'Follow the steps in order and confirm each result on the console screen.');
+            downloads = [
+              { name: 'etaHEN (Latest)', url: 'https://github.com/LightningMods/etaHEN/releases', sub: 'github.com/LightningMods/etaHEN' },
+              { name: 'ps5-kstuff', url: 'https://github.com/sleirsgoevy/ps5-kstuff/releases', sub: 'github.com/sleirsgoevy/ps5-kstuff' },
+              { name: 'Byepervisor Binaries', url: 'https://github.com/EchoStretch/Byepervisor/releases', sub: 'github.com/EchoStretch/Byepervisor' }
+            ];
             steps = (lang === 'pt') ? [
-              'Baixe os arquivos: obtenha a versão mais recente do etaHEN em github.com/LightningMods/etaHEN, ps5-kstuff em github.com/sleirsgoevy/ps5-kstuff e Byepervisor.',
+              'Baixe os arquivos: obtenha a versão mais recente do <a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN</a>, <a href="https://github.com/sleirsgoevy/ps5-kstuff/releases" target="_blank" rel="noopener noreferrer">ps5-kstuff</a> e <a href="https://github.com/EchoStretch/Byepervisor/releases" target="_blank" rel="noopener noreferrer">Byepervisor</a>.',
               'Prepare um pendrive exFAT com uma pasta "payloads" na raiz. Coloque etaHEN.bin, ps5-kstuff.bin e os binários do Byepervisor nessa pasta e conecte o pendrive ao PS5.',
               'Antes de conectar à rede, desative os downloads e instalações automáticos de atualizações e o acesso à internet no Modo de Repouso. Consulte o checklist acima.',
               'Abra Configurações ➔ Rede ➔ Configurações ➔ Configurar conexão à Internet. Escolha sua rede, abra Configurações avançadas, defina DNS como Manual, use 62.210.38.117 como DNS Primário e 0.0.0.0 como Secundário. Salve.',
               'Abra Configurações ➔ Sistema ➔ Guia do Usuário e execute o exploit Byepervisor / IPv6 para obter controle total do Hypervisor (Ring -1).',
               'Aguarde a notificação de etaHEN carregado e confirme que etaHEN Toolbox aparece em Configurações ➔ Sistema.'
             ] : (lang === 'es') ? [
-              'Descarga los archivos: obtén la última versión de etaHEN en github.com/LightningMods/etaHEN, ps5-kstuff en github.com/sleirsgoevy/ps5-kstuff y Byepervisor.',
+              'Descarga los archivos: obtén la última versión de <a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN</a>, <a href="https://github.com/sleirsgoevy/ps5-kstuff/releases" target="_blank" rel="noopener noreferrer">ps5-kstuff</a> y <a href="https://github.com/EchoStretch/Byepervisor/releases" target="_blank" rel="noopener noreferrer">Byepervisor</a>.',
               'Prepara una memoria USB exFAT con una carpeta "payloads" en la raíz. Coloca etaHEN.bin, ps5-kstuff.bin y los binarios de Byepervisor dentro y conecta la memoria a la PS5.',
               'Antes de conectarte a la red, desactiva las descargas e instalaciones automáticas de actualizaciones y el acceso a Internet en modo de reposo. Consulta la lista de comprobación anterior.',
               'Ve a Ajustes ➔ Red ➔ Ajustes ➔ Configurar conexión a Internet. Elige tu red, abre Ajustes avanzados, configura DNS manual, introduce 62.210.38.117 como DNS primario y 0.0.0.0 como secundario. Guarda.',
               'Abre Ajustes ➔ Sistema ➔ Guía del usuario y ejecuta el exploit Byepervisor / IPv6 para obtener control total del Hypervisor (Ring -1).',
               'Espera la notificación de etaHEN cargado y comprueba que etaHEN Toolbox aparece en Ajustes ➔ Sistema.'
             ] : [
-              'Get the files: download the latest etaHEN release from github.com/LightningMods/etaHEN, ps5-kstuff from github.com/sleirsgoevy/ps5-kstuff, and Byepervisor binaries.',
+              'Get the files: download the latest release of <a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN</a>, <a href="https://github.com/sleirsgoevy/ps5-kstuff/releases" target="_blank" rel="noopener noreferrer">ps5-kstuff</a>, and <a href="https://github.com/EchoStretch/Byepervisor/releases" target="_blank" rel="noopener noreferrer">Byepervisor</a>.',
               'Prepare an exFAT USB drive with a "payloads" folder at its root. Put etaHEN.bin, ps5-kstuff.bin, and Byepervisor inside, then connect the drive to the PS5.',
               'Before connecting to the network, turn off automatic update downloads and installation and Rest Mode internet access. See the checklist above.',
               'Open Settings ➔ Network ➔ Settings ➔ Set Up Internet Connection. Choose your network, open Advanced Settings, set DNS to Manual, enter 62.210.38.117 as Primary DNS and 0.0.0.0 as Secondary DNS, then save.',
@@ -871,22 +946,27 @@
               (lang === 'es' ?
               'Sigue los pasos en orden y confirma cada resultado en la pantalla de la consola.' :
               'Follow the steps in order and confirm each result on the console screen.');
+            downloads = [
+              { name: 'etaHEN (Latest)', url: 'https://github.com/LightningMods/etaHEN/releases', sub: 'github.com/LightningMods/etaHEN' },
+              { name: 'ps5-kstuff', url: 'https://github.com/sleirsgoevy/ps5-kstuff/releases', sub: 'github.com/sleirsgoevy/ps5-kstuff' },
+              { name: 'ps5-umtx-jailbreak', url: 'https://github.com/EchoStretch/ps5-umtx-jailbreak/releases', sub: 'github.com/EchoStretch' }
+            ];
             steps = (lang === 'pt') ? [
-              'Baixe os arquivos: obtenha a versão mais recente do etaHEN em github.com/LightningMods/etaHEN e do ps5-kstuff em github.com/sleirsgoevy/ps5-kstuff.',
+              'Baixe os arquivos: obtenha a versão mais recente do <a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN</a> e do <a href="https://github.com/sleirsgoevy/ps5-kstuff/releases" target="_blank" rel="noopener noreferrer">ps5-kstuff</a>.',
               'Prepare um pendrive exFAT com uma pasta "payloads" na raiz. Coloque etaHEN.bin e ps5-kstuff.bin nessa pasta e conecte o pendrive ao PS5.',
               'Antes de conectar à rede, desative os downloads e instalações automáticos de atualizações e o acesso à internet no Modo de Repouso. Consulte o checklist acima.',
               'Abra Configurações ➔ Rede ➔ Configurações ➔ Configurar conexão à Internet. Escolha sua rede, abra Configurações avançadas, defina DNS como Manual, use 62.210.38.117 como DNS Primário e 0.0.0.0 como Secundário. Salve.',
               'Abra Configurações ➔ Sistema ➔ Guia do Usuário e selecione o exploit correspondente à sua versão (IPv6 UAF para 3.00–4.51 ou UMTX para 5.00–6.50).',
               'Aguarde a notificação etaHEN carregado e confirme que etaHEN Toolbox aparece em Configurações ➔ Sistema.'
             ] : (lang === 'es') ? [
-              'Descarga los archivos: obtén la última versión de etaHEN en github.com/LightningMods/etaHEN y de ps5-kstuff en github.com/sleirsgoevy/ps5-kstuff.',
+              'Descarga los archivos: obtén la última versión de <a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN</a> y de <a href="https://github.com/sleirsgoevy/ps5-kstuff/releases" target="_blank" rel="noopener noreferrer">ps5-kstuff</a>.',
               'Prepara una memoria USB exFAT con una carpeta "payloads" en la raíz. Coloca etaHEN.bin y ps5-kstuff.bin dentro y conecta la memoria a la PS5.',
               'Antes de conectarte a la red, desactiva las descargas e instalaciones automáticas de actualizaciones y el acceso a Internet en modo de reposo. Consulta la lista de comprobación anterior.',
               'Ve a Ajustes ➔ Red ➔ Ajustes ➔ Configurar conexión a Internet. Elige tu red, abre Ajustes avanzados, configura DNS manual, introduce 62.210.38.117 como DNS primario y 0.0.0.0 como secundario. Guarda.',
               'Abre Ajustes ➔ Sistema ➔ Guía del usuario y selecciona el exploit correspondiente a tu versión (IPv6 UAF para 3.00–4.51 o UMTX para 5.00–6.50).',
               'Espera la notificación de etaHEN cargado y comprueba que etaHEN Toolbox aparece en Ajustes ➔ Sistema.'
             ] : [
-              'Get the files: download the latest etaHEN release from github.com/LightningMods/etaHEN and ps5-kstuff from github.com/sleirsgoevy/ps5-kstuff.',
+              'Get the files: download the latest release of <a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN</a> and <a href="https://github.com/sleirsgoevy/ps5-kstuff/releases" target="_blank" rel="noopener noreferrer">ps5-kstuff</a>.',
               'Prepare an exFAT USB drive with a "payloads" folder at its root. Put etaHEN.bin and ps5-kstuff.bin in that folder, then connect the drive to the PS5.',
               'Before connecting to the network, turn off automatic update downloads and installation and Rest Mode internet access. See the checklist above.',
               'Open Settings ➔ Network ➔ Settings ➔ Set Up Internet Connection. Choose your network, open Advanced Settings, set DNS to Manual, enter 62.210.38.117 as Primary DNS and 0.0.0.0 as Secondary DNS, then save.',
@@ -902,23 +982,27 @@
               (lang === 'es' ?
               'Sigue los pasos en orden y confirma cada resultado en la pantalla de la consola.' :
               'Follow the steps in order and confirm each result on the console screen.');
-
+            downloads = [
+              { name: 'etaHEN (Latest)', url: 'https://github.com/LightningMods/etaHEN/releases', sub: 'github.com/LightningMods/etaHEN' },
+              { name: 'ps5-kstuff', url: 'https://github.com/sleirsgoevy/ps5-kstuff/releases', sub: 'github.com/sleirsgoevy/ps5-kstuff' },
+              { name: 'Relapse-Exploit', url: 'https://github.com/ntfargo/Relapse-Exploit/releases', sub: 'github.com/ntfargo/Relapse-Exploit' }
+            ];
             steps = (lang === 'pt') ? [
-              'Se o carregador não baixar os arquivos sozinho, obtenha o etaHEN em github.com/LightningMods/etaHEN e o ps5-kstuff em github.com/sleirsgoevy/ps5-kstuff.',
+              'Se o carregador não baixar os arquivos sozinho, obtenha o <a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN</a> e o <a href="https://github.com/sleirsgoevy/ps5-kstuff/releases" target="_blank" rel="noopener noreferrer">ps5-kstuff</a>.',
               'Antes de conectar à rede, desative o download e a instalação automáticos de atualizações, inclusive no Modo de Repouso.',
               'No PS5, abra Configurações ➔ Rede ➔ Configurações ➔ Configurar conexão à Internet. Escolha sua rede, abra Configurações avançadas, defina DNS como Manual, use 45.56.67.85 como DNS Primário e 0.0.0.0 como Secundário. Salve as alterações.',
               'Execute o teste de conexão. Uma falha no login da PSN é esperada. Se aparecer um aviso de atualização, pare e não aceite.',
               'Abra Configurações ➔ Sistema ➔ Guia do Usuário e aguarde as mensagens na tela (execução do exploit Relapse aio_multi_wait).',
               'Só considere concluído quando aparecer a notificação de etaHEN carregado. Confirme que etaHEN Toolbox aparece em Configurações ➔ Sistema.'
             ] : (lang === 'es') ? [
-              'Si el cargador no descarga los archivos por sí mismo, obtén etaHEN en github.com/LightningMods/etaHEN y ps5-kstuff en github.com/sleirsgoevy/ps5-kstuff.',
+              'Si el cargador no descarga los archivos por sí mismo, obtén <a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN</a> y <a href="https://github.com/sleirsgoevy/ps5-kstuff/releases" target="_blank" rel="noopener noreferrer">ps5-kstuff</a>.',
               'Antes de conectarte a la red, desactiva las descargas e instalaciones automáticas de actualizaciones, también en el modo de reposo.',
               'En la PS5, ve a Ajustes ➔ Red ➔ Ajustes ➔ Configurar conexión a Internet. Elige tu red, abre Ajustes avanzados, configura DNS manual, introduce 45.56.67.85 como DNS primario y 0.0.0.0 como secundario. Guarda los cambios.',
               'Haz la prueba de conexión. Es normal que falle el inicio de sesión en PSN. Si aparece un aviso de actualización, detente y no lo aceptes.',
               'Abre Ajustes ➔ Sistema ➔ Guía del usuario y espera los mensajes en pantalla (ejecución del exploit Relapse aio_multi_wait).',
               'Da el proceso por terminado solo cuando aparezca la notificación de etaHEN cargado. Comprueba que etaHEN Toolbox aparece en Ajustes ➔ Sistema.'
             ] : [
-              'If the loader does not fetch the files automatically, download etaHEN from github.com/LightningMods/etaHEN and ps5-kstuff from github.com/sleirsgoevy/ps5-kstuff.',
+              'If the loader does not fetch the files automatically, download <a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN</a> and <a href="https://github.com/sleirsgoevy/ps5-kstuff/releases" target="_blank" rel="noopener noreferrer">ps5-kstuff</a>.',
               'Before connecting to the network, turn off automatic system update downloads and installation, including in Rest Mode.',
               'On PS5, open Settings ➔ Network ➔ Settings ➔ Set Up Internet Connection. Choose your network, open Advanced Settings, set DNS to Manual, enter 45.56.67.85 as Primary DNS and 0.0.0.0 as Secondary DNS, then save.',
               'Run the connection test. A PSN sign-in failure is expected. If an update prompt appears, stop and do not accept it.',
@@ -935,26 +1019,31 @@
             (lang === 'es' ?
             'Esta alternativa requiere una configuración inicial con internet y una memoria USB.' :
             'This alternative needs an initial setup with internet and a USB drive.');
-
+          downloads = [
+            { name: 'ps5-webkit-autoloader', url: 'https://github.com/itsPLK/ps5-webkit-autoloader/releases', sub: 'github.com/itsPLK' },
+            { name: 'idlesauce Exploit Host', url: 'https://idlesauce.github.io/ps5-jb/', sub: 'idlesauce.github.io/ps5-jb' },
+            { name: 'etaHEN (Latest)', url: 'https://github.com/LightningMods/etaHEN/releases', sub: 'github.com/LightningMods/etaHEN' },
+            { name: 'ps5-kstuff', url: 'https://github.com/sleirsgoevy/ps5-kstuff/releases', sub: 'github.com/sleirsgoevy/ps5-kstuff' }
+          ];
           steps = (lang === 'pt') ? [
             'Primeiro Acesso Online: Conecte o PS5 à internet com DNS Primário 45.56.67.85 ou 62.210.38.117.',
-            'Instalação do Cache: Abra o Guia do Usuário para carregar o ps5-webkit-autoloader ou idlesauce.github.io/ps5-jb/. Aguarde a indicação de cache 100% instalado.',
+            'Instalação do Cache: Abra o Guia do Usuário para carregar o <a href="https://github.com/itsPLK/ps5-webkit-autoloader/releases" target="_blank" rel="noopener noreferrer">ps5-webkit-autoloader</a> ou <a href="https://idlesauce.github.io/ps5-jb/" target="_blank" rel="noopener noreferrer">idlesauce.github.io/ps5-jb/</a>. Aguarde a indicação de cache 100% instalado.',
             'Corte a Internet: Desconecte o Wi-Fi ou desligue o acesso à internet para proteger seu firmware.',
-            'Configuração USB: Formate um pendrive em FAT32/exFAT, crie a pasta "/payloads/" e copie o "etaHEN.bin". Conecte no PS5.',
+            'Configuração USB: Formate um pendrive em FAT32/exFAT, crie a pasta "/payloads/" e copie o "etaHEN.bin" (obtido em <a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN Releases</a>). Conecte no PS5.',
             'Disparo Offline: Abra o Guia do Usuário sem internet: o exploit em cache executa instantaneamente e o elfldr carrega os payloads do pendrive USB.',
             'Confirmação: Notificação na tela confirma etaHEN ativo com 0 bytes trafegados na internet.'
           ] : (lang === 'es') ? [
             'Primer Aceso Online: Conecta la PS5 a internet con DNS Primario 45.56.67.85 o 62.210.38.117.',
-            'Instalación del Caché: Abre la Guía del usuario para cargar ps5-webkit-autoloader o idlesauce.github.io/ps5-jb/. Espera a que indique caché instalado al 100%.',
+            'Instalación del Caché: Abre la Guía del usuario para cargar <a href="https://github.com/itsPLK/ps5-webkit-autoloader/releases" target="_blank" rel="noopener noreferrer">ps5-webkit-autoloader</a> o <a href="https://idlesauce.github.io/ps5-jb/" target="_blank" rel="noopener noreferrer">idlesauce.github.io/ps5-jb/</a>. Espera a que indique caché instalado al 100%.',
             'Desconecta Internet: Desconecta el Wi-Fi o apaga la salida a internet para proteger tu firmware.',
-            'Configuración USB: Formatea un pendrive en FAT32/exFAT, crea la carpeta "/payloads/" y copia "etaHEN.bin". Conéctalo a la PS5.',
+            'Configuración USB: Formatea un pendrive en FAT32/exFAT, crea la carpeta "/payloads/" y copia "etaHEN.bin" (obtenido en <a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN Releases</a>). Conéctalo a la PS5.',
             'Disparo Offline: Abre la Guía del usuario sin conexión: el exploit en caché se ejecuta al instante y elfldr carga los payloads desde el pendrive USB.',
             'Confirmación: Notificación en pantalla confirma etaHEN activo con 0 bytes transferidos por internet.'
           ] : [
             'First-Time Online Visit: Connect PS5 to internet with Primary DNS 45.56.67.85 or 62.210.38.117.',
-            'Install Cache: Open User\'s Guide to load ps5-webkit-autoloader or idlesauce.github.io/ps5-jb/. Wait until the screen displays "Application Cache Installed (100%)".',
+            'Install Cache: Open User\'s Guide to load <a href="https://github.com/itsPLK/ps5-webkit-autoloader/releases" target="_blank" rel="noopener noreferrer">ps5-webkit-autoloader</a> or <a href="https://idlesauce.github.io/ps5-jb/" target="_blank" rel="noopener noreferrer">idlesauce.github.io/ps5-jb/</a>. Wait until the screen displays "Application Cache Installed (100%)".',
             'Cut Internet Access: Disconnect Wi-Fi or turn off internet to guarantee firmware safety.',
-            'USB Payloads Setup: Format a USB drive as FAT32/exFAT, create a folder named "/payloads/", and place "etaHEN.bin" inside. Plug into PS5.',
+            'USB Payloads Setup: Format a USB drive as FAT32/exFAT, create a folder named "/payloads/", and place "etaHEN.bin" (from <a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN Releases</a>) inside. Plug into PS5.',
             'Offline Trigger: Open User\'s Guide anytime without internet: cached exploit runs instantly from local storage, and elfldr automatically loads payloads from the USB drive.',
             'Confirmation: Notification confirms etaHEN is active and homebrew unlocked with 0 bytes transmitted over the internet.'
           ];
@@ -967,25 +1056,31 @@
             (lang === 'es' ?
             'Usa una de estas alternativas solo si los pasos recomendados no te sirven.' :
             'Use one of these alternatives only if the recommended steps do not work for you.');
-
+          downloads = [
+            { name: 'EchoStretch 7-in-1 Host', url: 'https://es7in1.site/', sub: 'es7in1.site' },
+            { name: 'idlesauce Host', url: 'https://idlesauce.github.io/ps5-jb/', sub: 'idlesauce.github.io/ps5-jb' },
+            { name: 'etaHEN (Latest)', url: 'https://github.com/LightningMods/etaHEN/releases', sub: 'github.com/LightningMods/etaHEN' },
+            { name: 'ps5-kstuff', url: 'https://github.com/sleirsgoevy/ps5-kstuff/releases', sub: 'github.com/sleirsgoevy/ps5-kstuff' },
+            { name: 'FTPS5 Payload', url: 'https://github.com/EchoStretch/FTPS5/releases', sub: 'github.com/EchoStretch/FTPS5' }
+          ];
           steps = (lang === 'pt') ? [
             'Blindagem: Desative downloads e atualizações automáticas nas Configurações.',
             'Rede & DNS: Configure o DNS Primário para 62.210.38.117 (EchoStretch) ou 45.56.67.85 (Relapse).',
-            'Trigger: Abra Configurações ➔ Sistema ➔ Guia do Usuário no PS5.',
+            'Trigger: Abra Configurações ➔ Sistema ➔ Guia do Usuário no PS5 (ou acesse <a href="https://es7in1.site/" target="_blank" rel="noopener noreferrer">es7in1.site</a> / <a href="https://idlesauce.github.io/ps5-jb/" target="_blank" rel="noopener noreferrer">idlesauce</a>).',
             'Seleção de Payload: No menu exibido na tela, clique no botão do payload desejado (ex: etaHEN, ps5-kstuff ou FTPS5).',
             'Execução em Memória: O navegador executa o exploit de kernel e carrega o payload diretamente na memória.',
             'Confirmação: Notificação na tela confirma payload carregado com sucesso.'
           ] : (lang === 'es') ? [
             'Blindaje: Desactiva descargas y actualizaciones automáticas en Ajustes.',
             'Red y DNS: Configura el DNS Primario en 62.210.38.117 (EchoStretch) o 45.56.67.85 (Relapse).',
-            'Trigger: Abre Ajustes ➔ Sistema ➔ Guía del usuario en la PS5.',
+            'Trigger: Abre Ajustes ➔ Sistema ➔ Guía del usuario en la PS5 (o accede a <a href="https://es7in1.site/" target="_blank" rel="noopener noreferrer">es7in1.site</a> / <a href="https://idlesauce.github.io/ps5-jb/" target="_blank" rel="noopener noreferrer">idlesauce</a>).',
             'Selección de Payload: En el menú mostrado en pantalla, pulsa el botón del payload deseado (ej: etaHEN, ps5-kstuff o FTPS5).',
             'Ejecución en Memoria: El navegador ejecuta el exploit de kernel y transfiere el payload directamente a la memoria.',
             'Confirmación: Notificación en pantalla confirma payload cargado con éxito.'
           ] : [
             'Hardening: Turn off all auto-update and Rest Mode download features in Settings.',
             'Network DNS: Configure Primary DNS to 62.210.38.117 (EchoStretch) or 45.56.67.85 (Relapse).',
-            'Trigger: Open Settings ➔ System ➔ User\'s Guide on PS5.',
+            'Trigger: Open Settings ➔ System ➔ User\'s Guide on PS5 (or visit <a href="https://es7in1.site/" target="_blank" rel="noopener noreferrer">es7in1.site</a> / <a href="https://idlesauce.github.io/ps5-jb/" target="_blank" rel="noopener noreferrer">idlesauce</a>).',
             'Payload Selection: On the displayed exploit menu, click the button for your desired payload (e.g. etaHEN, ps5-kstuff, or FTPS5).',
             'In-Memory Execution: The browser executes the kernel exploit and transfers the payload directly into memory.',
             'Confirmation: Notification confirms payload loaded successfully.'
@@ -1014,32 +1109,41 @@
               '💡 Y2JB requires firmware 4.03 or higher. If your console is between 4.03 and 6.50, use the Y2JB_backup_1.6(4.03) backup. If below 4.03, use UMTX via the User\'s Guide.');
           }
 
+          downloads = [
+            { name: 'Y2JB Backup 1.6 (4.03–12.40)', url: 'https://github.com/Gezine/Y2JB/releases/download/v1.6/Y2JB_backup_1.6(4.03).zip', sub: 'github.com/Gezine/Y2JB' },
+            { name: 'Y2JB Backup 1.6 (12.60–13.60)', url: 'https://github.com/Gezine/Y2JB/releases/download/v1.6/Y2JB_backup_1.6(12.20).zip', sub: 'github.com/Gezine/Y2JB' },
+            { name: 'Y2JB Releases (download0.dat)', url: 'https://github.com/Gezine/Y2JB/releases/tag/v1.6', sub: 'github.com/Gezine/Y2JB' },
+            { name: 'ps5-y2jb-autoloader', url: 'https://github.com/itsPLK/ps5-y2jb-autoloader/releases', sub: 'github.com/itsPLK' },
+            { name: 'etaHEN (Latest)', url: 'https://github.com/LightningMods/etaHEN/releases', sub: 'github.com/LightningMods/etaHEN' },
+            { name: 'ps5-kstuff', url: 'https://github.com/sleirsgoevy/ps5-kstuff/releases', sub: 'github.com/sleirsgoevy/ps5-kstuff' }
+          ];
+
           const backupVersionInfo = (lang === 'pt') ?
-            'Escolha o backup correto do Gezine: use "Y2JB_backup_1.6(4.03)" para firmwares 4.03–12.40 (YouTube v01.000.003) ou "Y2JB_backup_1.6(12.20)" para firmwares 12.60–13.60 (YouTube v01.000.030 / v01.009.253).' :
+            'Escolha o backup correto: use <a href="https://github.com/Gezine/Y2JB/releases/download/v1.6/Y2JB_backup_1.6(4.03).zip" target="_blank" rel="noopener noreferrer">Y2JB_backup_1.6(4.03)</a> para firmwares 4.03–12.40 (YouTube v01.000.003) ou <a href="https://github.com/Gezine/Y2JB/releases/download/v1.6/Y2JB_backup_1.6(12.20).zip" target="_blank" rel="noopener noreferrer">Y2JB_backup_1.6(12.20)</a> para firmwares 12.60–13.60 (YouTube v01.000.030 / v01.009.253).' :
             (lang === 'es' ?
-            'Elige el backup correcto de Gezine: usa "Y2JB_backup_1.6(4.03)" para firmwares 4.03–12.40 (YouTube v01.000.003) o "Y2JB_backup_1.6(12.20)" para firmwares 12.60–13.60 (YouTube v01.000.030 / v01.009.253).' :
-            'Select the correct Gezine backup package: use "Y2JB_backup_1.6(4.03)" for firmwares 4.03–12.40 (YouTube v01.000.003), or "Y2JB_backup_1.6(12.20)" for firmwares 12.60–13.60 (YouTube v01.000.030 / v01.009.253).');
+            'Elige el backup correcto: usa <a href="https://github.com/Gezine/Y2JB/releases/download/v1.6/Y2JB_backup_1.6(4.03).zip" target="_blank" rel="noopener noreferrer">Y2JB_backup_1.6(4.03)</a> para firmwares 4.03–12.40 (YouTube v01.000.003) o <a href="https://github.com/Gezine/Y2JB/releases/download/v1.6/Y2JB_backup_1.6(12.20).zip" target="_blank" rel="noopener noreferrer">Y2JB_backup_1.6(12.20)</a> para firmwares 12.60–13.60 (YouTube v01.000.030 / v01.009.253).' :
+            'Select the correct backup: use <a href="https://github.com/Gezine/Y2JB/releases/download/v1.6/Y2JB_backup_1.6(4.03).zip" target="_blank" rel="noopener noreferrer">Y2JB_backup_1.6(4.03)</a> for firmwares 4.03–12.40 (YouTube v01.000.003), or <a href="https://github.com/Gezine/Y2JB/releases/download/v1.6/Y2JB_backup_1.6(12.20).zip" target="_blank" rel="noopener noreferrer">Y2JB_backup_1.6(12.20)</a> for firmwares 12.60–13.60 (YouTube v01.000.030 / v01.009.253).');
 
           steps = (lang === 'pt') ? [
             'Verificação de Firmware & Backup: ' + backupVersionInfo,
             'Bloqueio de Rede (DNS): Nas Configurações de Rede do PS5, defina o DNS Primário como 127.0.0.2 e deixe o Secundário em branco. Isso impede atualizações acidentais do app e do sistema.',
-            'Instalação do Y2JB: Se o console não estiver desbloqueado, restaure o backup via USB (atenção: apaga dados existentes). Se já tiver acesso FTP, envie "download0.dat" para /user/download/PPSA01650/.',
+            'Instalação do Y2JB: Se o console não estiver desbloqueado, restaure o backup via USB (atenção: apaga dados existentes). Se já tiver acesso FTP, envie "download0.dat" (disponível em <a href="https://github.com/Gezine/Y2JB/releases/tag/v1.6" target="_blank" rel="noopener noreferrer">Y2JB Releases</a>) para /user/download/PPSA01650/.',
             'Conta Falsa Ativada: Utilize uma conta offline ativada (abra o etaHEN Toolbox ➔ menu Remote Play para ativar a conta offline; contas PSN reais não funcionam no Y2JB).',
-            'Configuração do Pendrive USB: Crie uma pasta "ps5_autoloader" na raiz do pendrive exFAT. Coloque "autoload.txt" com os nomes "etaHEN.bin" e "ps5-kstuff.bin" (ou use o Payload Manager embutido). Conecte ao PS5.',
+            'Configuração do Pendrive USB: Crie uma pasta "ps5_autoloader" na raiz do pendrive exFAT. Coloque "autoload.txt" com os nomes "etaHEN.bin" e "ps5-kstuff.bin" usando o <a href="https://github.com/itsPLK/ps5-y2jb-autoloader/releases" target="_blank" rel="noopener noreferrer">ps5-y2jb-autoloader</a> (ou use o Payload Manager embutido). Conecte ao PS5.',
             'Disparo pelo Dashboard: Inicie o aplicativo YouTube na tela inicial. O autoloader executa o exploit de kernel, injeta o etaHEN e desbloqueia o menu Configurações de Depuração (Debug Settings).'
           ] : (lang === 'es') ? [
             'Comprobación de Firmware y Backup: ' + backupVersionInfo,
             'Bloqueo de Red (DNS): En Ajustes de Red de la PS5, configura el DNS Primario en 127.0.0.2 y deja el Secundario en blanco. Esto bloquea actualizaciones automáticas de la app y del sistema.',
-            'Instalación de Y2JB: Si la consola no está liberada, restaura el backup por USB (atención: borra datos existentes). Si ya dispones de FTP, transfiere "download0.dat" a /user/download/PPSA01650/.',
+            'Instalación de Y2JB: Si la consola no está liberada, restaura el backup por USB (atención: borra datos existentes). Si ya dispones de FTP, transfiere "download0.dat" (disponible en <a href="https://github.com/Gezine/Y2JB/releases/tag/v1.6" target="_blank" rel="noopener noreferrer">Y2JB Releases</a>) a /user/download/PPSA01650/.',
             'Cuenta Activada Offline: Usa una cuenta offline activada (abre etaHEN Toolbox ➔ menú Remote Play para activar la cuenta offline; cuentas de PSN reales no funcionan con Y2JB).',
-            'Preparación del USB: Crea la carpeta "ps5_autoloader" en la raíz de una memoria USB exFAT. Añade "autoload.txt" con los nombres "etaHEN.bin" y "ps5-kstuff.bin" (o usa Payload Manager integrado). Conéctala a la PS5.',
+            'Preparación del USB: Crea la carpeta "ps5_autoloader" en la raíz de una memoria USB exFAT. Añade "autoload.txt" con los nombres "etaHEN.bin" y "ps5-kstuff.bin" usando <a href="https://github.com/itsPLK/ps5-y2jb-autoloader/releases" target="_blank" rel="noopener noreferrer">ps5-y2jb-autoloader</a> (o usa Payload Manager integrado). Conéctala a la PS5.',
             'Disparo desde el Dashboard: Abre la app de YouTube en la pantalla de inicio. El autoloader ejecuta el exploit de kernel, inyecta etaHEN y habilita los Ajustes de Depuración (Debug Settings).'
           ] : [
             'Firmware & Backup Selection: ' + backupVersionInfo,
             'Network DNS Protection: In PS5 Network Settings, set Primary DNS to 127.0.0.2 and leave Secondary DNS blank. This blocks PSN to prevent unwanted app or firmware updates.',
-            'Install Y2JB: For unexploited consoles, restore the backup via USB (caution: erases console data). If you already have FTP access, transfer "download0.dat" to /user/download/PPSA01650/.',
+            'Install Y2JB: For unexploited consoles, restore the backup via USB (caution: erases console data). If you already have FTP access, transfer "download0.dat" (available at <a href="https://github.com/Gezine/Y2JB/releases/tag/v1.6" target="_blank" rel="noopener noreferrer">Y2JB Releases</a>) to /user/download/PPSA01650/.',
             'Fake Account Activation: Ensure you are logged into an offline fake-activated account (activate via etaHEN Toolbox ➔ Remote Play menu; real PSN accounts cannot run Y2JB).',
-            'USB Autoloader Setup: Create a "ps5_autoloader" folder on an exFAT USB drive. Place "autoload.txt" listing "etaHEN.bin" and "ps5-kstuff.bin" (or use built-in Payload Manager). Plug into PS5.',
+            'USB Autoloader Setup: Create a "ps5_autoloader" folder on an exFAT USB drive. Place "autoload.txt" listing "etaHEN.bin" and "ps5-kstuff.bin" using <a href="https://github.com/itsPLK/ps5-y2jb-autoloader/releases" target="_blank" rel="noopener noreferrer">ps5-y2jb-autoloader</a> (or use built-in Payload Manager). Plug into PS5.',
             'Launch from Dashboard: Open the YouTube app from your PS5 home screen. The autoloader executes the kernel exploit, injects etaHEN, and unlocks Debug Settings.'
           ];
 
@@ -1064,23 +1168,28 @@
             (lang === 'es' ?
             'Microcontrolador USB dedicado conectado a la PS5. Emula punto de acceso Wi-Fi propio alojando exploit y binloader sin internet.' :
             'Dedicated USB microcontroller plugged directly into PS5. Emulates standalone Wi-Fi AP hosting exploit & binloader with zero internet exposure.');
-
+          downloads = [
+            { name: 'esphost (EchoStretch)', url: 'https://github.com/EchoStretch/esphost/releases', sub: 'github.com/EchoStretch/esphost' },
+            { name: 'ESPHost-Server (stooged)', url: 'https://github.com/stooged/ESPHost-Server/releases', sub: 'github.com/stooged/ESPHost-Server' },
+            { name: 'Web ESP Flasher Tool', url: 'https://esp.huhn.me/', sub: 'esp.huhn.me' },
+            { name: 'etaHEN (Latest)', url: 'https://github.com/LightningMods/etaHEN/releases', sub: 'github.com/LightningMods/etaHEN' }
+          ];
           steps = (lang === 'pt') ? [
-            'Gravação de Firmware: Grave o "esphost" ou firmware de exploit PS5 na sua placa ESP32 usando o Web ESP Flasher no Chrome/Edge.',
+            'Gravação de Firmware: Grave o "esphost" (<a href="https://github.com/EchoStretch/esphost/releases" target="_blank" rel="noopener noreferrer">esphost releases</a>) na sua placa ESP32 usando o <a href="https://esp.huhn.me/" target="_blank" rel="noopener noreferrer">Web ESP Flasher</a> no Chrome/Edge.',
             'Alimentação: Conecte o ESP32 diretamente em uma porta USB do PS5 para ligá-lo.',
             'Conexão Wi-Fi: No PS5, acesse Configurações ➔ Rede ➔ Configurar Conexão. Escolha Wi-Fi e conecte ao SSID do ESP32 (ex: "PS5_ESP32", senha "12345678" ou aberta).',
             'Trigger: Abra Configurações ➔ Sistema ➔ Guia do Usuário no PS5. A página do exploit armazenada na memória flash do ESP32 abrirá instantaneamente.',
             'Execução Standalone: Selecione o exploit/payload no menu. O ESP32 fornece todos os binários localmente sem nenhum acesso à internet.',
             'Confirmação: Notificação na tela confirma etaHEN ativo e Debug Settings habilitadas.'
           ] : (lang === 'es') ? [
-            'Grabación de Firmware: Graba "esphost" o firmware de exploit PS5 en tu placa ESP32 usando Web ESP Flasher en Chrome/Edge.',
+            'Grabación de Firmware: Graba "esphost" (<a href="https://github.com/EchoStretch/esphost/releases" target="_blank" rel="noopener noreferrer">esphost releases</a>) en tu placa ESP32 usando <a href="https://esp.huhn.me/" target="_blank" rel="noopener noreferrer">Web ESP Flasher</a> en Chrome/Edge.',
             'Alimentación: Conecta el ESP32 directamente a un puerto USB de la PS5 para alimentarlo.',
             'Conexión Wi-Fi: En PS5, ve a Ajustes ➔ Red ➔ Configurar Conexión. Elige Wi-Fi y conecta al SSID del ESP32 (ej: "PS5_ESP32", contraseña "12345678" o abierta).',
             'Trigger: Abre Ajustes ➔ Sistema ➔ Guía del usuario en PS5. La web del exploit guardada en la memoria flash del ESP32 cargará al instante.',
             'Ejecución Standalone: Selecciona el exploit/payload en el menú. El ESP32 entrega todos los binarios localmente sin contacto con internet.',
             'Confirmación: Notificación en pantalla confirma etaHEN activo y Debug Settings habilitadas.'
           ] : [
-            'Firmware Flashing: Flash "esphost" or "PS5-Exploit-Host-ESP32" to your ESP32 board via Web ESP Flasher in Google Chrome/Edge.',
+            'Firmware Flashing: Flash "esphost" (<a href="https://github.com/EchoStretch/esphost/releases" target="_blank" rel="noopener noreferrer">esphost releases</a>) to your ESP32 board via <a href="https://esp.huhn.me/" target="_blank" rel="noopener noreferrer">Web ESP Flasher</a> in Chrome/Edge.',
             'Powering: Plug the ESP32 directly into a rear or front USB port on the PS5 for power.',
             'Wi-Fi Pairing: On PS5, navigate to Settings ➔ Network ➔ Set Up Internet Connection. Select Wi-Fi and connect to the ESP32 SSID (e.g. "PS5_ESP32", password "12345678" or open).',
             'Trigger: Open Settings ➔ System ➔ User\'s Guide on PS5. The exploit page hosted on the ESP32 internal flash memory opens instantly.',
@@ -1096,23 +1205,28 @@
             (lang === 'es' ?
             'Placa Wi-Fi económica con captive portal DNS que abre automáticamente el menú del exploit al conectar.' :
             'Low-cost Wi-Fi dev board with DNS captive portal automatically serving the PS5 exploit menu upon connecting.');
-
+          downloads = [
+            { name: 'PS5-Server (stooged)', url: 'https://github.com/stooged/PS5-Server/releases', sub: 'github.com/stooged/PS5-Server' },
+            { name: 'NodeMCU PyFlasher', url: 'https://github.com/marcelstoer/nodemcu-pyflasher/releases', sub: 'github.com/marcelstoer' },
+            { name: 'esptool (Python)', url: 'https://github.com/espressif/esptool/releases', sub: 'github.com/espressif/esptool' },
+            { name: 'etaHEN (Latest)', url: 'https://github.com/LightningMods/etaHEN/releases', sub: 'github.com/LightningMods/etaHEN' }
+          ];
           steps = (lang === 'pt') ? [
-            'Gravação de Firmware: Grave o firmware do servidor web PS5 no ESP8266 usando NodeMCU PyFlasher ou esptool.',
+            'Gravação de Firmware: Grave o firmware <a href="https://github.com/stooged/PS5-Server/releases" target="_blank" rel="noopener noreferrer">PS5-Server</a> no ESP8266 usando <a href="https://github.com/marcelstoer/nodemcu-pyflasher/releases" target="_blank" rel="noopener noreferrer">NodeMCU PyFlasher</a> ou esptool.',
             'Alimentação: Conecte o ESP8266 em qualquer porta USB 5V ou no próprio PS5.',
             'Conexão Wi-Fi: No PS5, conecte à rede Wi-Fi gerada pelo ESP8266.',
             'Captive Portal Trigger: Abra o Guia do Usuário (ou Teste de Conexão). O captive portal intercepta a requisição e abre o exploit local imediatamente.',
             'Execução: O exploit executa e os payloads são carregados localmente do microcontrolador.',
             'Confirmação: Debug Settings desbloqueadas offline.'
           ] : (lang === 'es') ? [
-            'Grabación de Firmware: Graba el firmware del servidor web PS5 en el ESP8266 con NodeMCU PyFlasher o esptool.',
+            'Grabación de Firmware: Graba el firmware <a href="https://github.com/stooged/PS5-Server/releases" target="_blank" rel="noopener noreferrer">PS5-Server</a> en el ESP8266 con <a href="https://github.com/marcelstoer/nodemcu-pyflasher/releases" target="_blank" rel="noopener noreferrer">NodeMCU PyFlasher</a> o esptool.',
             'Alimentación: Conecta el ESP8266 a cualquier puerto USB 5V o a la propia PS5.',
             'Conexión Wi-Fi: En PS5, conecta a la red Wi-Fi emitida por el ESP8266.',
             'Captive Portal Trigger: Abre la Guía del usuario (o Prueba de Conexión). El captive portal intercepta la petición y abre el exploit local de inmediato.',
             'Ejecución: El exploit se ejecuta y los payloads se cargan localmente desde el microcontrolador.',
             'Confirmación: Debug Settings desbloqueadas offline.'
           ] : [
-            'Firmware Flashing: Flash ESP8266 with PS5 web server firmware using NodeMCU PyFlasher or esptool.',
+            'Firmware Flashing: Flash ESP8266 with <a href="https://github.com/stooged/PS5-Server/releases" target="_blank" rel="noopener noreferrer">PS5-Server</a> firmware using <a href="https://github.com/marcelstoer/nodemcu-pyflasher/releases" target="_blank" rel="noopener noreferrer">NodeMCU PyFlasher</a> or esptool.',
             'Powering: Plug ESP8266 into any 5V USB charger or PS5 USB port.',
             'Wi-Fi Connection: On PS5, connect to the ESP8266 Wi-Fi network.',
             'Captive Portal Trigger: Open User\'s Guide (or Network Test). The captive portal DNS intercepts the request and instantly launches the exploit index.',
@@ -1128,21 +1242,26 @@
             (lang === 'es' ?
             'Microordenador Linux dedicado conectado directamente por cable de red o AP aislado ejecutando dnsmasq y servidor HTTP local.' :
             'Dedicated Linux micro-computer connected directly via Ethernet cable or isolated Wi-Fi AP running dnsmasq and local HTTP servers.');
-
+          downloads = [
+            { name: 'ps5-jb Server (EchoStretch)', url: 'https://github.com/EchoStretch/ps5-jb/releases', sub: 'github.com/EchoStretch/ps5-jb' },
+            { name: 'Relapse-Exploit (ntfargo)', url: 'https://github.com/ntfargo/Relapse-Exploit', sub: 'github.com/ntfargo/Relapse-Exploit' },
+            { name: 'etaHEN (Latest)', url: 'https://github.com/LightningMods/etaHEN/releases', sub: 'github.com/LightningMods/etaHEN' },
+            { name: 'ps5-kstuff', url: 'https://github.com/sleirsgoevy/ps5-kstuff/releases', sub: 'github.com/sleirsgoevy/ps5-kstuff' }
+          ];
           steps = (lang === 'pt') ? [
-            'Configuração do Servidor: Instale o "dnsmasq" no Raspberry Pi para redirecionar "manuals.playstation.net" para o IP do Pi, e execute Nginx ou servidor Python hospedando os arquivos do exploit.',
+            'Configuração do Servidor: Instale o "dnsmasq" no Raspberry Pi para redirecionar "manuals.playstation.net" para o IP do Pi, e execute Nginx ou servidor Python hospedando os arquivos de <a href="https://github.com/EchoStretch/ps5-jb/releases" target="_blank" rel="noopener noreferrer">ps5-jb</a> ou <a href="https://github.com/ntfargo/Relapse-Exploit" target="_blank" rel="noopener noreferrer">Relapse</a>.',
             'Conexão Direta por Cabo: Conecte o Raspberry Pi diretamente à porta Ethernet do PS5 com um cabo de rede (ou conecte o PS5 ao Hotspot Wi-Fi do Pi).',
             'Configuração de Rede no PS5: No PS5, acesse Configurar Conexão ➔ Cabo de Rede ➔ Personalizada. Deixe IP Automático e defina o DNS Primário para o IP do Raspberry Pi.',
             'Trigger Instantâneo: Abra Configurações ➔ Sistema ➔ Guia do Usuário no PS5. A transferência Gigabit local carrega o exploit em milissegundos com zero perda de pacotes.',
             'Confirmação: Exploit executa com estabilidade máxima e o etaHEN é carregado.'
           ] : (lang === 'es') ? [
-            'Configuración del Servidor: Instala "dnsmasq" en Raspberry Pi para redirigir "manuals.playstation.net" a la IP de la Pi, y ejecuta Nginx o servidor Python con los archivos del exploit.',
+            'Configuración del Servidor: Instala "dnsmasq" en Raspberry Pi para redirigir "manuals.playstation.net" a la IP de la Pi, y ejecuta Nginx o servidor Python con los archivos de <a href="https://github.com/EchoStretch/ps5-jb/releases" target="_blank" rel="noopener noreferrer">ps5-jb</a> o <a href="https://github.com/ntfargo/Relapse-Exploit" target="_blank" rel="noopener noreferrer">Relapse</a>.',
             'Conexión Directa por Cable: Conecta la Raspberry Pi directamente al puerto Ethernet de la PS5 con un cable de red (o conecta la PS5 al punto de acceso Wi-Fi de la Pi).',
             'Configuración de Red en PS5: En PS5, ve a Configurar Conexión ➔ Cable de Red ➔ Personalizada. Deja IP en Automático y configura el DNS Primario con la IP de la Raspberry Pi.',
             'Trigger Instantáneo: Abre Ajustes ➔ Sistema ➔ Guía del usuario en PS5. La transferencia Gigabit local entrega el exploit en milisegundos sin pérdida de paquetes.',
             'Confirmación: El exploit se ejecuta con máxima estabilidad y se carga etaHEN.'
           ] : [
-            'Server Setup: Install "dnsmasq" on Raspberry Pi to redirect "manuals.playstation.net" to the Pi IP, and run Nginx or Python server hosting the exploit files.',
+            'Server Setup: Install "dnsmasq" on Raspberry Pi to redirect "manuals.playstation.net" to the Pi IP, and run Nginx or Python server hosting exploit files from <a href="https://github.com/EchoStretch/ps5-jb/releases" target="_blank" rel="noopener noreferrer">ps5-jb</a> or <a href="https://github.com/ntfargo/Relapse-Exploit" target="_blank" rel="noopener noreferrer">Relapse</a>.',
             'Direct Cable Connection: Connect the Raspberry Pi directly to the PS5 Ethernet LAN port with a network cable (or connect PS5 to the Pi Wi-Fi Hotspot).',
             'PS5 Network Configuration: On PS5, select Set Up Internet Connection ➔ LAN Cable ➔ Custom. Set IP to Automatic and set Primary DNS to the Raspberry Pi IP address.',
             'Instant Trigger: Open Settings ➔ System ➔ User\'s Guide on PS5. Gigabit local transfer serves the exploit in milliseconds with zero packet loss.',
@@ -1157,27 +1276,32 @@
             (lang === 'es' ?
             'Ejecuta servidor HTTP Python en la red local del router y envía payloads vía socket TCP (Puerto 9021) con Netcat o móvil.' :
             'Run Python HTTP server on local router LAN and deliver payloads over TCP socket (Port 9021) via Netcat or mobile app.');
-
+          downloads = [
+            { name: 'Relapse-Exploit (ntfargo)', url: 'https://github.com/ntfargo/Relapse-Exploit', sub: 'github.com/ntfargo/Relapse-Exploit' },
+            { name: 'etaHEN (Latest)', url: 'https://github.com/LightningMods/etaHEN/releases', sub: 'github.com/LightningMods/etaHEN' },
+            { name: 'ps5-kstuff', url: 'https://github.com/sleirsgoevy/ps5-kstuff/releases', sub: 'github.com/sleirsgoevy/ps5-kstuff' },
+            { name: 'Ncat / Netcat Tool', url: 'https://nmap.org/ncat/', sub: 'nmap.org/ncat' }
+          ];
           steps = (lang === 'pt') ? [
-            'Clonar Repositório: No computador ou celular, clone o repositório do exploit ("git clone https://github.com/ntfargo/Relapse-Exploit.git").',
+            'Clonar Repositório: No computador ou celular, clone o repositório do exploit ("git clone <a href="https://github.com/ntfargo/Relapse-Exploit" target="_blank" rel="noopener noreferrer">https://github.com/ntfargo/Relapse-Exploit.git</a>").',
             'Iniciar Servidor Local: Execute "python -m http.server 8080" na pasta do repositório.',
             'Conectar PS5: Abra o navegador do PS5 ou redirecione o Guia do Usuário para o IP do seu PC (ex: "http://' + ip + ':8080").',
             'Aguardar confirmação: Espere aparecer na tela uma mensagem como "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
-            'Injetar Payload: Utilize os comandos de terminal abaixo ou app cliente TCP no celular para enviar "etaHEN.bin" para ' + ip + ':' + port + '.',
+            'Injetar Payload: Utilize os comandos de terminal abaixo ou app cliente TCP no celular para enviar "etaHEN.bin" (<a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN Releases</a>) para ' + ip + ':' + port + '.',
             'Confirmação: Notificação confirma etaHEN ativo e Debug Settings liberadas.'
           ] : (lang === 'es') ? [
-            'Clonar Repositorio: En tu ordenador o móvil, clona el repositorio del exploit ("git clone https://github.com/ntfargo/Relapse-Exploit.git").',
+            'Clonar Repositorio: En tu ordenador o móvil, clona el repositorio del exploit ("git clone <a href="https://github.com/ntfargo/Relapse-Exploit" target="_blank" rel="noopener noreferrer">https://github.com/ntfargo/Relapse-Exploit.git</a>").',
             'Iniciar Servidor Local: Ejecuta "python -m http.server 8080" en la carpeta del repositorio.',
             'Conectar PS5: Abre el navegador de PS5 o redirige la Guía del usuario a la IP de tu PC (ej: "http://' + ip + ':8080").',
             'Esperar confirmación: Espera a que aparezca en pantalla un mensaje como "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
-            'Inyectar Payload: Usa los comandos de terminal inferiores o app cliente TCP en móvil para enviar "etaHEN.bin" a ' + ip + ':' + port + '.',
+            'Inyectar Payload: Usa los comandos de terminal inferiores o app cliente TCP en móvil para enviar "etaHEN.bin" (<a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN Releases</a>) a ' + ip + ':' + port + '.',
             'Confirmación: Notificación confirma etaHEN activo y Debug Settings habilitadas.'
           ] : [
-            'Clone Repository: On your computer or mobile terminal, clone the exploit repository (e.g. "git clone https://github.com/ntfargo/Relapse-Exploit.git").',
+            'Clone Repository: On your computer or mobile terminal, clone the exploit repository (e.g. "git clone <a href="https://github.com/ntfargo/Relapse-Exploit" target="_blank" rel="noopener noreferrer">https://github.com/ntfargo/Relapse-Exploit.git</a>").',
             'Launch Local Server: Run "python -m http.server 8080" in the repository folder.',
             'Connect PS5: Open the PS5 browser or redirect User\'s Guide to your PC IP address (e.g. "http://' + ip + ':8080").',
             'Await confirmation: Wait until you see an on-screen message like "[+] Kernel RW Obtained! elfldr listening on port 9021...".',
-            'Inject Payload: Use the terminal commands below or a smartphone TCP client app to send "etaHEN.bin" to ' + ip + ':' + port + '.',
+            'Inject Payload: Use the terminal commands below or a smartphone TCP client app to send "etaHEN.bin" (<a href="https://github.com/LightningMods/etaHEN/releases" target="_blank" rel="noopener noreferrer">etaHEN Releases</a>) to ' + ip + ':' + port + '.',
             'Confirmation: Notification confirms etaHEN active and Debug Settings unlocked.'
           ];
 
@@ -1208,7 +1332,8 @@
           desc: desc,
           steps: steps,
           note: note,
-          codeSnippet: codeSnippet
+          codeSnippet: codeSnippet,
+          downloads: downloads
         };
       }
 
@@ -1378,6 +1503,7 @@
         const stepWord = (lang === 'pt') ? 'Passo a Passo' : ((lang === 'es') ? 'Paso a Paso' : 'Step-by-Step');
         const resetLabel = (lang === 'pt') ? 'Reiniciar' : ((lang === 'es') ? 'Reiniciar' : 'Reset');
         const copyLabel = (lang === 'pt') ? 'Copiar' : ((lang === 'es') ? 'Copiar' : 'Copy');
+        const dlHeaderLabel = (lang === 'pt') ? 'Arquivos e Downloads Diretos:' : ((lang === 'es') ? 'Archivos y Descargas Directas:' : 'Files & Direct Downloads:');
 
         function renderPane(paneId, tabKey, procIds, activeId) {
           const activeData = getProcedureData(activeId, lang, bracket, ip, port);
@@ -1411,6 +1537,23 @@
                   <span class="ps-proc-badge ${activeData.badgeClass}">${activeData.badge}</span>
                 </div>
                 ${activeData.note ? `<div class="ps-res-hazard-alert" style="margin:0 0 14px 0;">${activeData.note}</div>` : ''}
+                ${activeData.downloads && activeData.downloads.length ? `
+                  <div class="ps-downloads-wrap">
+                    <div class="ps-downloads-title"><span>📥</span> ${dlHeaderLabel}</div>
+                    <div class="ps-downloads-grid">
+                      ${activeData.downloads.map(function(dl) {
+                        return `
+                          <a href="${dl.url}" target="_blank" rel="noopener noreferrer" class="ps-download-btn">
+                            <span class="dl-icon">📦</span>
+                            <div class="dl-info">
+                              <span class="dl-name">${dl.name}</span>
+                              <span class="dl-host">${dl.sub || dl.url.replace(/^https?:\/\//, '').split('/')[0]}</span>
+                            </div>
+                          </a>
+                        `;
+                      }).join('')}
+                    </div>
+                  </div>` : ''}
                 ${total ? `
                   <div class="ps-progress-row" data-key="${stateKey}">
                     <span class="ps-step-progress" aria-live="polite">${doneCount} / ${total}</span>
