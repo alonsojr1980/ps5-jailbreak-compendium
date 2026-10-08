@@ -178,13 +178,26 @@
     }
     /* Dim previous steps to eliminate confusion */
     .ps-wizard-step.ps-step-completed {
-      opacity: 0.45;
-      filter: saturate(60%);
+      opacity: 0.35;
+      filter: grayscale(40%) contrast(90%);
+      transition: opacity 0.3s ease, filter 0.3s ease;
     }
-    .ps-wizard-step.ps-step-completed:hover,
-    .ps-wizard-step.ps-step-completed:focus-within {
+    .ps-wizard-step.ps-step-completed:hover {
       opacity: 1;
-      filter: saturate(100%);
+      filter: none;
+    }
+
+    /* Dim unselected options once a choice is made */
+    .ps-model-buttons.has-selection .ps-model-btn:not(.active),
+    .ps-exploit-grid.has-selection .ps-exploit-btn:not(.active) {
+      opacity: 0.4;
+      filter: grayscale(40%);
+      transition: opacity 0.25s ease, filter 0.25s ease;
+    }
+    .ps-model-buttons.has-selection .ps-model-btn:not(.active):hover,
+    .ps-exploit-grid.has-selection .ps-exploit-btn:not(.active):hover {
+      opacity: 0.9;
+      filter: none;
     }
     .ps-wizard-bookmark {
       position: absolute;
@@ -752,11 +765,21 @@
       outline-offset: 2px;
     }
 
-    /* Step completion checkboxes */
-    .ps-res-checklist li { cursor: pointer; transition: background 0.15s ease, opacity 0.15s ease; }
+    /* Step completion checkboxes - dim completed steps */
+    .ps-res-checklist li { cursor: pointer; transition: background 0.15s ease, opacity 0.2s ease, filter 0.2s ease; }
     .ps-res-checklist li:hover { background: rgba(0, 112, 209, 0.10); }
-    .ps-res-checklist li.done { opacity: 0.6; }
-    .ps-res-checklist li.done span:not(.step-num) { text-decoration: line-through; }
+    .ps-res-checklist li.done {
+      opacity: 0.35;
+      filter: grayscale(40%);
+    }
+    .ps-res-checklist li.done:hover {
+      opacity: 0.85;
+      filter: none;
+    }
+    .ps-res-checklist li.done span:not(.step-num) {
+      text-decoration: line-through;
+      color: #94a3b8;
+    }
     .ps-res-checklist li .step-num { transition: background 0.15s ease; user-select: none; }
     .ps-res-checklist li.done .step-num { background: #10b981; }
     .ps-step-progress {
@@ -934,6 +957,9 @@
         const isFirst = !currentWizardModel;
         currentWizardModel = model;
         try { localStorage.setItem('ps5_wizard_model_v2', model); } catch(e) {}
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+          document.activeElement.blur();
+        }
         updateWizardUI();
         if (isFirst) {
           setTimeout(function() {
@@ -949,6 +975,9 @@
         const isFirst = !currentWizardFw;
         currentWizardFw = fw;
         try { localStorage.setItem('ps5_wizard_fw_v2', fw); } catch(e) {}
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+          document.activeElement.blur();
+        }
         updateWizardUI();
         if (isFirst) {
           setTimeout(function() {
@@ -1523,6 +1552,10 @@
         const lang = getLanguage();
 
         // 1. Model buttons & Step 1 dimming
+        const modelBtnsWrap = document.querySelector('.ps-model-buttons');
+        if (modelBtnsWrap) {
+          modelBtnsWrap.classList.toggle('has-selection', !!currentWizardModel);
+        }
         const modelBtns = document.querySelectorAll('.ps-model-btn');
         modelBtns.forEach(function(btn) {
           const isSelected = (currentWizardModel !== null && btn.getAttribute('data-model') === currentWizardModel);
@@ -1557,6 +1590,10 @@
         }
 
         // 3. Firmware buttons
+        const exploitGridWrap = document.querySelector('.ps-exploit-grid');
+        if (exploitGridWrap) {
+          exploitGridWrap.classList.toggle('has-selection', !!currentWizardFw);
+        }
         const activeBracket = currentWizardFw ? getBracketForFw(currentWizardFw) : null;
         const exploitBtns = document.querySelectorAll('.ps-exploit-btn');
         exploitBtns.forEach(function(btn) {
